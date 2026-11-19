@@ -26,3 +26,4 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #9fd3ea; fon
 #quality { display: inline-flex; gap: 4px; }
 #quality button { border: 1px solid #0002; background: #fff; border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; color: var(--ink); }
 #quality button.on { background: var(--teal); color: #fff; border-color: var(--teal); }
+#mode { left: 50%; bottom: 18px; transform: translateX(-50%); font: 600 13px ui-monospace, monospace; }

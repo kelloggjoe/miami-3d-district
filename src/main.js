@@ -127,12 +127,19 @@ async function main() {
     if (now - fps.t > 500) { fps.value = (fps.frames * 1000) / (now - fps.t); fps.frames = 0; fps.t = now; }
     $('time').textContent = fmtTime(clock.hour);
     $('speed').textContent = clock.paused ? 'paused' : `${SPEEDS[clock.speedIdx]}×`;
+    {
+      const st = player.state, m = $('mode');
+      const show = st.flying || st.z > 0.6 || st.speedMul !== 1;
+      m.classList.toggle('hidden', !show);
+      const spd = st.speedMul !== 1 ? ` · speed ${st.speedMul}×` : '';
+      if (show) m.textContent = (st.flying ? `FLYING${st.fast ? ' · FAST' : ''} · ${st.z.toFixed(0)} m${st.overWater && st.z < 1 ? ' · over water' : ''}` : st.z > 0.6 ? `On a roof · ${st.z.toFixed(0)} m` : 'Walking') + spd;
+    }
     $('crowd').textContent = `${crowd.metrics.visible} of ${crowd.count} people outdoors · ${crowd.metrics.walking} walking`;
     if (!$('debug').classList.contains('hidden')) {
       const i = renderer.info;
       $('debug').textContent = [
         `FPS        ${fps.value.toFixed(0)}`, `draw calls ${i.render.calls}`, `triangles  ${i.render.triangles.toLocaleString()}`,
-        `position   x ${player.state.x.toFixed(1)}  y ${player.state.y.toFixed(1)} m`, `walked     ${player.state.distance.toFixed(0)} m`,
+        `position   x ${player.state.x.toFixed(1)}  y ${player.state.y.toFixed(1)}  z ${player.state.z.toFixed(1)} m${player.state.flying ? ' (flying)' : ''}`, `walked     ${player.state.distance.toFixed(0)} m`,
         `quality    ${Q.name}`, `NPC update ${crowd.metrics.updateMs.toFixed(2)} ms · full-rate ${crowd.metrics.near}`, `paths/s    ${crowd.metrics.pathsPerSec.toFixed(1)}`,
       ].join('\n');
     }

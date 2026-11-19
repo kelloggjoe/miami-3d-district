@@ -1,14 +1,14 @@
 {
-  "date": "2026-11-19T20:09:21.599Z",
+  "date": "2026-11-19T20:55:11.621Z",
   "environment": "Headless Chromium, SwiftShader (software WebGL), 1280x720 unless noted. FPS here is NOT representative of a GPU laptop.",
-  "loadToReadyMs": 7636,
-  "loadToFirstFrameMs": 11403,
+  "loadToReadyMs": 7232,
+  "loadToFirstFrameMs": 11077,
   "loadTimings": {
     "fetch+parse": 0,
-    "world": 192,
-    "collision": 51,
-    "props": 57,
-    "npcs": 7
+    "world": 195,
+    "collision": 47,
+    "props": 53,
+    "npcs": 8
   },
   "walking": {
     "brickell": {
@@ -60,46 +60,89 @@
     "resetReturnsToSpawn": true,
     "pageErrors": []
   },
+  "flying": {
+    "doubleTapSpaceStartsFlying": true,
+    "climb5s": {
+      "altitudeM": 39.3,
+      "stillFlying": true
+    },
+    "towerAtAltitude": {
+      "towerHeightM": 265,
+      "altitudeM": 60,
+      "enteredTower": false,
+      "stoppedDistanceFromCenterM": 50.7,
+      "pass": true
+    },
+    "overTower": {
+      "endXOffsetM": 215.5,
+      "pass": true
+    },
+    "roofLanding": {
+      "roofHeightM": 43.3,
+      "landedAtM": 43.3,
+      "flyingAfter": false,
+      "pass": true
+    },
+    "walkOffRoof": {
+      "endAltitudeM": 0,
+      "onGround": true,
+      "pass": true
+    },
+    "waterDescent": {
+      "overWater": true,
+      "altitudeM": 0.6,
+      "stillFlying": true,
+      "pass": true
+    },
+    "speedMultiplier": {
+      "walked2sAt1xM": 3.2,
+      "walked2sAt5xM": 16,
+      "ratio": 5,
+      "pass": true
+    },
+    "pass": true,
+    "plusKeyTwiceFrom1x": 2
+  },
   "npc": {
     "npcCount": 300,
-    "positionChecks": 7421,
-    "insideBuilding": 2,
+    "positionChecks": 7412,
+    "insideBuilding": 3,
     "onWater": 0,
     "beyondWalkCorridor": 2,
-    "worstExcessM": 6.7,
-    "p99ExcessM": -1.4,
+    "worstExcessM": 1.2,
+    "p99ExcessM": -1.41,
     "timeline": [
       {
         "time": "6.00",
-        "outdoors": 161,
-        "walking": 161,
+        "outdoors": 157,
+        "walking": 157,
         "top": [
           [
             "(indoors) At home",
-            114
+            119
           ],
           [
             "At home",
-            106
-          ],
-          [
-            "Catching the first train",
-            26
+            101
           ],
           [
             "At the hotel",
+            27
+          ],
+          [
+            "Catching the first train",
             26
           ]
         ]
       },
       {
         "time": "8.00",
-        "outdoors": 204,
-        "walking": 202,
+        "outdoors": 209,
+        "walking": 209,
         "top": [
           [
             "Heading to work",
-            97
+            96
           ],
           [
             "Morning walk",
@@ -107,30 +150,30 @@
           ],
           [
             "(indoors) At home",
-            44
+            42
           ],
           [
             "(indoors) At the hotel",
-            38
+            36
           ]
         ]
       },
       {
         "time": "10.00",
-        "outdoors": 209,
-        "walking": 196,
+        "outdoors": 219,
+        "walking": 215,
         "top": [
           [
             "Heading to work",
-            80
-          ],
-          [
-            "(indoors) Heading to work",
-            69
+            86
           ],
           [
             "Resting on a bench",
             64
+          ],
+          [
+            "(indoors) Heading to work",
+            63
           ],
           [
             "Sightseeing",
@@ -140,8 +183,8 @@
       },
       {
         "time": "12.00",
-        "outdoors": 222,
-        "walking": 214,
+        "outdoors": 218,
+        "walking": 211,
         "top": [
           [
             "Getting lunch",
@@ -149,7 +192,7 @@
           ],
           [
             "(indoors) Heading to work",
-            49
+            55
           ],
           [
             "Exploring Brickell",
@@ -163,12 +206,12 @@
       },
       {
         "time": "14.00",
-        "outdoors": 249,
-        "walking": 239,
+        "outdoors": 242,
+        "walking": 233,
         "top": [
           [
             "Back to the office",
-            128
+            121
           ],
           [
             "Afternoon in the park",
@@ -187,7 +230,7 @@
       {
         "time": "16.00",
         "outdoors": 183,
-        "walking": 152,
+        "walking": 148,
         "top": [
           [
             "(indoors) Back to the office",
@@ -209,8 +252,8 @@
       },
       {
         "time": "18.00",
-        "outdoors": 254,
-        "walking": 223,
+        "outdoors": 256,
+        "walking": 228,
         "top": [
           [
             "Heading to the station",
@@ -222,7 +265,7 @@
           ],
           [
             "(indoors) Back to the office",
-            46
+            44
           ],
           [
             "Dinner",
@@ -232,12 +275,12 @@
       },
       {
         "time": "20.00",
-        "outdoors": 270,
-        "walking": 239,
+        "outdoors": 266,
+        "walking": 232,
         "top": [
           [
             "Going home",
-            142
+            134
           ],
           [
             "Drinks after work",
@@ -248,23 +291,23 @@
             50
           ],
           [
-            "Heading to the night shift",
-            20
+            "(indoors) Going home",
+            28
           ]
         ]
       },
       {
         "time": "22.00",
-        "outdoors": 164,
-        "walking": 162,
+        "outdoors": 150,
+        "walking": 148,
         "top": [
           [
-            "Going home",
-            114
+            "(indoors) Going home",
+            118
           ],
           [
-            "(indoors) Going home",
-            106
+            "Going home",
+            102
           ],
           [
             "Back to the hotel",
@@ -272,7 +315,7 @@
           ],
           [
             "(indoors) Heading to the night shift",
-            24
+            26
           ]
         ]
       }
@@ -282,28 +325,28 @@
   "performance": {
     "low_npc300": {
       "street, Brickell area": {
-        "fps": 4.7,
+        "fps": 4.8,
         "drawCalls": 107,
         "triangles": 141900,
-        "npcUpdateMs": 2.06,
+        "npcUpdateMs": 1.92,
         "outdoors": 255,
-        "heapMB": 54
+        "heapMB": 58
       },
       "street, Bayfront Park (spawn)": {
         "fps": 5.5,
         "drawCalls": 77,
         "triangles": 141189,
-        "npcUpdateMs": 0.78,
+        "npcUpdateMs": 0.68,
         "outdoors": 256,
-        "heapMB": 54
+        "heapMB": 58
       },
       "aerial, whole district": {
-        "fps": 5.4,
+        "fps": 5.6,
         "drawCalls": 150,
         "triangles": 143012,
-        "npcUpdateMs": 1.41,
-        "outdoors": 261,
-        "heapMB": 54
+        "npcUpdateMs": 0.82,
+        "outdoors": 262,
+        "heapMB": 58
       },
       "pageErrors": []
     },
@@ -312,25 +355,25 @@
         "fps": 1.5,
         "drawCalls": 227,
         "triangles": 219029,
-        "npcUpdateMs": 2.93,
+        "npcUpdateMs": 3.01,
         "outdoors": 168,
-        "heapMB": 54
+        "heapMB": 65
       },
       "street, Bayfront Park (spawn)": {
         "fps": 1.5,
         "drawCalls": 184,
         "triangles": 287481,
-        "npcUpdateMs": 1.74,
+        "npcUpdateMs": 1.75,
         "outdoors": 169,
-        "heapMB": 54
+        "heapMB": 65
       },
       "aerial, whole district": {
-        "fps": 2.6,
+        "fps": 2.8,
         "drawCalls": 213,
         "triangles": 129114,
-        "npcUpdateMs": 0.99,
+        "npcUpdateMs": 0.82,
         "outdoors": 171,
-        "heapMB": 54
+        "heapMB": 65
       },
       "pageErrors": []
     },
@@ -339,25 +382,25 @@
         "fps": 1.4,
         "drawCalls": 227,
         "triangles": 247829,
-        "npcUpdateMs": 6.35,
-        "outdoors": 342,
-        "heapMB": 54
+        "npcUpdateMs": 6.26,
+        "outdoors": 343,
+        "heapMB": 58
       },
       "street, Bayfront Park (spawn)": {
         "fps": 1.4,
         "drawCalls": 184,
         "triangles": 316281,
-        "npcUpdateMs": 3.31,
-        "outdoors": 343,
-        "heapMB": 54
+        "npcUpdateMs": 3.36,
+        "outdoors": 345,
+        "heapMB": 58
       },
       "aerial, whole district": {
-        "fps": 2.5,
+        "fps": 2.6,
         "drawCalls": 213,
         "triangles": 157914,
-        "npcUpdateMs": 2.09,
-        "outdoors": 345,
-        "heapMB": 54
+        "npcUpdateMs": 1.74,
+        "outdoors": 346,
+        "heapMB": 58
       },
       "pageErrors": []
     },
@@ -366,52 +409,52 @@
         "fps": 0.9,
         "drawCalls": 446,
         "triangles": 466628,
-        "npcUpdateMs": 4.37,
+        "npcUpdateMs": 4.31,
         "outdoors": 259,
-        "heapMB": 82
+        "heapMB": 69
       },
       "street, Bayfront Park (spawn)": {
         "fps": 0.9,
         "drawCalls": 369,
         "triangles": 603496,
-        "npcUpdateMs": 3.15,
+        "npcUpdateMs": 2.81,
         "outdoors": 259,
-        "heapMB": 82
+        "heapMB": 69
       },
       "aerial, whole district": {
         "fps": 1.2,
         "drawCalls": 408,
         "triangles": 286702,
-        "npcUpdateMs": 2.1,
+        "npcUpdateMs": 2,
         "outdoors": 260,
-        "heapMB": 82
+        "heapMB": 69
       },
       "pageErrors": []
     },
     "medium_npc300_1080p": {
       "street, Brickell area": {
-        "fps": 0.8,
+        "fps": 0.9,
         "drawCalls": 227,
         "triangles": 233429,
-        "npcUpdateMs": 4.28,
+        "npcUpdateMs": 4.75,
         "outdoors": 257,
-        "heapMB": 51
+        "heapMB": 36
       },
       "street, Bayfront Park (spawn)": {
         "fps": 0.9,
         "drawCalls": 184,
         "triangles": 301881,
-        "npcUpdateMs": 2.67,
+        "npcUpdateMs": 3.19,
         "outdoors": 258,
-        "heapMB": 51
+        "heapMB": 36
       },
       "aerial, whole district": {
-        "fps": 1.8,
+        "fps": 1.7,
         "drawCalls": 213,
         "triangles": 143514,
-        "npcUpdateMs": 2.36,
+        "npcUpdateMs": 1.96,
         "outdoors": 259,
-        "heapMB": 51
+        "heapMB": 36
       },
       "pageErrors": []
     }
@@ -428,8 +471,8 @@
   },
   "buildSizes": {
     "district-DavAmwCO.json": 907946,
-    "index-HJFg8gyZ.js": 796736,
-    "index-RFUSnH-o.css": 2229,
-    "totalBytes": 1706911
+    "index-C5YBS0LX.css": 2319,
+    "index-DiUhBUbp.js": 799582,
+    "totalBytes": 1709847
   }
 }

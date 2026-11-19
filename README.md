@@ -1,6 +1,6 @@
 # Miami 3D: Downtown and Brickell
 
-A stylized, walkable, first-person 3D model of Downtown and Brickell, Miami, built in the browser with Three.js from OpenStreetMap data. You can walk Brickell Avenue, cross the Miami River, loop around Bayfront Park, and watch about 300 people follow daily routines on a simulated clock.
+A stylized, walkable (and flyable), first-person 3D model of Downtown and Brickell, Miami, built in the browser with Three.js from OpenStreetMap data. You can walk Brickell Avenue, cross the Miami River, loop around Bayfront Park, and watch about 300 people follow daily routines on a simulated clock.
 
 ![Downtown and Bayfront Park from above](docs/view-downtown-aerial.png)
 
@@ -56,6 +56,10 @@ npm run dev            # http://localhost:5173
 | Mouse | Look |
 | Shift | Sprint |
 | Space | Jump |
+| Space Space (double-tap) | Start / stop flying (Minecraft creative mode) |
+| Space / Shift while flying | Fly up / down |
+| W W (double-tap and hold) | Run or fly fast |
+| + / − or mouse wheel | Walking and flying speed, 0.5× to 12× (remembered) |
 | R | Return to Bayfront Park |
 | P, [ , ] | Pause the clock, slower, faster (1× to 600×) |
 | L | Labels on/off |
@@ -64,6 +68,15 @@ npm run dev            # http://localhost:5173
 | Esc | Release the mouse |
 
 URL options: `?npcs=200` (0 to 400), `?hour=17.5` (start time), `?quality=low|medium|high`.
+
+### Flying
+
+Flying works like Minecraft creative mode:
+- **Start and stop:** double-tap Space. Hold Space to climb and Shift to descend, up to 800 m.
+- **Faster:** double-tap and hold W.
+- **Landing:** touching down on a rooftop or the street ends flight. You can then walk across the roof and drop off the edge.
+- **Collision:** buildings stay solid at every height, so you fly around towers or over them.
+- **Water:** you can't land on the bay or the river; you hover just above it.
 
 ## How it works
 

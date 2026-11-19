@@ -1,16 +1,22 @@
 // Collision world: building footprints (exact polygons in a uniform grid) + a 1 m land/water raster.
+// Footprints carry a height range [mh, h] so the same data works for walking and for flying:
+// a footprint blocks the player only where it overlaps the player's body (feet z .. z + BODY),
+// and anything at most STEP above the feet can be stepped onto (curbs, car roofs from above, rooftops).
 const CELL = 20;
+export const STEP = 0.5, BODY = 1.8;
 
 export function buildCollision(data) {
   const { minX, minY, maxX, maxY } = data.meta.extent;
   // ---- buildings: every footprint that touches the ground (parents always, parts only if grounded) ----
   const polys = [];
   for (const b of data.buildings) {
-    if (b.o || (b.p && (b.mh || 0) > 2)) continue; // open structures and raised parts do not block
     const r = []; for (let i = 0; i < b.c.length; i += 2) r.push(b.c[i], b.c[i + 1]);
     let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
     for (let i = 0; i < r.length; i += 2) { x0 = Math.min(x0, r[i]); x1 = Math.max(x1, r[i]); y0 = Math.min(y0, r[i + 1]); y1 = Math.max(y1, r[i + 1]); }
-    polys.push({ r: Float64Array.from(r), x0, y0, x1, y1 });
+    // A parent whose parts are drawn instead is invisible: it only blocks at street level (its parts do the rest)
+    // and is never stood on.
+    const h = b.hp ? 2.0 : Math.max((b.mh || 0) + 0.5, b.h), mh = b.mh || 0;
+    polys.push({ r: Float64Array.from(r), x0, y0, x1, y1, h, mh, noStand: !!b.hp });
   }
   const grid = new Map();
   const index = (p, i) => {
@@ -26,7 +32,7 @@ export function buildCollision(data) {
       const r = Float64Array.from(ring.flat());
       let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
       for (const [x, y] of ring) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
-      const p = { r, x0, y0, x1, y1, extra: true }; polys.push(p); index(p, polys.length - 1);
+      const p = { r, x0, y0, x1, y1, h: 1.6, mh: 0, extra: true }; polys.push(p); index(p, polys.length - 1);
     }
   }
   const near = (x, y, r) => {
@@ -44,16 +50,28 @@ export function buildCollision(data) {
     }
     return c;
   };
-  function insideBuilding(x, y) {
-    for (const i of near(x, y, 0)) { const p = polys[i]; if (x >= p.x0 && x <= p.x1 && y >= p.y0 && y <= p.y1 && inside(x, y, p.r)) return true; }
+  const solidAt = (p, z) => p.h > z + STEP && p.mh < z + BODY; // overlaps the body, too tall to step onto
+  function insideBuilding(x, y, z = 0) {
+    for (const i of near(x, y, 0)) { const p = polys[i]; if (solidAt(p, z) && x >= p.x0 && x <= p.x1 && y >= p.y0 && y <= p.y1 && inside(x, y, p.r)) return true; }
     return false;
   }
+  // Highest surface under (x, y) that a player whose feet are at z can stand on (0 = street level).
+  function groundAt(x, y, z = 0) {
+    let g = 0;
+    for (const i of near(x, y, 0)) {
+      const p = polys[i];
+      if (p.noStand || p.h > z + STEP + 1e-6 || p.h <= g) continue;
+      if (x >= p.x0 && x <= p.x1 && y >= p.y0 && y <= p.y1 && inside(x, y, p.r)) g = p.h;
+    }
+    return g;
+  }
   // Push a circle out of nearby building edges. Returns corrected [x,y].
-  function pushOut(x, y, rad) {
+  function pushOut(x, y, rad, z = 0) {
     for (let iter = 0; iter < 4; iter++) {
       let moved = false;
       for (const i of near(x, y, rad + 1)) {
         const p = polys[i];
+        if (!solidAt(p, z)) continue;
         if (x < p.x0 - rad || x > p.x1 + rad || y < p.y0 - rad || y > p.y1 + rad) continue;
         const r = p.r, isIn = inside(x, y, r);
         let bd = Infinity, bx = 0, by = 0;
@@ -105,16 +123,18 @@ export function buildCollision(data) {
   const groundOk = (x, y, rad) => walkableGround(x, y) && walkableGround(x + rad, y) && walkableGround(x - rad, y) && walkableGround(x, y + rad) && walkableGround(x, y - rad);
 
   // Full move with sliding: resolve buildings by push-out, water by axis-separated fallback.
-  function move(x, y, dx, dy, rad) {
-    let [nx, ny] = pushOut(x + dx, y + dy, rad);
-    if (groundOk(nx, ny, rad) && !insideBuilding(nx, ny)) return [nx, ny];
+  // z = feet height. Water only blocks near street level; in the air (flying, or on a roof) it does not.
+  function move(x, y, dx, dy, rad, z = 0) {
+    const ok = (px, py) => (z >= 0.6 || groundOk(px, py, rad)) && !insideBuilding(px, py, z);
+    let [nx, ny] = pushOut(x + dx, y + dy, rad, z);
+    if (ok(nx, ny)) return [nx, ny];
     for (const [sx, sy] of [[dx, 0], [0, dy]]) {
       if (!sx && !sy) continue;
-      [nx, ny] = pushOut(x + sx, y + sy, rad);
-      if (groundOk(nx, ny, rad) && !insideBuilding(nx, ny)) return [nx, ny];
+      [nx, ny] = pushOut(x + sx, y + sy, rad, z);
+      if (ok(nx, ny)) return [nx, ny];
     }
     return [x, y];
   }
   const blocked = (x, y, rad = 0.3) => !groundOk(x, y, rad) || insideBuilding(x, y) || pushOut(x, y, rad).some((v, i) => Math.abs(v - (i ? y : x)) > 1e-6);
-  return { move, blocked, insideBuilding, walkableGround, polys, addPolys, maskSize: [w, h] };
+  return { move, blocked, insideBuilding, groundAt, walkableGround, polys, addPolys, maskSize: [w, h], extent: { minX, minY, maxX, maxY } };
 }

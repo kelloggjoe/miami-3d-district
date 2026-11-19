@@ -71,10 +71,19 @@ The brief says to proceed with these defaults and flag them. **All five are stil
 
 | Decision | Value | Why |
 |---|---|---|
+| Creative flight (added on request) | Double-tap Space toggles flight (350 ms window, Minecraft's 7 ticks). Space climbs, Shift descends, double-tap W flies fast. Flight speed 11 m/s, fast 30 m/s, climb 8 m/s, ceiling 800 m. | Follows Minecraft creative controls. Speeds are scaled up for a 5 km² city: Minecraft's own fly speed is about 11 blocks/s. |
+| Shift on the ground | Still sprints when walking; descends only while flying | Kept the v1 walking control. Minecraft uses Ctrl to sprint, but **Ctrl+W closes the browser tab**, so Ctrl is not used. |
+| Speed multiplier (added on request) | + / − keys or mouse wheel, steps 0.5, 1, 1.5, 2, 3, 5, 8, 12×, applied to walking and flying, saved in the browser | Covers both slow street-level browsing and crossing the district quickly. |
+| Height-aware collision | Every footprint has a height range. It blocks only where it overlaps the player's body (feet to 1.8 m above them). Anything at most 0.5 m above the feet can be stepped onto. | The same rule handles walking, flying beside towers, landing on roofs and walking across them. It also gives a real 0.5 m step-up, replacing the "flat ground" shortcut from v1. Invisible parent outlines (whose parts are drawn instead) block only at street level and can't be stood on. |
+| Landing | Descending onto a roof or the street ends flight. Over water, flight can't end; you hover 0.6 m above it. | There is no swimming in v1. |
+| World edge while flying | Clamped 1.5 km beyond the modeled area | Keeps you from getting lost over empty bay. |
+
+| Decision | Value | Why |
+|---|---|---|
 | Speeds | Walk 1.6 m/s, sprint 6 m/s, jump 3.2 m/s (about 0.5 m peak) | Typical walking speed. Sprint is fast so the 5 km² area is quick to explore. |
 | Collision | Exact footprint polygons in a 20 m grid, player radius 0.35 m; circle push-out gives sliding along walls | The brief requires sliding. Tested result: 4.16 m slid along a wall when 4.16 m was expected. |
 | Water | 1 m raster of land minus water, plus bridge roads painted back in as walkable | This makes the Brickell Avenue bridge over the Miami River walkable. |
-| Ground height | Flat ground at 0 m. Curbs are visual only (sidewalks are drawn 7 cm above roads). | With a flat walkable ground there is nothing to step up onto, so the 0.2 m step-up rule is met trivially. **Not built:** real curb heights or terrain. |
+| Ground height | Street level is flat at 0 m; curbs are visual only. Since the flight update, the player can step up to 0.5 m and stand on roofs. | **Not built:** real curb heights or terrain. |
 
 ## NPCs
 

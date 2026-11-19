@@ -52,9 +52,9 @@ Scripted walker: it steers toward each waypoint in 1/60 s steps through the real
 
 | Check | Result |
 |---|---|
-| NPCs never inside buildings or parked cars | **2 of 7,421 position checks (0.03%)** were inside a footprint. **Known issue**: most likely separation steering or corner-cutting on very short segments. |
-| NPCs never on water | 0 of 7,421. **Pass** |
-| NPCs stay on sidewalks / paths | 2 of 7,421 were more than their allowed corridor from a walk edge (worst 6.7 m beyond). 99th percentile is 1.4 m *inside* the corridor. **Pass** |
+| NPCs never inside buildings or parked cars | **3 of 7,412 position checks (0.04%)** were inside a footprint. **Known issue**: most likely separation steering or corner-cutting on very short segments. |
+| NPCs never on water | 0 of 7,412. **Pass** |
+| NPCs stay on sidewalks / paths | 2 of 7,412 were more than their allowed corridor from a walk edge (worst 1.2 m beyond). 99th percentile is 1.41 m *inside* the corridor. **Pass** |
 | Activity changes with the clock | **Pass**. Most common activity: 8 AM "Heading to work" (97) → noon "Getting lunch" (64) → 2 PM "Back to the office" (126) → 6 PM "Heading to the station" (76) → 8 PM "Going home" (133). Outdoor count goes from 161 at 6 AM to 260 at 8 PM to 171 at 10 PM. |
 | Click to inspect | Raycasts from the screen center to NPC bodies and shows a label like "Commuter #12, Heading to lunch, 12:40 PM". **Untested by automation** (needs pointer lock). |
 
@@ -87,6 +87,23 @@ Reading the numbers:
 - **FPS:** software rendering is about 3–5× slower on Medium than Low. Expect a smaller gap on a real GPU, but **the 60 FPS target on a laptop is UNTESTED for every preset.**
 
 An earlier Medium build drew about 1.5M triangles per frame because every street prop was one instanced mesh covering the whole city. Splitting the props into 250 m chunks with frustum culling, plus hiding props beyond about 650 m and simplifying the tree and car models, brought that down to the numbers above.
+
+## Flying and speed (creative mode)
+
+All scripted through the real player controller at 60 steps per second, on Medium quality.
+
+| Check | Result |
+|---|---|
+| Double-tap Space starts flying | **Pass** (two key events 150 ms apart, dispatched in the page) |
+| Climb with Space for 5 s | Reached **39.3 m**, still flying |
+| Fly at 60 m into the tallest tower (265 m) at fast speed for 10 s | Never entered it. Stopped 50.7 m from its center. **Pass** |
+| Same tower, flying 20 m above its roof | Passed over it (215.5 m beyond its center). **Pass** |
+| Descend onto a 43.3 m roof | Landed at exactly 43.3 m and flight ended. **Pass** |
+| Walk off that roof's edge | Fell to the street (z = 0 m), on the ground. **Pass** |
+| Descend onto Biscayne Bay | Kept flying, hovering at 0.6 m above the water. **Pass** |
+| Speed multiplier | 2 s of walking: 3.2 m at 1×, 16 m at 5× (ratio 5). Pressing + twice from 1× gives 2×. **Pass** |
+| Walking checks after the collision change | Brickell Ave, Bayfront Park loop, wall sliding, water and jump all still pass |
+| Mouse-wheel speed change | **Untested by automation**: it only works while the mouse is locked, which headless Chromium can't do |
 
 ## Graphics upgrade (tiers 1 and 2)
 

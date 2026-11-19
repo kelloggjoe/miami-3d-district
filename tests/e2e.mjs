@@ -128,6 +128,65 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
     return { brickell, bayfront, wall, water, jump, resetReturnsToSpawn: S.x === m.data.meta.spawn[0] && S.y === m.data.meta.spawn[1] };
   });
   results.walking.pageErrors = errors;
+
+  // ---------------------------------------------------------------- flying (creative mode) + speed
+  // Real keyboard events for the double-tap toggle; scripted input for the rest.
+  await page.evaluate(() => window.__miami.player.reset());
+  // Two Space taps 150 ms apart, dispatched in-page (Playwright's own key presses arrive ~450 ms apart on this
+  // software-rendered page, longer than the 350 ms double-tap window).
+  await page.evaluate(async () => {
+    const tap = () => { dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' })); dispatchEvent(new KeyboardEvent('keyup', { code: 'Space' })); };
+    tap(); const t = performance.now(); while (performance.now() - t < 150) { /* wait */ } tap();
+  });
+  const toggledOn = await page.evaluate(() => window.__miami.player.state.flying);
+  results.flying = await page.evaluate((toggledOn) => {
+    const m = window.__miami, P = m.player, S = P.state, C = m.collision, dt = 1 / 60;
+    const step = (n, inp) => { for (let i = 0; i < n; i++) P.update(dt, { forward: 0, right: 0, sprint: false, jump: false, up: false, down: false, ...inp }); };
+    const face = (tx, ty) => m.camera.rotation.set(0, Math.atan2(-(tx - S.x), ty - S.y), 0, 'YXZ');
+    const out = { doubleTapSpaceStartsFlying: toggledOn };
+    // Climb for 5 s.
+    P.reset(); P.setFlying(true); step(300, { up: true });
+    out.climb5s = { altitudeM: +S.z.toFixed(1), stillFlying: S.flying };
+    // Tallest footprint: fly into it at 60 m altitude and check we never enter it.
+    const tall = C.polys.filter((p) => !p.extra && !p.noStand).sort((a, b) => b.h - a.h)[0];
+    let cx = 0, cy = 0; for (let i = 0; i < tall.r.length; i += 2) { cx += tall.r[i]; cy += tall.r[i + 1]; } cx /= tall.r.length / 2; cy /= tall.r.length / 2;
+    S.x = cx - 80; S.y = cy; S.z = 60; P.setFlying(true); S.vx = S.vy = S.vz = 0; face(cx, cy);
+    let entered = false; for (let i = 0; i < 600; i++) { P.update(dt, { forward: 1, right: 0, sprint: true, jump: false, up: false, down: false }); if (C.insideBuilding(S.x, S.y, S.z)) entered = true; }
+    out.towerAtAltitude = { towerHeightM: tall.h, altitudeM: +S.z.toFixed(1), enteredTower: entered, stoppedDistanceFromCenterM: +Math.hypot(S.x - cx, S.y - cy).toFixed(1), pass: !entered };
+    // Same tower from above its roof: should pass over it.
+    S.x = cx - 80; S.y = cy; S.z = tall.h + 20; S.vx = S.vy = S.vz = 0; face(cx + 1000, cy);
+    step(0); for (let i = 0; i < 600; i++) P.update(dt, { forward: 1, right: 0, sprint: true, jump: false, up: false, down: false });
+    out.overTower = { endXOffsetM: +(S.x - cx).toFixed(1), pass: S.x - cx > 60 };
+    // Land on a mid-rise roof, then walk off its edge.
+    const roofs = C.polys.filter((p) => !p.extra && !p.noStand && p.h > 15 && p.h < 60 && (p.x1 - p.x0) > 25 && (p.y1 - p.y0) > 25);
+    let roof = null, rx = 0, ry = 0;
+    for (const p of roofs) {
+      let ax = 0, ay = 0; for (let i = 0; i < p.r.length; i += 2) { ax += p.r[i]; ay += p.r[i + 1]; } ax /= p.r.length / 2; ay /= p.r.length / 2;
+      if (Math.abs(C.groundAt(ax, ay, 1000) - p.h) < 1e-6 && C.groundAt(ax, ay, p.h) === p.h) { roof = p; rx = ax; ry = ay; break; }
+    }
+    S.x = rx; S.y = ry; S.z = roof.h + 30; S.vx = S.vy = S.vz = 0; P.setFlying(true);
+    step(600, { down: true });
+    out.roofLanding = { roofHeightM: +roof.h.toFixed(1), landedAtM: +S.z.toFixed(2), flyingAfter: S.flying, pass: Math.abs(S.z - roof.h) < 0.01 && !S.flying };
+    face(rx + 500, ry); let maxDrop = 0;
+    for (let i = 0; i < 1200 && S.z > 0; i++) { P.update(dt, { forward: 1, right: 0, sprint: true, jump: false }); }
+    step(240);
+    out.walkOffRoof = { endAltitudeM: +S.z.toFixed(2), onGround: S.onGround, pass: S.z < 0.6 && S.onGround && !S.flying };
+    // Descend onto open water (east of Bayfront Park): flight must not end in the bay.
+    S.x = m.data.meta.spawn[0] + 260; S.y = m.data.meta.spawn[1]; S.z = 40; S.vz = 0; P.setFlying(true);
+    step(600, { down: true });
+    out.waterDescent = { overWater: S.overWater, altitudeM: +S.z.toFixed(2), stillFlying: S.flying, pass: S.overWater && S.flying && S.z >= 0.59 };
+    // Speed multiplier: walk 2 s in the park at 1x and at 5x.
+    const walkFor = (mul) => { P.reset(); S.speedMul = mul; m.camera.rotation.set(0, 0, 0, 'YXZ'); const x0 = S.x, y0 = S.y; for (let i = 0; i < 120; i++) P.update(dt, { forward: 1, right: 0, sprint: false, jump: false }); return Math.hypot(S.x - x0, S.y - y0); };
+    const d1 = walkFor(1), d5 = walkFor(5);
+    out.speedMultiplier = { walked2sAt1xM: +d1.toFixed(2), walked2sAt5xM: +d5.toFixed(2), ratio: +(d5 / d1).toFixed(2), pass: Math.abs(d5 / d1 - 5) < 0.3 };
+    S.speedMul = 1; P.reset();
+    out.pass = toggledOn && out.climb5s.altitudeM > 30 && out.towerAtAltitude.pass && out.overTower.pass && out.roofLanding.pass && out.walkOffRoof.pass && out.waterDescent.pass && out.speedMultiplier.pass;
+    return out;
+  }, toggledOn);
+  // +/- keys change the multiplier
+  await page.keyboard.press('Equal'); await page.keyboard.press('Equal');
+  results.flying.plusKeyTwiceFrom1x = await page.evaluate(() => window.__miami.player.state.speedMul);
+  await page.keyboard.press('Minus'); await page.keyboard.press('Minus');
   await page.close();
 }
 
