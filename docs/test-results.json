@@ -1,0 +1,363 @@
+{
+  "date": "2026-11-19T19:31:11.888Z",
+  "environment": "Headless Chromium, SwiftShader (software WebGL), 1280x720 unless noted. FPS here is NOT representative of a GPU laptop.",
+  "loadToReadyMs": 1994,
+  "walking": {
+    "brickell": {
+      "label": "Brickell Avenue, south end to north end (centerline, incl. Miami River bridge)",
+      "targets": 41,
+      "reached": 41,
+      "stuck": [],
+      "minEyeHeight": 1.7,
+      "insideBuildingSamples": 0,
+      "onWaterSamples": 0,
+      "distanceWalkedM": 1942,
+      "pass": true,
+      "lengthAlongAxisM": 1633
+    },
+    "bayfront": {
+      "label": "Loop around Bayfront Park on its footpaths (walk-graph route through 16 perimeter points)",
+      "targets": 205,
+      "reached": 205,
+      "stuck": [],
+      "minEyeHeight": 1.7,
+      "insideBuildingSamples": 0,
+      "onWaterSamples": 0,
+      "distanceWalkedM": 2226,
+      "pass": true
+    },
+    "wall": {
+      "wallLengthM": 362.5,
+      "slidAlongWallM": 4.16,
+      "expectedIfFreeM": 4.16,
+      "minDistanceToWallM": 0.6,
+      "playerRadiusM": 0.35,
+      "insideAfter": false,
+      "pass": true
+    },
+    "water": {
+      "stoppedAt": [
+        439.6,
+        537.5
+      ],
+      "onWalkableGround": true,
+      "eastwardM": 112.7,
+      "pass": true
+    },
+    "jump": {
+      "peakM": 0.5,
+      "landed": true,
+      "pass": true
+    },
+    "resetReturnsToSpawn": true,
+    "pageErrors": []
+  },
+  "npc": {
+    "npcCount": 300,
+    "positionChecks": 7530,
+    "insideBuilding": 6,
+    "onWater": 0,
+    "beyondWalkCorridor": 1,
+    "worstExcessM": 1.59,
+    "p99ExcessM": -1.43,
+    "timeline": [
+      {
+        "time": "6.00",
+        "outdoors": 161,
+        "walking": 161,
+        "top": [
+          [
+            "(indoors) At home",
+            111
+          ],
+          [
+            "At home",
+            109
+          ],
+          [
+            "(indoors) At the hotel",
+            26
+          ],
+          [
+            "Catching the first train",
+            26
+          ]
+        ]
+      },
+      {
+        "time": "8.00",
+        "outdoors": 200,
+        "walking": 197,
+        "top": [
+          [
+            "Heading to work",
+            97
+          ],
+          [
+            "Morning walk",
+            64
+          ],
+          [
+            "(indoors) At home",
+            43
+          ],
+          [
+            "(indoors) At the hotel",
+            42
+          ]
+        ]
+      },
+      {
+        "time": "10.00",
+        "outdoors": 224,
+        "walking": 219,
+        "top": [
+          [
+            "Heading to work",
+            88
+          ],
+          [
+            "Resting on a bench",
+            64
+          ],
+          [
+            "(indoors) Heading to work",
+            61
+          ],
+          [
+            "Sightseeing",
+            50
+          ]
+        ]
+      },
+      {
+        "time": "12.00",
+        "outdoors": 234,
+        "walking": 221,
+        "top": [
+          [
+            "Getting lunch",
+            64
+          ],
+          [
+            "Exploring Brickell",
+            43
+          ],
+          [
+            "(indoors) Heading to work",
+            39
+          ],
+          [
+            "Heading to lunch",
+            37
+          ]
+        ]
+      },
+      {
+        "time": "14.00",
+        "outdoors": 248,
+        "walking": 240,
+        "top": [
+          [
+            "Back to the office",
+            126
+          ],
+          [
+            "Afternoon in the park",
+            64
+          ],
+          [
+            "Walking the bayfront",
+            30
+          ],
+          [
+            "(indoors) Sleeping",
+            29
+          ]
+        ]
+      },
+      {
+        "time": "16.00",
+        "outdoors": 182,
+        "walking": 151,
+        "top": [
+          [
+            "(indoors) Back to the office",
+            107
+          ],
+          [
+            "Afternoon in the park",
+            71
+          ],
+          [
+            "Walking the bayfront",
+            50
+          ],
+          [
+            "Back to the office",
+            42
+          ]
+        ]
+      },
+      {
+        "time": "18.00",
+        "outdoors": 258,
+        "walking": 224,
+        "top": [
+          [
+            "Heading to the station",
+            76
+          ],
+          [
+            "Sunset by the bay",
+            71
+          ],
+          [
+            "(indoors) Back to the office",
+            42
+          ],
+          [
+            "Dinner",
+            30
+          ]
+        ]
+      },
+      {
+        "time": "20.00",
+        "outdoors": 260,
+        "walking": 228,
+        "top": [
+          [
+            "Going home",
+            133
+          ],
+          [
+            "Drinks after work",
+            51
+          ],
+          [
+            "Dinner",
+            50
+          ],
+          [
+            "(indoors) Going home",
+            29
+          ]
+        ]
+      },
+      {
+        "time": "22.00",
+        "outdoors": 171,
+        "walking": 169,
+        "top": [
+          [
+            "Going home",
+            121
+          ],
+          [
+            "(indoors) Going home",
+            99
+          ],
+          [
+            "Back to the hotel",
+            45
+          ],
+          [
+            "(indoors) Heading to the night shift",
+            27
+          ]
+        ]
+      }
+    ],
+    "pageErrors": []
+  },
+  "performance": {
+    "npc200": {
+      "street, Brickell area": {
+        "fps": 4.9,
+        "drawCalls": 107,
+        "triangles": 134700,
+        "npcUpdateMs": 1.96,
+        "outdoors": 172,
+        "heapMB": 48
+      },
+      "street, Bayfront Park (spawn)": {
+        "fps": 5.7,
+        "drawCalls": 77,
+        "triangles": 133989,
+        "npcUpdateMs": 0.67,
+        "outdoors": 174,
+        "heapMB": 48
+      },
+      "aerial, whole district": {
+        "fps": 5.9,
+        "drawCalls": 150,
+        "triangles": 135812,
+        "npcUpdateMs": 0.59,
+        "outdoors": 179,
+        "heapMB": 48
+      },
+      "pageErrors": []
+    },
+    "npc400": {
+      "street, Brickell area": {
+        "fps": 4.3,
+        "drawCalls": 107,
+        "triangles": 149100,
+        "npcUpdateMs": 3.87,
+        "outdoors": 339,
+        "heapMB": 58
+      },
+      "street, Bayfront Park (spawn)": {
+        "fps": 5.2,
+        "drawCalls": 77,
+        "triangles": 148389,
+        "npcUpdateMs": 1.21,
+        "outdoors": 338,
+        "heapMB": 58
+      },
+      "aerial, whole district": {
+        "fps": 5.3,
+        "drawCalls": 150,
+        "triangles": 150212,
+        "npcUpdateMs": 0.91,
+        "outdoors": 345,
+        "heapMB": 58
+      },
+      "pageErrors": []
+    },
+    "npc300_1080p": {
+      "street, Brickell area": {
+        "fps": 3,
+        "drawCalls": 107,
+        "triangles": 141900,
+        "npcUpdateMs": 3.66,
+        "outdoors": 261,
+        "heapMB": 51
+      },
+      "street, Bayfront Park (spawn)": {
+        "fps": 3.5,
+        "drawCalls": 77,
+        "triangles": 141189,
+        "npcUpdateMs": 1.51,
+        "outdoors": 261,
+        "heapMB": 51
+      },
+      "aerial, whole district": {
+        "fps": 4.3,
+        "drawCalls": 150,
+        "triangles": 143012,
+        "npcUpdateMs": 0.73,
+        "outdoors": 261,
+        "heapMB": 51
+      },
+      "pageErrors": []
+    }
+  },
+  "buildSizes": {
+    "district-DavAmwCO.json": 907946,
+    "index-BrwCk8OW.css": 1891,
+    "index-DgWAEOTN.js": 717937,
+    "totalBytes": 1627774
+  }
+}

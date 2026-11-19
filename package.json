@@ -1,0 +1,28 @@
+{
+  "name": "miami-3d-district",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Stylized, walkable, first-person 3D model of Downtown and Brickell, Miami, built from OpenStreetMap data.",
+  "license": "MIT",
+  "scripts": {
+    "pipeline": "node pipeline/run.mjs",
+    "pipeline:offline": "node pipeline/run.mjs --offline",
+    "dev": "vite",
+    "build": "vite build",
+    "build:single": "vite build --mode single",
+    "preview": "vite preview",
+    "test:e2e": "node tests/e2e.mjs",
+    "pipeline:refresh": "node pipeline/run.mjs --refresh"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7",
+    "vite-plugin-singlefile": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

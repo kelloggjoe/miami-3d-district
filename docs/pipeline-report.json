@@ -1,0 +1,1219 @@
+{
+  "dropped": {
+    "tooSmall": 6,
+    "selfIntersecting": 0,
+    "duplicate": 0,
+    "degenerate": 0,
+    "outside": 21
+  },
+  "heightSource": {
+    "tag": 532,
+    "levels": 110,
+    "default": 196,
+    "landmark": 11
+  },
+  "counts": {
+    "buildings": 648,
+    "parts": 272,
+    "hiddenParents": 71,
+    "roads": 3582,
+    "water": 2,
+    "parks": 156,
+    "rail": 143,
+    "trees": 1499,
+    "lamps": 41,
+    "walkNodes": 12273,
+    "walkEdges": 14189,
+    "walkEdgesDroppedThroughBuildings": 319,
+    "openStructures": 29,
+    "walkNodesDroppedNotLargestComponent": 1134,
+    "dest": {
+      "food": 112,
+      "bench": 29,
+      "transit": 121,
+      "park": 1150,
+      "office": 80,
+      "home": 81
+    }
+  },
+  "land": {
+    "coastlineWays": 7,
+    "chains": 1,
+    "closedRings": 1,
+    "landPolygons": 2,
+    "danglingPieces": 0
+  },
+  "landmarks": [
+    {
+      "name": "Panorama Tower",
+      "matched": 1,
+      "osmHeight": 265,
+      "override": 265,
+      "diff": 0
+    },
+    {
+      "name": "Aston Martin Residences",
+      "matched": 1,
+      "osmHeight": 249,
+      "override": 249,
+      "diff": 0
+    },
+    {
+      "name": "Four Seasons Hotel Miami",
+      "matched": 1,
+      "osmHeight": 57,
+      "override": 240,
+      "diff": 183
+    },
+    {
+      "name": "Southeast Financial Center",
+      "matched": 1,
+      "osmHeight": 236,
+      "override": 233,
+      "diff": -3
+    },
+    {
+      "name": "One Thousand Museum",
+      "matched": 1,
+      "osmHeight": 220,
+      "override": 215,
+      "diff": -5
+    },
+    {
+      "name": "Marquis Miami",
+      "matched": 1,
+      "osmHeight": 212.1,
+      "override": 207,
+      "diff": -5.1
+    },
+    {
+      "name": "Wells Fargo Center",
+      "matched": 1,
+      "osmHeight": 197,
+      "override": 200,
+      "diff": 3
+    },
+    {
+      "name": "900 Biscayne Bay",
+      "matched": 1,
+      "osmHeight": 200,
+      "override": 198,
+      "diff": -2
+    },
+    {
+      "name": "Miami Tower",
+      "matched": 1,
+      "osmHeight": 185,
+      "override": 191,
+      "diff": 6
+    },
+    {
+      "name": "1450 Brickell",
+      "matched": 1,
+      "osmHeight": 144,
+      "override": 179,
+      "diff": 35
+    },
+    {
+      "name": "Freedom Tower",
+      "matched": 1,
+      "osmHeight": 58,
+      "override": 78,
+      "diff": 20
+    },
+    {
+      "name": "Brickell Flatiron",
+      "matched": 1,
+      "osmHeight": 45,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Brickell City Centre",
+      "matched": 2,
+      "osmHeight": 140,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Brickell World Plaza",
+      "matched": 1,
+      "osmHeight": 160,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Icon Brickell",
+      "matched": 1,
+      "osmHeight": 179,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Echo Brickell",
+      "matched": 1,
+      "osmHeight": 194,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Kaseya Center",
+      "matched": 1,
+      "osmHeight": 48.8,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Bayside Marketplace",
+      "matched": 2,
+      "osmHeight": 45,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Miami-Dade County Courthouse",
+      "matched": 1,
+      "osmHeight": 103.8,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Gesu Church",
+      "matched": 1,
+      "osmHeight": 30,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Ten Museum Park",
+      "matched": 1,
+      "osmHeight": 178.3,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Citigroup Center",
+      "matched": 1,
+      "osmHeight": 148,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "HistoryMiami Museum",
+      "matched": 1,
+      "osmHeight": 12,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Mary Brickell Village",
+      "matched": 1,
+      "osmHeight": 15.5,
+      "override": null,
+      "diff": null
+    }
+  ],
+  "missingPlaces": [],
+  "spawn": {
+    "spawn": [
+      326.9,
+      537.5
+    ],
+    "bayfrontFound": true
+  },
+  "outputBytes": 907946,
+  "alignment": [
+    {
+      "name": "Freedom Tower",
+      "expect": "Freedom Tower",
+      "distanceToFootprintM": 47.3
+    },
+    {
+      "name": "Kaseya Center",
+      "expect": "Kaseya Center",
+      "distanceToFootprintM": 0
+    }
+  ],
+  "defaultHeightBuildings": [
+    {
+      "id": "w300246057",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301823928",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301894305",
+      "name": "Immanuel Evangelical Lutheran Church",
+      "h": 12
+    },
+    {
+      "id": "w1005468267",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841416",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300246056",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301895792",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w303597650",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w303597651",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841144",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841145",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841146",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841150",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841152",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841153",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841155",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841415",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817976701",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817976702",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660916",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301761784",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w708556101",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300211768",
+      "name": "Plaza on Brickell",
+      "h": 45
+    },
+    {
+      "id": "w300211769",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300465824",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300499400",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300510113",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300510114",
+      "name": "JW Marriott Miami",
+      "h": 45
+    },
+    {
+      "id": "w300753075",
+      "name": "Axis at Brickell Village",
+      "h": 45
+    },
+    {
+      "id": "w301824363",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w400594468",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483321959",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w671949120",
+      "name": "Santander",
+      "h": 12
+    },
+    {
+      "id": "w708556099",
+      "name": "Brickell View Terrace Apartments",
+      "h": 45
+    },
+    {
+      "id": "w708556100",
+      "name": "Brickell View Terrace Garage",
+      "h": 45
+    },
+    {
+      "id": "w917700559",
+      "name": "Fortune House Hotel",
+      "h": 12
+    },
+    {
+      "id": "w954745204",
+      "name": "Flatiron Building",
+      "h": 45
+    },
+    {
+      "id": "w954745205",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w954745206",
+      "name": "DUA Miami, Autograph Collection",
+      "h": 45
+    },
+    {
+      "id": "w993335178",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1033893768",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1060151458",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1178752231",
+      "name": "North Italia",
+      "h": 45
+    },
+    {
+      "id": "w1178752232",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1414180626",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w299469144",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w299469145",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w954745207",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w255188254",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w954745208",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w231924038",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w255188232",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w294683587",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300449063",
+      "name": "Burger King",
+      "h": 45
+    },
+    {
+      "id": "w300462441",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300491449",
+      "name": "Brickell on the River",
+      "h": 45
+    },
+    {
+      "id": "w300491451",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w343316660",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w435738010",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w617681062",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w704208227",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w812641424",
+      "name": "AC Miami Hotel Downtown & Element Miami Downtown",
+      "h": 45
+    },
+    {
+      "id": "w815775739",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w954745215",
+      "name": "Brickell Heights",
+      "h": 45
+    },
+    {
+      "id": "w992922852",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1034861996",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1179066271",
+      "name": "Lululemon",
+      "h": 45
+    },
+    {
+      "id": "w463464161",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w463464166",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w463466526",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w295992889",
+      "name": "Joseph Bryant Metromover Maintenance Facility",
+      "h": 45
+    },
+    {
+      "id": "w467880480",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467880481",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467880487",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467880489",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467880490",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467880495",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467881895",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467885101",
+      "name": "MDC Garage- G2",
+      "h": 45
+    },
+    {
+      "id": "w467891259",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891260",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891271",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891272",
+      "name": "Burger King",
+      "h": 45
+    },
+    {
+      "id": "w467891277",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891281",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891286",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891288",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892161",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892162",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892163",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892164",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892165",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892166",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892167",
+      "name": "Churchills BarberShop",
+      "h": 45
+    },
+    {
+      "id": "w467892168",
+      "name": "Miami Discount Center",
+      "h": 45
+    },
+    {
+      "id": "w467892170",
+      "name": "Eurostars Langford",
+      "h": 45
+    },
+    {
+      "id": "w467892171",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892173",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892174",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892175",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892177",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467892178",
+      "name": "Sneak Peek Luxury",
+      "h": 45
+    },
+    {
+      "id": "w484573207",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w484573208",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w994074736",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w995322725",
+      "name": "Miami Avenue",
+      "h": 45
+    },
+    {
+      "id": "w1363671536",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w356348256",
+      "name": "Government Center",
+      "h": 12
+    },
+    {
+      "id": "w463466530",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w467881902",
+      "name": "Flagler Building",
+      "h": 45
+    },
+    {
+      "id": "w648249520",
+      "name": "HistoryMiami Museum",
+      "h": 12
+    },
+    {
+      "id": "w1180266281",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w815775738",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w311357063",
+      "name": "Miami Fire / Rescue Station 1",
+      "h": 45
+    },
+    {
+      "id": "w463472271",
+      "name": "Natiivo 601 Miami",
+      "h": 12
+    },
+    {
+      "id": "w648127392",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648127395",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648127396",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648127398",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w704206422",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w954335304",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w960715591",
+      "name": "Club Space",
+      "h": 12
+    },
+    {
+      "id": "w980774149",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1198194461",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1198194462",
+      "name": "citizenM Miami Worldcenter",
+      "h": 12
+    },
+    {
+      "id": "w1198194478",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1198194479",
+      "name": "Miami World Tower",
+      "h": 12
+    },
+    {
+      "id": "w1198194480",
+      "name": "Miami World Tower Parking Garage",
+      "h": 12
+    },
+    {
+      "id": "w1445246638",
+      "name": "Apple Store Miami Worldcenter",
+      "h": 12
+    },
+    {
+      "id": "w300210405",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300210409",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300463192",
+      "name": "Blue Parrot Grill",
+      "h": 45
+    },
+    {
+      "id": "w300492235",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301823538",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1442847718",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300204849",
+      "name": "The Four Ambassadors",
+      "h": 45
+    },
+    {
+      "id": "w300757099",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300764148",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w570388347",
+      "name": "Four Ambassadors Park",
+      "h": 45
+    },
+    {
+      "id": "w117635464",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300193842",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300243362",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300604246",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300614124",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300757100",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300757774",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300764145",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300764146",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228665401",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w263238667",
+      "name": "Hard Rock Cafe",
+      "h": 12
+    },
+    {
+      "id": "w290629020",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w301237012",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w301237018",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301237020",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w301237024",
+      "name": "FPL Solar Amphitheater at Bayfront Park",
+      "h": 45
+    },
+    {
+      "id": "w301237028",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w375937491",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w375937492",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w441835986",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w441835989",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w463472261",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w463472264",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467881898",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891268",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891285",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w484563422",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1180266280",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1180266282",
+      "name": "Marshalls",
+      "h": 45
+    },
+    {
+      "id": "w1459955388",
+      "name": "Waldord Astoria Hotel & Residences",
+      "h": 45
+    },
+    {
+      "id": "w380081839",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w441835991",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w441835993",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w587577173",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w587577174",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1189408760",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484587329",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "r7417722",
+      "name": "Bayside Marketplace",
+      "h": 45
+    },
+    {
+      "id": "r7417722",
+      "name": "Bayside Marketplace",
+      "h": 45
+    },
+    {
+      "id": "w319426351",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w319426353",
+      "name": "Publix",
+      "h": 45
+    },
+    {
+      "id": "w1179534177",
+      "name": "Kanu",
+      "h": 45
+    },
+    {
+      "id": "w1179534178",
+      "name": "Total Nutrition",
+      "h": 45
+    },
+    {
+      "id": "w1179534179",
+      "name": "Spa Nail Fever",
+      "h": 45
+    },
+    {
+      "id": "w1179534180",
+      "name": "face. brow & beauty bar",
+      "h": 45
+    },
+    {
+      "id": "w1179534181",
+      "name": "Blo",
+      "h": 45
+    },
+    {
+      "id": "w1185200181",
+      "name": "Brickell Arch, a Luxury Collection Hotel, Miami",
+      "h": 12
+    },
+    {
+      "id": "w1357104614",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1357104615",
+      "name": "Publix",
+      "h": 12
+    },
+    {
+      "id": "w301421311",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1180266286",
+      "name": "Royal Crown Fashion",
+      "h": 45
+    },
+    {
+      "id": "w1180266287",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1180266288",
+      "name": "Metro Color Computers",
+      "h": 45
+    },
+    {
+      "id": "w1180266289",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1180266290",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1105062284",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484587349",
+      "name": "Frost Planetarium",
+      "h": 12
+    }
+  ]
+}

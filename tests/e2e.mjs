@@ -1,0 +1,253 @@
+// Acceptance checks run in headless Chromium against the production build.
+//   npm run build && npm run test:e2e
+// Writes docs/test-results.json and screenshots in docs/.
+import { spawn } from 'node:child_process';
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
+
+const { chromium } = createRequire(import.meta.url)('playwright');
+const PORT = 4179;
+const server = spawn('npx', ['vite', 'preview', '--port', String(PORT), '--strictPort'], { stdio: 'ignore' });
+await new Promise((r) => setTimeout(r, 2500));
+
+const results = { date: new Date().toISOString(), environment: 'Headless Chromium, SwiftShader (software WebGL), 1280x720 unless noted. FPS here is NOT representative of a GPU laptop.' };
+const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+
+async function open(query = '', viewport = { width: 1280, height: 720 }) {
+  const page = await browser.newPage({ viewport });
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
+  const t0 = Date.now();
+  await page.goto(`http://localhost:${PORT}/${query}`);
+  await page.waitForSelector('body[data-ready="1"]', { timeout: 90_000 });
+  const readyMs = Date.now() - t0;
+  await page.evaluate(() => document.getElementById('start').classList.add('hidden'));
+  return { page, errors, readyMs };
+}
+
+// ---------------------------------------------------------------- walking
+{
+  const { page, errors, readyMs } = await open('?npcs=0');
+  results.loadToReadyMs = readyMs;
+  results.walking = await page.evaluate(() => {
+    const m = window.__miami, P = m.player, S = P.state, C = m.collision;
+    const EYE = 1.7, dt = 1 / 60;
+    function walkTo(tx, ty, { sprint = true, maxT = 400 } = {}) {
+      let t = 0, best = Math.hypot(tx - S.x, ty - S.y), lastImprove = 0, minEye = Infinity;
+      while (t < maxT) {
+        const dx = tx - S.x, dy = ty - S.y, d = Math.hypot(dx, dy);
+        if (d < 1.0) return { ok: true, t, minEye };
+        m.camera.rotation.set(0, Math.atan2(-dx, dy), 0, 'YXZ');
+        P.update(dt, { forward: 1, right: 0, sprint, jump: false });
+        minEye = Math.min(minEye, m.camera.position.y);
+        t += dt;
+        if (d < best - 0.3) { best = d; lastImprove = t; }
+        if (t - lastImprove > 3) return { ok: false, t, stuckAt: [+S.x.toFixed(1), +S.y.toFixed(1)], remaining: +d.toFixed(1), minEye };
+      }
+      return { ok: false, t, timeout: true, minEye };
+    }
+    function route(points, label) {
+      S.x = points[0][0]; S.y = points[0][1]; S.distance = 0;
+      const out = { label, targets: points.length - 1, reached: 0, stuck: [], minEyeHeight: Infinity, insideBuildingSamples: 0, onWaterSamples: 0 };
+      for (let i = 1; i < points.length; i++) {
+        const r = walkTo(points[i][0], points[i][1]);
+        out.minEyeHeight = Math.min(out.minEyeHeight, r.minEye);
+        if (r.ok) out.reached++; else { out.stuck.push({ target: points[i].map((v) => +v.toFixed(1)), ...r }); S.x = points[i][0]; S.y = points[i][1]; }
+        if (C.insideBuilding(S.x, S.y)) out.insideBuildingSamples++;
+        if (!C.walkableGround(S.x, S.y)) out.onWaterSamples++;
+      }
+      out.distanceWalkedM = +S.distance.toFixed(0);
+      out.minEyeHeight = +out.minEyeHeight.toFixed(3);
+      out.pass = out.stuck.length === 0 && out.minEyeHeight >= EYE - 1e-6 && !out.insideBuildingSamples && !out.onWaterSamples;
+      return out;
+    }
+    // Brickell Avenue: all centerline points of ways named "Brickell Avenue", ordered south to north.
+    const pts = [];
+    for (const r of m.data.roads) if (r.n === 'Brickell Avenue') for (let i = 0; i < r.c.length; i += 2) pts.push([r.c[i], r.c[i + 1]]);
+    // order along the avenue's main axis (PCA)
+    const mx = pts.reduce((s, p) => s + p[0], 0) / pts.length, my = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+    let sxx = 0, sxy = 0, syy = 0; for (const [x, y] of pts) { sxx += (x - mx) ** 2; sxy += (x - mx) * (y - my); syy += (y - my) ** 2; }
+    const ang = 0.5 * Math.atan2(2 * sxy, sxx - syy), ux = Math.cos(ang), uy = Math.sin(ang);
+    pts.sort((a, b) => (a[0] * ux + a[1] * uy) - (b[0] * ux + b[1] * uy));
+    if (pts[0][1] > pts[pts.length - 1][1]) pts.reverse();
+    // Skip points within 3 m of the modeled edge (the avenue continues beyond the bounding box).
+    const ext = m.data.meta.extent, inner = (p) => p[0] > ext.minX + 3 && p[0] < ext.maxX - 3 && p[1] > ext.minY + 3 && p[1] < ext.maxY - 3;
+    const ptsIn = pts.filter(inner);
+    const brickellPts = ptsIn.filter((p, i) => i === 0 || Math.hypot(p[0] - ptsIn[i - 1][0], p[1] - ptsIn[i - 1][1]) > 5);
+    const brickell = route(brickellPts, 'Brickell Avenue, south end to north end (centerline, incl. Miami River bridge)');
+    brickell.lengthAlongAxisM = +Math.hypot(brickellPts[0][0] - brickellPts.at(-1)[0], brickellPts[0][1] - brickellPts.at(-1)[1]).toFixed(0);
+
+    // Around Bayfront Park: ring of the park polygon pulled 15 m inward, connected by walk-graph routes.
+    const park = m.data.parks.filter((p) => p.n === 'Bayfront Park').sort((a, b) => b.c.length - a.c.length)[0];
+    const ring = []; for (let i = 0; i < park.c.length; i += 2) ring.push([park.c[i], park.c[i + 1]]);
+    const cx = ring.reduce((s, p) => s + p[0], 0) / ring.length, cy = ring.reduce((s, p) => s + p[1], 0) / ring.length;
+    const G = m.graph;
+    const nearestNode = (x, y) => { let b = -1, bd = Infinity; for (let i = 0; i < G.N; i++) { const d = Math.hypot(G.nx[i] - x, G.ny[i] - y); if (d < bd) { bd = d; b = i; } } return b; };
+    const step = Math.max(1, Math.floor(ring.length / 16));
+    const keys = []; for (let i = 0; i < ring.length; i += step) { const [x, y] = ring[i]; const L = Math.hypot(cx - x, cy - y) || 1; keys.push(nearestNode(x + (cx - x) / L * 15, y + (cy - y) / L * 15)); }
+    keys.push(keys[0]);
+    const loop = [];
+    for (let i = 0; i < keys.length - 1; i++) { const p = G.astar(keys[i], keys[i + 1]) || []; for (const n of p) loop.push([G.nx[n], G.ny[n]]); }
+    const bayfront = route(loop, 'Loop around Bayfront Park on its footpaths (walk-graph route through 16 perimeter points)');
+
+    // Wall sliding: approach a long wall of the largest building at 30 degrees.
+    const big = C.polys.slice().sort((a, b) => (b.x1 - b.x0) * (b.y1 - b.y0) - (a.x1 - a.x0) * (a.y1 - a.y0))[3];
+    const r = big.r; let e = 0, el = 0;
+    for (let i = 0; i < r.length; i += 2) { const j = (i + 2) % r.length; const L = Math.hypot(r[j] - r[i], r[j + 1] - r[i + 1]); if (L > el) { el = L; e = i; } }
+    const ax = r[e], ay = r[e + 1], bx = r[(e + 2) % r.length], by = r[(e + 3) % r.length];
+    const tx = (bx - ax) / el, ty = (by - ay) / el, nxo = ty, nyo = -tx; // outward normal for CCW ring
+    S.x = (ax + bx) / 2 - tx * el * 0.25 + nxo * 3; S.y = (ay + by) / 2 - ty * el * 0.25 + nyo * 3;
+    const start = [S.x, S.y];
+    const dirx = tx * Math.cos(Math.PI / 6) - nxo * Math.sin(Math.PI / 6), diry = ty * Math.cos(Math.PI / 6) - nyo * Math.sin(Math.PI / 6);
+    m.camera.rotation.set(0, Math.atan2(-dirx, diry), 0, 'YXZ');
+    let minWallDist = Infinity;
+    for (let k = 0; k < 180; k++) {
+      P.update(1 / 60, { forward: 1, right: 0, sprint: false, jump: false });
+      const t = Math.max(0, Math.min(1, ((S.x - ax) * tx + (S.y - ay) * ty) / el));
+      minWallDist = Math.min(minWallDist, Math.hypot(S.x - (ax + tx * el * t), S.y - (ay + ty * el * t)));
+    }
+    const along = (S.x - start[0]) * tx + (S.y - start[1]) * ty;
+    const wall = { wallLengthM: +el.toFixed(1), slidAlongWallM: +along.toFixed(2), expectedIfFreeM: +(1.6 * 3 * Math.cos(Math.PI / 6)).toFixed(2), minDistanceToWallM: +minWallDist.toFixed(3), playerRadiusM: 0.35, insideAfter: C.insideBuilding(S.x, S.y) };
+    wall.pass = wall.slidAlongWallM > 2 && wall.minDistanceToWallM >= 0.34 && !wall.insideAfter;
+
+    // Water: from the spawn walk due east toward Biscayne Bay for 60 s.
+    P.reset(); m.camera.rotation.set(0, -Math.PI / 2, 0, 'YXZ');
+    for (let k = 0; k < 3600; k++) P.update(1 / 60, { forward: 1, right: 0, sprint: true, jump: false });
+    const water = { stoppedAt: [+S.x.toFixed(1), +S.y.toFixed(1)], onWalkableGround: C.walkableGround(S.x, S.y), eastwardM: +(S.x - m.data.meta.spawn[0]).toFixed(1) };
+    water.pass = water.onWalkableGround;
+
+    // Jump: returns to the ground.
+    let maxZ = 0; P.update(1 / 60, { forward: 0, right: 0, sprint: false, jump: true });
+    for (let k = 0; k < 120; k++) { P.update(1 / 60, { forward: 0, right: 0, sprint: false, jump: false }); maxZ = Math.max(maxZ, S.z); }
+    const jump = { peakM: +maxZ.toFixed(2), landed: S.z === 0, pass: maxZ > 0.3 && maxZ < 0.8 && S.z === 0 };
+    P.reset();
+    return { brickell, bayfront, wall, water, jump, resetReturnsToSpawn: S.x === m.data.meta.spawn[0] && S.y === m.data.meta.spawn[1] };
+  });
+  results.walking.pageErrors = errors;
+  await page.close();
+}
+
+// ---------------------------------------------------------------- NPC behaviour (headless stepping, no rendering)
+{
+  const { page, errors } = await open('?npcs=300&hour=6');
+  results.npc = await page.evaluate(() => {
+    const m = window.__miami, C = m.collision, crowd = m.crowd, G = m.graph;
+    m.clock.paused = true; // drive the clock manually
+    // distance from a point to the nearest walk-graph edge (sidewalk/footway centerline or road centerline)
+    const E = m.data.walk.edges, NX = G.nx, NY = G.ny, CELL = 25, grid = new Map();
+    for (let e = 0; e < E.length / 3; e++) { const a = E[3 * e], b = E[3 * e + 1]; const k = (Math.floor((NX[a] + NX[b]) / 2 / CELL)) * 100000 + Math.floor((NY[a] + NY[b]) / 2 / CELL); (grid.get(k) || grid.set(k, []).get(k)).push(e); }
+    const edgeDist = (x, y) => { let best = Infinity, bw = 0; const gx = Math.floor(x / CELL), gy = Math.floor(y / CELL);
+      for (let i = -3; i <= 3; i++) for (let j = -3; j <= 3; j++) for (const e of grid.get((gx + i) * 100000 + gy + j) || []) {
+        const a = E[3 * e], b = E[3 * e + 1], ax = NX[a], ay = NY[a], dx = NX[b] - ax, dy = NY[b] - ay, l2 = dx * dx + dy * dy || 1;
+        const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l2)); const d = Math.hypot(x - ax - t * dx, y - ay - t * dy);
+        const allowed = E[3 * e + 2] > 0 ? E[3 * e + 2] / 2 + 3 : 2.5; // road: beside it; footway: on it
+        if (d - allowed < best - bw) { best = d; bw = allowed; } }
+      return { d: best, allowed: bw }; };
+    const player = { x: 0, y: 0 };
+    let hour = 6; const samples = [];
+    let checked = 0, inBuilding = 0, inWater = 0, offPath = 0; const offDist = [];
+    const dt = 1 / 30, simDtH = (dt * 60) / 3600; // 60x clock
+    for (let step = 0; hour < 23.5; step++) {
+      hour += simDtH; crowd.update(dt, hour, simDtH, player);
+      if (step % 900 === 0) { // every 15 sim minutes
+        const acts = {};
+        for (const n of crowd.npcs.slice(0, crowd.count)) {
+          const label = n.state === 'inside' ? `(indoors) ${n.activity}` : n.activity; acts[label] = (acts[label] || 0) + 1;
+          if (n.state === 'inside' || n.pending) continue;
+          checked++;
+          if (C.insideBuilding(n.x, n.y)) inBuilding++;
+          if (!C.walkableGround(n.x, n.y)) inWater++;
+          const ed = edgeDist(n.x, n.y); offDist.push(ed.d - ed.allowed); if (ed.d > ed.allowed) offPath++;
+        }
+        samples.push({ time: hour.toFixed(2), outdoors: crowd.metrics.visible, walking: crowd.metrics.walking, top: Object.entries(acts).sort((a, b) => b[1] - a[1]).slice(0, 4) });
+      }
+    }
+    offDist.sort((a, b) => a - b);
+    return {
+      npcCount: crowd.count, positionChecks: checked, insideBuilding: inBuilding, onWater: inWater, beyondWalkCorridor: offPath,
+      worstExcessM: +offDist.at(-1).toFixed(2), p99ExcessM: +offDist[Math.floor(offDist.length * 0.99)].toFixed(2),
+      timeline: samples.filter((_, i) => i % 4 === 0),
+    };
+  });
+  results.npc.pageErrors = errors;
+  await page.close();
+}
+
+// ---------------------------------------------------------------- performance + screenshots
+async function perf(npcs, viewport) {
+  const { page, errors } = await open(`?npcs=${npcs}&hour=12`, viewport);
+  const views = {
+    'street, Brickell area': [-165, -585, 1.7, 0.45, 0.02],
+    'street, Bayfront Park (spawn)': null,
+    'aerial, whole district': [250, -2300, 750, 0.12, -0.42],
+  };
+  const out = {};
+  for (const [name, v] of Object.entries(views)) {
+    await page.evaluate((v) => {
+      const m = window.__miami;
+      if (!v) { m.player.reset(); return; }
+      m.player.state.x = v[0]; m.player.state.y = v[1];
+      m.player.update = function () {};
+      m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ');
+    }, v);
+    await page.waitForTimeout(1500);
+    const r = await page.evaluate(() => new Promise((res) => {
+      const m = window.__miami; let frames = 0, calls = 0, tris = 0, npcMs = 0; const t0 = performance.now();
+      const tick = () => { frames++; calls = Math.max(calls, m.renderer.info.render.calls); tris = Math.max(tris, m.renderer.info.render.triangles); npcMs += m.crowd.metrics.updateMs;
+        if (performance.now() - t0 < 4000) requestAnimationFrame(tick); else res({ fps: +(frames / ((performance.now() - t0) / 1000)).toFixed(1), drawCalls: calls, triangles: tris, npcUpdateMs: +(npcMs / frames).toFixed(2), outdoors: m.crowd.metrics.visible, heapMB: performance.memory ? +(performance.memory.usedJSHeapSize / 1048576).toFixed(0) : null }); };
+      requestAnimationFrame(tick);
+    }));
+    out[name] = r;
+  }
+  out.pageErrors = errors;
+  await page.close();
+  return out;
+}
+results.performance = { npc200: await perf(200), npc400: await perf(400), npc300_1080p: await perf(300, { width: 1920, height: 1080 }) };
+
+// screenshots for the milestone review
+{
+  const { page } = await open('?npcs=300&hour=12.5');
+  // Street-level spot: a Brickell Avenue sidewalk point near y = -700, looking north-east along the avenue.
+  const bk = await page.evaluate(() => {
+    const m = window.__miami; let best = null;
+    for (const r of m.data.roads) if (r.n === 'Brickell Avenue') for (let i = 0; i < r.c.length - 2; i += 2) {
+      const d = Math.abs(r.c[i + 1] + 700); if (!best || d < best.d) best = { d, x: r.c[i], y: r.c[i + 1], dx: r.c[i + 2] - r.c[i], dy: r.c[i + 3] - r.c[i + 1], w: r.w };
+    }
+    const L = Math.hypot(best.dx, best.dy); let ux = best.dx / L; let uy = best.dy / L; if (uy < 0) { ux *= -1; uy *= -1; }
+    const off = best.w / 2 + 2; const x = best.x + uy * off, y = best.y - ux * off;
+    return [x, y, 1.7, Math.atan2(-ux, uy), 0.05];
+  });
+  const shots = { 'view-aerial': [250, -2300, 750, 0.12, -0.42], 'view-brickell-ave': bk, 'view-downtown-aerial': [700, 300, 350, 1.25, -0.35] };
+  for (const [name, v] of Object.entries(shots)) {
+    await page.evaluate((v) => { const m = window.__miami; m.player.update = function () {}; m.player.state.x = v[0]; m.player.state.y = v[1]; m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ'); }, v);
+    await page.waitForTimeout(2500);
+    await page.screenshot({ path: `docs/${name}.png` });
+  }
+  // Crowd close-up: densest 40 m cell of outdoor NPCs, viewed from 18 m away at eye level.
+  await page.evaluate(() => {
+    const m = window.__miami, cells = new Map();
+    for (const n of m.crowd.npcs.slice(0, m.crowd.count)) if (n.state !== 'inside' && !n.pending) { const k = `${Math.floor(n.x / 40)},${Math.floor(n.y / 40)}`; cells.set(k, (cells.get(k) || 0) + 1); }
+    const [k] = [...cells.entries()].sort((a, b) => b[1] - a[1])[0]; const [gx, gy] = k.split(',').map(Number);
+    const cx = gx * 40 + 20, cy = gy * 40 + 20;
+    let px = cx, py = cy - 18;
+    for (let a = 0; a < 6.28; a += 0.4) { const x = cx + Math.sin(a) * 18, y = cy - Math.cos(a) * 18; if (!m.collision.blocked(x, y, 0.5)) { px = x; py = y; break; } }
+    m.player.state.x = px; m.player.state.y = py; m.world.updateLod(px, py);
+    m.camera.position.set(px, 1.7, -py); m.camera.rotation.set(-0.05, Math.atan2(-(cx - px), cy - py), 0, 'YXZ');
+  });
+  await page.waitForTimeout(2000);
+  await page.screenshot({ path: 'docs/view-crowd.png' });
+  await page.evaluate(() => { const m = window.__miami; m.player.update = (dt) => {}; m.player.reset(); });
+  await page.waitForTimeout(2000);
+  await page.screenshot({ path: 'docs/view-spawn.png' });
+  await page.close();
+}
+
+const sizes = {};
+for (const f of fs.readdirSync('dist/assets')) sizes[f] = fs.statSync(`dist/assets/${f}`).size;
+results.buildSizes = { ...sizes, totalBytes: Object.values(sizes).reduce((a, b) => a + b, 0) };
+fs.writeFileSync('docs/test-results.json', JSON.stringify(results, null, 2));
+console.log(JSON.stringify(results, null, 2));
+await browser.close();
+server.kill();

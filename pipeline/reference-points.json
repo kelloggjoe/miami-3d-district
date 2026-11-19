@@ -1,0 +1,7 @@
+{
+  "_readme": "Independent reference coordinates used to check that projected OSM geometry lands where it should. Coordinates are approximate values from the Wikipedia infobox of each place, entered from memory, not re-checked online. Treat a distance under ~40 m as aligned.",
+  "points": [
+    { "name": "Freedom Tower", "lat": 25.7797, "lon": -80.1897, "expectLandmark": "Freedom Tower" },
+    { "name": "Kaseya Center", "lat": 25.7814, "lon": -80.1881, "expectLandmark": "Kaseya Center" }
+  ]
+}

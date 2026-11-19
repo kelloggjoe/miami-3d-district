@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Miami 3D: Downtown and Brickell</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="crosshair"></div>
+  <div id="start" class="panel">
+    <h1>Downtown &amp; Brickell, Miami</h1>
+    <p class="sub">A stylized, walkable model built from OpenStreetMap data.</p>
+    <p id="loading">Loading district data…</p>
+    <button id="go" disabled>Click to walk</button>
+    <table class="keys">
+      <tr><td>W A S D</td><td>Move</td></tr>
+      <tr><td>Mouse</td><td>Look</td></tr>
+      <tr><td>Shift</td><td>Sprint</td></tr>
+      <tr><td>Space</td><td>Jump</td></tr>
+      <tr><td>Click</td><td>Inspect a person (center of screen)</td></tr>
+      <tr><td>R</td><td>Return to Bayfront Park</td></tr>
+      <tr><td>P / [ / ]</td><td>Pause clock / slower / faster</td></tr>
+      <tr><td>L</td><td>Toggle labels</td></tr>
+      <tr><td>`</td><td>Debug overlay</td></tr>
+      <tr><td>Esc</td><td>Release mouse</td></tr>
+    </table>
+  </div>
+  <div id="clock" class="hud">
+    <span id="time">--:--</span>
+    <button id="slower" title="Slower ([)">−</button>
+    <span id="speed">60×</span>
+    <button id="faster" title="Faster (])">+</button>
+    <button id="pause" title="Pause (P)">❚❚</button>
+    <div id="crowd"></div>
+  </div>
+  <div id="debug" class="hud hidden"></div>
+  <div id="inspect" class="hud hidden"></div>
+  <div id="attrib">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL)</div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
