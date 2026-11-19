@@ -10,12 +10,13 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
-import dataUrl from '../data/district.json?url'; // hashed asset (or inlined data: URL in the single-file build)
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 
 async function loadData() {
+  // Artifact build: data is published beside the page. Other builds: hashed asset (or inlined data: URL in the single-file build).
+  const dataUrl = import.meta.env.MODE === 'artifact' ? './district.json' : (await import('../data/district.json?url')).default;
   const res = await fetch(dataUrl);
   if (!res.ok) throw new Error(`Could not load district data (${res.status})`);
   return res.json();

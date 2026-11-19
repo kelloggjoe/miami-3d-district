@@ -37,6 +37,7 @@ npm run dev            # http://localhost:5173
 | `npm run build` | Static site in `dist/` (about 1.6 MB, any static host works) |
 | `npm run build:single` | One self-contained `dist-single/index.html` (about 1.9 MB) for sharing as a file |
 | `npm run preview` | Serves `dist/` locally |
+| `npx vite build --mode artifact` | One page with the code inlined plus `district.json` beside it, for hosting as a claude.ai Artifact |
 | `npm run pipeline` | Rebuilds `data/district.json` from the cached OSM download |
 | `npm run pipeline:refresh` | Re-downloads OSM data, then rebuilds |
 | `npm run test:e2e` | Acceptance tests in headless Chromium (see TESTING.md) |
