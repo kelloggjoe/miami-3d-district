@@ -62,6 +62,7 @@ npm run dev            # http://localhost:5173
 | W W (double-tap and hold) | Run or fly fast |
 | + / − or mouse wheel | Walking and flying speed, 0.5× to 12× (remembered) |
 | R | Return to Bayfront Park |
+| M (or click the minimap) | Open the map. Click anywhere to teleport, Shift+click a building to land on its roof, or pick a place from the list |
 | P, [ , ] | Pause the clock, slower, faster (1× to 600×) |
 | L | Labels on/off |
 | G | Next graphics quality (reloads) |
@@ -69,6 +70,13 @@ npm run dev            # http://localhost:5173
 | Esc | Release the mouse |
 
 URL options: `?npcs=200` (0 to 400), `?hour=17.5` (start time), `?quality=low|medium|high`.
+
+### Map and teleporting
+
+- **Minimap:** the round map in the bottom-left corner. It follows you with north up and shows people outdoors as pink dots.
+- **Full map:** press **M** or click the minimap. Click a spot to teleport to the nearest open street-level ground there. **Shift+click** a building to land on its roof. The list on the right jumps to any landmark or place.
+
+![Map](docs/view-map-teleport.png)
 
 ### Flying
 
@@ -96,6 +104,7 @@ src/
   props.js           palms, trees, lamps, benches, bus shelters, parked cars (chunked instancing)
   textures.js        procedural tileable textures
   quality.js         Low / Medium / High presets
+  minimap.js         corner minimap + full map with click-to-teleport
   collision.js       footprint polygons in a grid + 1 m land/water raster; sliding movement
   player.js          pointer-lock first-person controller
   npc.js             walk graph + A*, routines, separation steering, instanced procedural bodies

@@ -52,9 +52,9 @@ Scripted walker: it steers toward each waypoint in 1/60 s steps through the real
 
 | Check | Result |
 |---|---|
-| NPCs never inside buildings or parked cars | **3 of 7,412 position checks (0.04%)** were inside a footprint. **Known issue**: most likely separation steering or corner-cutting on very short segments. |
+| NPCs never inside buildings or parked cars | **8 of 7,480 position checks (0.11%)** were inside a footprint. **Known issue**: most likely separation steering or corner-cutting on very short segments. |
 | NPCs never on water | 0 of 7,412. **Pass** |
-| NPCs stay on sidewalks / paths | 2 of 7,412 were more than their allowed corridor from a walk edge (worst 1.2 m beyond). 99th percentile is 1.41 m *inside* the corridor. **Pass** |
+| NPCs stay on sidewalks / paths | 3 of 7,480 were more than their allowed corridor from a walk edge (worst 0.44 m beyond). 99th percentile is 1.45 m *inside* the corridor. **Pass** |
 | Activity changes with the clock | **Pass**. Most common activity: 8 AM "Heading to work" (97) → noon "Getting lunch" (64) → 2 PM "Back to the office" (126) → 6 PM "Heading to the station" (76) → 8 PM "Going home" (133). Outdoor count goes from 161 at 6 AM to 260 at 8 PM to 171 at 10 PM. |
 | Click to inspect | Raycasts from the screen center to NPC bodies and shows a label like "Commuter #12, Heading to lunch, 12:40 PM". **Untested by automation** (needs pointer lock). |
 
@@ -104,6 +104,17 @@ All scripted through the real player controller at 60 steps per second, on Mediu
 | Speed multiplier | 2 s of walking: 3.2 m at 1×, 16 m at 5× (ratio 5). Pressing + twice from 1× gives 2×. **Pass** |
 | Walking checks after the collision change | Brickell Ave, Bayfront Park loop, wall sliding, water and jump all still pass |
 | Mouse-wheel speed change | **Untested by automation**: it only works while the mouse is locked, which headless Chromium can't do |
+
+## Map and teleporting
+
+| Check | Result |
+|---|---|
+| M opens the full map | **Pass** (real key press) |
+| Clicking the map teleports and closes it | Real mouse click at a map point: moved 779 m from the spawn, on open land, not inside a building, map closed. **Pass** |
+| Every place in the "Go to" list | 28 of 28 land on open ground. The farthest is 68 m from the place's marker, because building markers sit inside footprints and the teleport finds the nearest street. **Pass** |
+| Shift+click onto a roof | Tallest building: landed at 265 m on its 265 m roof. **Pass** |
+| Minimap | Visual check: `docs/view-minimap.png` |
+| Re-locking the mouse after a teleport | **Untested by automation** (headless Chromium can't lock the pointer) |
 
 ## Graphics upgrade (tiers 1 and 2)
 

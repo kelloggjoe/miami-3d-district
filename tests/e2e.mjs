@@ -187,6 +187,34 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
   await page.keyboard.press('Equal'); await page.keyboard.press('Equal');
   results.flying.plusKeyTwiceFrom1x = await page.evaluate(() => window.__miami.player.state.speedMul);
   await page.keyboard.press('Minus'); await page.keyboard.press('Minus');
+
+  // ---------------------------------------------------------------- map + teleport
+  await page.evaluate(() => { const m = window.__miami; m.player.reset(); });
+  await page.keyboard.press('KeyM'); await page.waitForTimeout(600);
+  const mapOpened = await page.evaluate(() => window.__miami.maps.open && !document.getElementById('bigmap').classList.contains('hidden'));
+  const box = await page.locator('#bigmap-canvas').boundingBox();
+  await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.55); await page.waitForTimeout(600);
+  results.teleport = await page.evaluate((mapOpened) => {
+    const m = window.__miami, S = m.player.state, C = m.collision;
+    const out = { mKeyOpensMap: mapOpened, mapClosedAfterClick: !m.maps.open,
+      clickTeleport: { x: +S.x.toFixed(1), y: +S.y.toFixed(1), z: S.z, onLand: C.walkableGround(S.x, S.y), inBuilding: C.insideBuilding(S.x, S.y), movedFromSpawnM: +Math.hypot(S.x - m.data.meta.spawn[0], S.y - m.data.meta.spawn[1]).toFixed(0) } };
+    // every landmark / place button target
+    let ok = 0, worst = 0; const fails = [];
+    for (const l of m.data.labels) {
+      if (!m.maps.teleport(l.x, l.y)) { fails.push(l.n); continue; }
+      const d = Math.hypot(S.x - l.x, S.y - l.y); worst = Math.max(worst, d);
+      if (C.walkableGround(S.x, S.y) && !C.insideBuilding(S.x, S.y)) ok++; else fails.push(l.n);
+    }
+    out.placeTeleports = { places: m.data.labels.length, landedOnOpenGround: ok, worstDistanceFromPlaceM: +worst.toFixed(0), fails };
+    // Shift+click equivalent: roof of the tallest standable building
+    const tall = C.polys.filter((p) => !p.extra && !p.noStand).sort((a, b) => b.h - a.h)[0];
+    let cx = 0, cy = 0; for (let i = 0; i < tall.r.length; i += 2) { cx += tall.r[i]; cy += tall.r[i + 1]; } cx /= tall.r.length / 2; cy /= tall.r.length / 2;
+    m.maps.teleport(cx, cy, { roof: true });
+    out.roofTeleport = { roofHeightM: tall.h, landedAtM: +S.z.toFixed(1), pass: Math.abs(S.z - C.groundAt(cx, cy, 1e4)) < 0.01 && S.z > 100 };
+    out.pass = out.mKeyOpensMap && out.mapClosedAfterClick && out.clickTeleport.onLand && !out.clickTeleport.inBuilding && out.clickTeleport.movedFromSpawnM > 50 && fails.length === 0 && out.roofTeleport.pass;
+    m.player.reset();
+    return out;
+  }, mapOpened);
   await page.close();
 }
 
@@ -308,6 +336,11 @@ results.performance = {
   await page.waitForTimeout(2000);
   await page.screenshot({ path: 'docs/view-crowd.png' });
   await page.evaluate(() => { const m = window.__miami; m.player.update = (dt) => {}; m.player.reset(); });
+  await page.waitForTimeout(1500);
+  await page.screenshot({ path: 'docs/view-minimap.png' });
+  await page.keyboard.press('KeyM'); await page.waitForTimeout(1200);
+  await page.screenshot({ path: 'docs/view-map-teleport.png' });
+  await page.keyboard.press('KeyM');
   await page.waitForTimeout(2000);
   await page.screenshot({ path: 'docs/view-spawn.png' });
   await page.close();

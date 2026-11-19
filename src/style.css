@@ -27,3 +27,19 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #9fd3ea; fon
 #quality button { border: 1px solid #0002; background: #fff; border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; color: var(--ink); }
 #quality button.on { background: var(--teal); color: #fff; border-color: var(--teal); }
 #mode { left: 50%; bottom: 18px; transform: translateX(-50%); font: 600 13px ui-monospace, monospace; }
+
+#minimap { position: fixed; left: 12px; bottom: 12px; width: 180px; height: 180px; border-radius: 50%; border: 3px solid #fffd; box-shadow: 0 4px 18px #0005; cursor: pointer; background: #5aa9c9; }
+#bigmap { position: fixed; inset: 0; background: #0f1d26b3; display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 20; }
+.bigmap-panel { background: var(--paper); border-radius: 14px; width: min(1200px, 100%); height: min(860px, 100%); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px #0006; }
+.bigmap-head { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: 1px solid #0001; }
+.bigmap-head h2 { margin: 0; font-size: 18px; }
+#bigmap-hint { flex: 1; color: #456; font-size: 13px; }
+#bigmap-close { border: 0; background: var(--ink); color: #fff; border-radius: 6px; padding: 6px 14px; cursor: pointer; font: inherit; }
+.bigmap-body { flex: 1; display: flex; min-height: 0; }
+#bigmap-canvas { flex: 1; min-width: 0; height: 100%; cursor: crosshair; background: #5aa9c9; }
+.bigmap-side { width: 230px; overflow-y: auto; padding: 12px; border-left: 1px solid #0001; }
+.bigmap-side h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #456; }
+#bigmap-places { display: flex; flex-direction: column; gap: 4px; }
+#bigmap-places button { text-align: left; border: 1px solid #0001; background: #fff; border-radius: 6px; padding: 6px 9px; cursor: pointer; font: inherit; font-size: 13px; color: var(--ink); }
+#bigmap-places button:hover, #bigmap-places button:focus-visible { background: var(--teal); color: #fff; }
+@media (max-width: 700px) { .bigmap-side { display: none; } #minimap { width: 120px; height: 120px; } }

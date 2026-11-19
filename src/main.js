@@ -4,6 +4,7 @@ import { buildCollision } from './collision.js';
 import { createPlayer } from './player.js';
 import { buildGraph, createCrowd, fmtTime, ARCHETYPES } from './npc.js';
 import { buildProps } from './props.js';
+import { createMaps } from './minimap.js';
 import { getQuality, setQuality, PRESETS } from './quality.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -88,7 +89,9 @@ async function main() {
   $('go').onclick = () => player.controls.lock();
   canvas.addEventListener('click', () => { if (!player.controls.isLocked) player.controls.lock(); else inspect(); });
   player.controls.addEventListener('lock', () => $('start').classList.add('hidden'));
-  player.controls.addEventListener('unlock', () => $('start').classList.remove('hidden'));
+  player.controls.addEventListener('unlock', () => { if (!maps.open) $('start').classList.remove('hidden'); });
+  const maps = createMaps({ data, player, camera, crowd, collision, world,
+    onOpenChange: (o) => { if (o) $('start').classList.add('hidden'); else if (!player.controls.isLocked) $('start').classList.remove('hidden'); } });
   addEventListener('keydown', (e) => {
     if (e.code === 'Backquote') $('debug').classList.toggle('hidden');
     if (e.code === 'KeyL') world.labels.visible = !world.labels.visible;
@@ -116,10 +119,11 @@ async function main() {
     const dt = Math.min(0.1, (now - last) / 1000); last = now;
     const simDtH = (dt * rate()) / 3600;
     clock.hour = (clock.hour + simDtH) % 24;
-    player.update(dt);
+    if (!maps.open) player.update(dt); // no walking while the map is open
     lodTimer -= dt; if (lodTimer <= 0) { world.updateLod(player.state.x, player.state.y); lodTimer = 0.25; }
     world.updateShadow(camera); world.updateWater(now / 1000);
     if (props) props.update(camera);
+    maps.update(dt);
     crowd.update(dt, clock.hour, simDtH, player.state);
     renderer.info.reset();
     if (composer) composer.render(); else renderer.render(scene, camera);
@@ -157,7 +161,7 @@ async function main() {
   requestAnimationFrame(frame);
 
   // Test/automation hook (used by tests/e2e.mjs). Read-only use in normal play.
-  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings };
+  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings, maps };
   document.body.dataset.ready = '1';
 }
 
