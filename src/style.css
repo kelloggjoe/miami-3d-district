@@ -21,3 +21,8 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #9fd3ea; fon
 #crosshair { position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px #0007; pointer-events: none; }
 #attrib { position: fixed; right: 8px; bottom: 6px; background: #fffd; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
 #attrib a { color: var(--ink); }
+
+.qrow { margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #456; }
+#quality { display: inline-flex; gap: 4px; }
+#quality button { border: 1px solid #0002; background: #fff; border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; color: var(--ink); }
+#quality button.on { background: var(--teal); color: #fff; border-color: var(--teal); }

@@ -3,6 +3,13 @@ import { buildWorld } from './world.js';
 import { buildCollision } from './collision.js';
 import { createPlayer } from './player.js';
 import { buildGraph, createCrowd, fmtTime, ARCHETYPES } from './npc.js';
+import { buildProps } from './props.js';
+import { getQuality, setQuality, PRESETS } from './quality.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import dataUrl from '../data/district.json?url'; // hashed asset (or inlined data: URL in the single-file build)
 
 const $ = (id) => document.getElementById(id);
@@ -18,18 +25,52 @@ async function main() {
   const t0 = performance.now();
   const data = await loadData();
   const canvas = $('c');
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  const Q = getQuality();
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !Q.post, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, Q.pixelRatio));
   renderer.setSize(innerWidth, innerHeight);
   renderer.info.autoReset = false;
+  if (Q.pbr) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.5; }
+  if (Q.shadows) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.2, 5000);
 
-  const world = buildWorld(scene, data);
-  const collision = buildCollision(data);
+  const timings = {}; let tm = performance.now();
+  const lap = (k) => { const n = performance.now(); timings[k] = Math.round(n - tm); tm = n; };
+  lap('fetch+parse');
+  const world = buildWorld(scene, data, Q, renderer); lap('world');
+  const collision = buildCollision(data); lap('collision');
+  const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows }) : null; lap('props');
+  if (props) collision.addPolys(props.carPolys); // parked cars are solid
   const player = createPlayer(camera, canvas, collision, data.meta.spawn);
   const graph = buildGraph(data.walk, collision);
-  const crowd = createCrowd(scene, data, graph, collision, { count: +(params.get('npcs') || 300) });
+  const crowd = createCrowd(scene, data, graph, collision, { count: +(params.get('npcs') || 300) }); lap('npcs');
+  if (Q.shadows) for (const m of Object.values(crowd.meshes)) m.castShadow = true;
+
+  // High: ambient occlusion + subtle bloom.
+  let composer = null;
+  if (Q.post) {
+    composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const ao = new GTAOPass(scene, camera, innerWidth, innerHeight);
+    ao.updateGtaoMaterial({ radius: 2.0, distanceExponent: 1.5, thickness: 2.0, scale: 1.0 });
+    // Labels (sprites) and transparent glass must not write into the AO depth/normal pass.
+    ao.overrideVisibility = function () {
+      const cache = this._visibilityCache;
+      this.scene.traverse((o) => { cache.set(o, o.visible); if (o.isPoints || o.isLine || o.isSprite || (o.material && o.material.transparent)) o.visible = false; });
+    };
+    composer.addPass(ao);
+    composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.18, 0.5, 0.9));
+    composer.addPass(new OutputPass());
+  }
+
+  // Graphics quality picker (reloads the page).
+  const qBox = $('quality');
+  for (const id of Object.keys(PRESETS)) {
+    const b = document.createElement('button'); b.textContent = PRESETS[id].name; b.className = id === Q.id ? 'on' : '';
+    b.onclick = (e) => { e.stopPropagation(); if (id !== Q.id) setQuality(id); };
+    qBox.appendChild(b);
+  }
 
   // ---- simulated clock ----
   const SPEEDS = [0, 1, 10, 30, 60, 120, 300, 600];
@@ -50,11 +91,12 @@ async function main() {
   addEventListener('keydown', (e) => {
     if (e.code === 'Backquote') $('debug').classList.toggle('hidden');
     if (e.code === 'KeyL') world.labels.visible = !world.labels.visible;
+    if (e.code === 'KeyG') { const ids = Object.keys(PRESETS); setQuality(ids[(ids.indexOf(Q.id) + 1) % ids.length]); }
     if (e.code === 'KeyP') clock.paused = !clock.paused;
     if (e.code === 'BracketLeft') setSpeed(-1);
     if (e.code === 'BracketRight') setSpeed(1);
   });
-  addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+  addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); if (composer) composer.setSize(innerWidth, innerHeight); });
 
   // ---- NPC inspection (center of screen) ----
   const ray = new THREE.Raycaster(); ray.far = 60;
@@ -75,9 +117,11 @@ async function main() {
     clock.hour = (clock.hour + simDtH) % 24;
     player.update(dt);
     lodTimer -= dt; if (lodTimer <= 0) { world.updateLod(player.state.x, player.state.y); lodTimer = 0.25; }
+    world.updateShadow(camera); world.updateWater(now / 1000);
+    if (props) props.update(camera);
     crowd.update(dt, clock.hour, simDtH, player.state);
     renderer.info.reset();
-    renderer.render(scene, camera);
+    if (composer) composer.render(); else renderer.render(scene, camera);
     // HUD
     fps.frames++;
     if (now - fps.t > 500) { fps.value = (fps.frames * 1000) / (now - fps.t); fps.frames = 0; fps.t = now; }
@@ -89,7 +133,7 @@ async function main() {
       $('debug').textContent = [
         `FPS        ${fps.value.toFixed(0)}`, `draw calls ${i.render.calls}`, `triangles  ${i.render.triangles.toLocaleString()}`,
         `position   x ${player.state.x.toFixed(1)}  y ${player.state.y.toFixed(1)} m`, `walked     ${player.state.distance.toFixed(0)} m`,
-        `NPC update ${crowd.metrics.updateMs.toFixed(2)} ms · full-rate ${crowd.metrics.near}`, `paths/s    ${crowd.metrics.pathsPerSec.toFixed(1)}`,
+        `quality    ${Q.name}`, `NPC update ${crowd.metrics.updateMs.toFixed(2)} ms · full-rate ${crowd.metrics.near}`, `paths/s    ${crowd.metrics.pathsPerSec.toFixed(1)}`,
       ].join('\n');
     }
     if (inspected) {
@@ -99,12 +143,13 @@ async function main() {
       $('inspect').classList.toggle('hidden', inspectTimer <= 0);
       if (inspectTimer <= 0) inspected = null;
     }
+    if (!window.__firstFrameMs) { window.__firstFrameMs = performance.now(); document.body.dataset.firstFrame = '1'; }
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 
   // Test/automation hook (used by tests/e2e.mjs). Read-only use in normal play.
-  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps };
+  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings };
   document.body.dataset.ready = '1';
 }
 

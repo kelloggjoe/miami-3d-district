@@ -13,12 +13,22 @@ export function buildCollision(data) {
     polys.push({ r: Float64Array.from(r), x0, y0, x1, y1 });
   }
   const grid = new Map();
-  polys.forEach((p, i) => {
+  const index = (p, i) => {
     for (let gx = Math.floor(p.x0 / CELL); gx <= Math.floor(p.x1 / CELL); gx++)
       for (let gy = Math.floor(p.y0 / CELL); gy <= Math.floor(p.y1 / CELL); gy++) {
         const k = gx * 100000 + gy; (grid.get(k) || grid.set(k, []).get(k)).push(i);
       }
-  });
+  };
+  polys.forEach(index);
+  // Extra solid obstacles added after load (e.g. parked cars). rings: [[x,y],...]
+  function addPolys(rings) {
+    for (const ring of rings) {
+      const r = Float64Array.from(ring.flat());
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      for (const [x, y] of ring) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+      const p = { r, x0, y0, x1, y1, extra: true }; polys.push(p); index(p, polys.length - 1);
+    }
+  }
   const near = (x, y, r) => {
     const out = new Set();
     for (let gx = Math.floor((x - r) / CELL); gx <= Math.floor((x + r) / CELL); gx++)
@@ -106,5 +116,5 @@ export function buildCollision(data) {
     return [x, y];
   }
   const blocked = (x, y, rad = 0.3) => !groundOk(x, y, rad) || insideBuilding(x, y) || pushOut(x, y, rad).some((v, i) => Math.abs(v - (i ? y : x)) > 1e-6);
-  return { move, blocked, insideBuilding, walkableGround, polys, maskSize: [w, h] };
+  return { move, blocked, insideBuilding, walkableGround, polys, addPolys, maskSize: [w, h] };
 }

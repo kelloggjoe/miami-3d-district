@@ -47,8 +47,25 @@ The brief says to proceed with these defaults and flag them. **All five are stil
 | Windows | Procedural floor/window bands in the shader, fading out between 350 and 900 m | No textures and no extra geometry. An `InstancedMesh` per window would cost much more for the same look. |
 | Ground | One canvas texture at 1 px/m (land, parks, beaches) with the river cut out as transparency | Avoids z-fighting between overlapping flat polygons. Roads and paths are separate flat meshes. |
 | Water | One flat plane at -0.6 m with a gray seawall strip along the edges | This is the "flat, simple shader" from the brief. There are no waves or reflections. |
-| Sky and time of day | Fixed daytime lighting | Day/night lighting was not in scope. The simulated clock drives only NPC behavior. |
+| Sky and time of day | Fixed mid-afternoon sun from the south-west | Day/night lighting was not in scope. The simulated clock drives only NPC behavior. |
 | Trees | 1,499 OSM tree nodes as instanced low-poly trees (about 55% palm-like, chosen at random) | OSM has no species data here. |
+
+## Graphics upgrade (requested after v1: tiers 1 and 2)
+
+| Decision | Value | Why |
+|---|---|---|
+| Quality presets | **Low** = the original v1 look. **Medium (default)** = PBR materials, procedural textures, road markings, sky, reflections, sun shadows (2048 map), street props. **High** = Medium plus a 4096 shadow map, ambient occlusion, subtle bloom and a higher pixel ratio. | The 60 FPS target can't be measured here, so slower laptops can drop back to Low. The choice is saved in the browser; the G key or the start-panel buttons switch presets (the page reloads). |
+| Tier 1 included | Shadows, sky and reflections were added along with tier 2 | You approved tier 2. Textures and props look flat without lighting, so the tier 1 lighting went in too, behind the presets. Say if you want it removed. |
+| Textures | Generated in code at load (tileable noise: asphalt, concrete, ground detail, facade grime, water normals) | No downloads, no licensing questions, and no size impact. |
+| Facades | Towers (70 m and up) get curtain-wall glass. Shorter buildings get punched windows; those under 25 m get ground-floor storefronts. Glass is smooth and metallic, so it reflects the sky. | This is still procedural, not real facade data. |
+| Road markings | Drawn in the road shader: double yellow center line and white edge/lane lines on primary/secondary/tertiary roads, dashed white center line on local roads 6 m or wider, zebra stripes on OSM crossings, slab joints on sidewalks | Built from road type and width. They don't follow real lane counts or turn lanes. |
+| Lighting | ACES tone mapping at exposure 0.5, sun 5.5, sky environment 0.45, hemisphere 0.5 | Tuned by eye on software-rendered screenshots. **May need retuning on a real display.** |
+| Shadows | One shadow map, about 640 m square, that follows the camera's view and snaps to texels | Cheaper than cascaded shadows. Distant buildings have no shadows. |
+| Trees | OSM tree nodes. About 55% are palms (curved trunk, 9 fronds) and the rest are shade trees, chosen at random. | OSM has no species data here. |
+| Street lamps | 41 from OSM, plus **701 generated** every 38 m along both sides of primary/secondary/tertiary roads | **Decorative, not from data.** OSM has very few lamps mapped here. |
+| Benches, bus shelters | From OSM bench (39) and bus-stop (100 placed) nodes. Shelters are set back from the nearest road edge, facing it. | |
+| Parked cars | **500 generated** in curb lanes of residential, tertiary, secondary and unclassified streets 7 m or wider. None within 6 m of a crossing road, 5 m of a crosswalk, or 18 m of a bus stop. | **Decorative, not from data** (the brief allowed static parked cars). They block the player and NPCs. |
+| Prop culling | Props are split into 250 m chunks (241 instanced meshes). Chunks farther than about 650 m (more when viewed from above) are hidden. | The first version, without chunks, drew about 1.5M triangles per frame. |
 
 ## Movement and collision
 

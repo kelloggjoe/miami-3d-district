@@ -22,14 +22,17 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
   await page.goto(`http://localhost:${PORT}/${query}`);
   await page.waitForSelector('body[data-ready="1"]', { timeout: 90_000 });
   const readyMs = Date.now() - t0;
+  await page.waitForSelector('body[data-first-frame="1"]', { timeout: 90_000 });
+  const firstFrameMs = Date.now() - t0;
   await page.evaluate(() => document.getElementById('start').classList.add('hidden'));
-  return { page, errors, readyMs };
+  return { page, errors, readyMs, firstFrameMs };
 }
 
 // ---------------------------------------------------------------- walking
 {
-  const { page, errors, readyMs } = await open('?npcs=0');
-  results.loadToReadyMs = readyMs;
+  const { page, errors, readyMs, firstFrameMs } = await open('?npcs=0');
+  results.loadToReadyMs = readyMs; results.loadToFirstFrameMs = firstFrameMs;
+  results.loadTimings = await page.evaluate(() => window.__miami.timings);
   results.walking = await page.evaluate(() => {
     const m = window.__miami, P = m.player, S = P.state, C = m.collision;
     const EYE = 1.7, dt = 1 / 60;
@@ -175,8 +178,8 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
 }
 
 // ---------------------------------------------------------------- performance + screenshots
-async function perf(npcs, viewport) {
-  const { page, errors } = await open(`?npcs=${npcs}&hour=12`, viewport);
+async function perf(npcs, viewport, quality = 'medium') {
+  const { page, errors } = await open(`?npcs=${npcs}&hour=12&quality=${quality}`, viewport);
   const views = {
     'street, Brickell area': [-165, -585, 1.7, 0.45, 0.02],
     'street, Bayfront Park (spawn)': null,
@@ -204,11 +207,18 @@ async function perf(npcs, viewport) {
   await page.close();
   return out;
 }
-results.performance = { npc200: await perf(200), npc400: await perf(400), npc300_1080p: await perf(300, { width: 1920, height: 1080 }) };
+results.performance = {
+  low_npc300: await perf(300, undefined, 'low'),
+  medium_npc200: await perf(200, undefined, 'medium'),
+  medium_npc400: await perf(400, undefined, 'medium'),
+  high_npc300: await perf(300, undefined, 'high'),
+  medium_npc300_1080p: await perf(300, { width: 1920, height: 1080 }, 'medium'),
+};
 
 // screenshots for the milestone review
 {
-  const { page } = await open('?npcs=300&hour=12.5');
+  const { page } = await open('?npcs=300&hour=12.5&quality=medium');
+  results.props = await page.evaluate(() => window.__miami.props && window.__miami.props.stats);
   // Street-level spot: a Brickell Avenue sidewalk point near y = -700, looking north-east along the avenue.
   const bk = await page.evaluate(() => {
     const m = window.__miami; let best = null;
@@ -219,10 +229,10 @@ results.performance = { npc200: await perf(200), npc400: await perf(400), npc300
     const off = best.w / 2 + 2; const x = best.x + uy * off, y = best.y - ux * off;
     return [x, y, 1.7, Math.atan2(-ux, uy), 0.05];
   });
-  const shots = { 'view-aerial': [250, -2300, 750, 0.12, -0.42], 'view-brickell-ave': bk, 'view-downtown-aerial': [700, 300, 350, 1.25, -0.35] };
+  const shots = { 'view-aerial': [250, -2300, 750, 0.12, -0.42], 'view-brickell-ave': bk, 'view-downtown-aerial': [700, 300, 350, 1.25, -0.35], 'quality-medium': [-186.4, -700, 1.7, -0.45, 0.05], 'view-parked-cars': [-300, -1230, 1.7, -1.75, -0.02] };
   for (const [name, v] of Object.entries(shots)) {
-    await page.evaluate((v) => { const m = window.__miami; m.player.update = function () {}; m.player.state.x = v[0]; m.player.state.y = v[1]; m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ'); }, v);
-    await page.waitForTimeout(2500);
+    await page.evaluate((v) => { const m = window.__miami; m.player.update = function () {}; m.player.state.x = v[0]; m.player.state.y = v[1]; m.world.updateLod(v[0], v[1]); m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ'); }, v);
+    await page.waitForTimeout(3500);
     await page.screenshot({ path: `docs/${name}.png` });
   }
   // Crowd close-up: densest 40 m cell of outdoor NPCs, viewed from 18 m away at eye level.
@@ -244,6 +254,14 @@ results.performance = { npc200: await perf(200), npc400: await perf(400), npc300
   await page.close();
 }
 
+// Same street view at each quality, for comparison.
+for (const q of ['low', 'high']) {
+  const { page } = await open(`?npcs=300&hour=12.5&quality=${q}`);
+  await page.evaluate(() => { const m = window.__miami; m.player.update = function () {}; const v = [-186.4, -700, 1.7, -0.45, 0.05]; m.player.state.x = v[0]; m.player.state.y = v[1]; m.world.updateLod(v[0], v[1]); m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ'); });
+  await page.waitForTimeout(3000);
+  await page.screenshot({ path: `docs/quality-${q}.png` });
+  await page.close();
+}
 const sizes = {};
 for (const f of fs.readdirSync('dist/assets')) sizes[f] = fs.statSync(`dist/assets/${f}`).size;
 results.buildSizes = { ...sizes, totalBytes: Object.values(sizes).reduce((a, b) => a + b, 0) };

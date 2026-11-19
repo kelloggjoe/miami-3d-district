@@ -10,6 +10,18 @@ A stylized, walkable, first-person 3D model of Downtown and Brickell, Miami, bui
 
 2D check map of the processed data: [`docs/map-preview.png`](docs/map-preview.png)
 
+### Graphics quality
+
+Pick **Low**, **Medium** (default) or **High** on the start panel, or press **G**. The choice is saved in the browser.
+
+| Low (original stylized look) | Medium | High |
+|---|---|---|
+| ![](docs/quality-low.png) | ![](docs/quality-medium.png) | ![](docs/quality-high.png) |
+
+- **Medium:** realistic materials and reflective glass, generated textures, painted road markings, a sky, sun shadows, palms and shade trees, street lamps, benches, bus shelters and parked cars.
+- **High:** adds sharper shadows, ambient occlusion and a little bloom.
+- **If it stutters,** use Low. Frame rates on real GPUs have not been measured yet (see TESTING.md).
+
 ## Run it
 
 Requires Node 20 or newer.
@@ -47,10 +59,11 @@ npm run dev            # http://localhost:5173
 | R | Return to Bayfront Park |
 | P, [ , ] | Pause the clock, slower, faster (1× to 600×) |
 | L | Labels on/off |
+| G | Next graphics quality (reloads) |
 | ` (backtick) | Debug overlay: FPS, draw calls, triangles, position, NPC timing |
 | Esc | Release the mouse |
 
-URL options: `?npcs=200` (0 to 400) and `?hour=17.5` (start time).
+URL options: `?npcs=200` (0 to 400), `?hour=17.5` (start time), `?quality=low|medium|high`.
 
 ## How it works
 
@@ -65,7 +78,10 @@ data/
   district.json      processed data the app loads (0.87 MB)
   landmarks.json     hand-editable landmark heights and labels
 src/
-  world.js           merged chunk meshes, LOD boxes, window shader, ground texture, roads, rail, trees, labels
+  world.js           merged chunk meshes, LOD boxes, facade/road shaders, sky, shadows, water, ground, rail, labels
+  props.js           palms, trees, lamps, benches, bus shelters, parked cars (chunked instancing)
+  textures.js        procedural tileable textures
+  quality.js         Low / Medium / High presets
   collision.js       footprint polygons in a grid + 1 m land/water raster; sliding movement
   player.js          pointer-lock first-person controller
   npc.js             walk graph + A*, routines, separation steering, instanced procedural bodies
@@ -84,7 +100,7 @@ tests/e2e.mjs        automated acceptance checks
 
 ## Future work (out of scope for v1)
 
-Photorealistic textures or photogrammetry, traffic simulation, talking NPCs, multiplayer, building interiors. Also possible: day/night lighting tied to the clock, real curb heights and terrain, touch controls for mobile.
+Photorealistic textures or photogrammetry, traffic simulation, talking NPCs, multiplayer, building interiors. Also possible: day/night lighting tied to the clock, real curb heights and terrain, touch controls for mobile, and an optional Google Photorealistic 3D Tiles mode (needs an API key; see the discussion in DECISIONS.md).
 
 ## License and attribution
 

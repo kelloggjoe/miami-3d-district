@@ -1,6 +1,6 @@
 # Testing
 
-All checks are automated in `tests/e2e.mjs` and run against the production build in headless Chromium. Raw output is in `docs/test-results.json`. Last run: 2026-11-19.
+All checks are automated in `tests/e2e.mjs` and run against the production build in headless Chromium. Raw output is in `docs/test-results.json`. Last run: 2026-11-19, after the graphics upgrade. Walking and NPC checks run at the default **Medium** quality.
 
 ```
 npm run build && npm run test:e2e
@@ -25,10 +25,10 @@ npm run build && npm run test:e2e
 |---|---|
 | View from above | `docs/view-aerial.png`, `docs/view-downtown-aerial.png`. **Pass (visual)** |
 | Street level near Brickell Avenue | `docs/view-brickell-ave.png`. **Pass (visual)** |
-| Draw calls (budget 1,500) | **77–150** across street, park and aerial views. **Pass** |
+| Draw calls (budget 1,500) | Low 77–150, Medium 184–227, High 369–446. **Pass** |
 | Triangles per frame | 134k–150k |
-| JavaScript + data (budget 15 MB) | **1.63 MB** total (JS 718 KB, data 908 KB, CSS 2 KB). Single-file build: 1.93 MB. **Pass** |
-| Load to ready (budget 5 s) | **2.0 s** from navigation to ready, served locally with software rendering. **Untested over a real broadband connection.** About 465 KB gzipped would need to be downloaded. |
+| JavaScript + data (budget 15 MB) | **1.71 MB** total. Textures are generated in code, so there are no image downloads. **Pass** |
+| Load time (budget 5 s) | The app's own setup takes **0.3 s** of main-thread work on Medium (world 192 ms, collision 51 ms, props 57 ms, NPCs 7 ms). Wall-clock time to the first rendered frame with software rendering: **11.4 s on Medium** (the earlier Low-only build was 2.0 s). Almost all of that is shader compiling and the first shadow render on the CPU. **Untested on a real GPU and over a real network.** About 490 KB gzipped would need to be downloaded. |
 | Console errors | 0 in every run |
 
 ## Milestone 3: walking
@@ -52,25 +52,51 @@ Scripted walker: it steers toward each waypoint in 1/60 s steps through the real
 
 | Check | Result |
 |---|---|
-| NPCs never inside buildings | **6 of 7,530 position checks (0.08%)** were inside a footprint. **Known issue**: most likely separation steering or corner-cutting on very short segments. Down from 124 before walk edges through buildings were removed. |
-| NPCs never on water | 0 of 7,530. **Pass** |
-| NPCs stay on sidewalks / paths | 1 of 7,530 was more than its allowed corridor from a walk edge (worst 1.6 m beyond). 99th percentile is 1.4 m *inside* the corridor. Corridor = on a footway (2.5 m) or beside a road (half width + 3 m). **Pass** |
+| NPCs never inside buildings or parked cars | **2 of 7,421 position checks (0.03%)** were inside a footprint. **Known issue**: most likely separation steering or corner-cutting on very short segments. |
+| NPCs never on water | 0 of 7,421. **Pass** |
+| NPCs stay on sidewalks / paths | 2 of 7,421 were more than their allowed corridor from a walk edge (worst 6.7 m beyond). 99th percentile is 1.4 m *inside* the corridor. **Pass** |
 | Activity changes with the clock | **Pass**. Most common activity: 8 AM "Heading to work" (97) → noon "Getting lunch" (64) → 2 PM "Back to the office" (126) → 6 PM "Heading to the station" (76) → 8 PM "Going home" (133). Outdoor count goes from 161 at 6 AM to 260 at 8 PM to 171 at 10 PM. |
 | Click to inspect | Raycasts from the screen center to NPC bodies and shows a label like "Commuter #12, Heading to lunch, 12:40 PM". **Untested by automation** (needs pointer lock). |
 
-### Performance with 200 and 400 NPCs (1280×720)
+### Performance by graphics quality (1280×720 unless noted)
 
-| Scene | NPCs | Draw calls | Triangles | NPC update (CPU) | FPS (software GL) |
+Triangle counts include the shadow pass on Medium/High, and the extra post-processing passes on High.
+
+| Preset / NPCs | Scene | Draw calls | Triangles | NPC update (CPU) | FPS (software GL) |
 |---|---|---|---|---|---|
-| Street, Brickell area | 200 | 107 | 134,700 | 1.96 ms | 4.9 |
-| Street, Bayfront Park | 200 | 77 | 133,989 | 0.67 ms | 5.7 |
-| Aerial, whole district | 200 | 150 | 135,812 | 0.59 ms | 5.9 |
-| Street, Brickell area | 400 | 107 | 149,100 | 3.87 ms | 4.3 |
-| Street, Bayfront Park | 400 | 77 | 148,389 | 1.21 ms | 5.2 |
-| Aerial, whole district | 400 | 150 | 150,212 | 0.91 ms | 5.3 |
-| Street, Brickell area, 1920×1080 | 300 | 107 | 141,900 | 3.66 ms | 3.0 |
+| Low, 300 NPCs | street, Brickell area | 107 | 141,900 | 2.06 ms | 4.7 |
+| Low, 300 NPCs | street, Bayfront Park (spawn) | 77 | 141,189 | 0.78 ms | 5.5 |
+| Low, 300 NPCs | aerial, whole district | 150 | 143,012 | 1.41 ms | 5.4 |
+| Medium, 200 NPCs | street, Brickell area | 227 | 219,029 | 2.93 ms | 1.5 |
+| Medium, 200 NPCs | street, Bayfront Park (spawn) | 184 | 287,481 | 1.74 ms | 1.5 |
+| Medium, 200 NPCs | aerial, whole district | 213 | 129,114 | 0.99 ms | 2.6 |
+| Medium, 400 NPCs | street, Brickell area | 227 | 247,829 | 6.35 ms | 1.4 |
+| Medium, 400 NPCs | street, Bayfront Park (spawn) | 184 | 316,281 | 3.31 ms | 1.4 |
+| Medium, 400 NPCs | aerial, whole district | 213 | 157,914 | 2.09 ms | 2.5 |
+| High, 300 NPCs | street, Brickell area | 446 | 466,628 | 4.37 ms | 0.9 |
+| High, 300 NPCs | street, Bayfront Park (spawn) | 369 | 603,496 | 3.15 ms | 0.9 |
+| High, 300 NPCs | aerial, whole district | 408 | 286,702 | 2.1 ms | 1.2 |
+| Medium, 300 NPCs, 1920×1080 | street, Brickell area | 227 | 233,429 | 4.28 ms | 0.8 |
+| Medium, 300 NPCs, 1920×1080 | street, Bayfront Park (spawn) | 184 | 301,881 | 2.67 ms | 0.9 |
+| Medium, 300 NPCs, 1920×1080 | aerial, whole district | 213 | 143,514 | 2.36 ms | 1.8 |
 
-Reading the numbers: going from 200 to 400 NPCs adds about 15k triangles, adds no draw calls (the crowd is always 6 instanced draws), and adds up to about 1.9 ms of CPU per frame. On a GPU, about 150k triangles in 150 draw calls is a light load. **That still needs to be confirmed on real hardware: open the app, press the backtick key, and read FPS.**
+Reading the numbers:
+- **Draw calls** stay far under the 1,500 budget on every preset: at most 227 on Medium and 446 on High.
+- **Triangles:** Medium draws about 130k–320k, about 1.5–2× Low.
+- **NPCs:** going from 200 to 400 NPCs adds no draw calls and a few ms of CPU time.
+- **FPS:** software rendering is about 3–5× slower on Medium than Low. Expect a smaller gap on a real GPU, but **the 60 FPS target on a laptop is UNTESTED for every preset.**
+
+An earlier Medium build drew about 1.5M triangles per frame because every street prop was one instanced mesh covering the whole city. Splitting the props into 250 m chunks with frustum culling, plus hiding props beyond about 650 m and simplifying the tree and car models, brought that down to the numbers above.
+
+## Graphics upgrade (tiers 1 and 2)
+
+| Check | Result |
+|---|---|
+| All three presets load with no console errors | Low, Medium and High. **Pass** |
+| Walking and NPC checks still pass with parked cars as solid obstacles | Brickell Ave, Bayfront Park loop, wall sliding, water and jump all pass on Medium. **Pass** |
+| Props placed | 818 palms, 681 shade trees, 742 street lamps (41 from OSM, 701 generated), 39 benches, 100 bus shelters, 500 parked cars |
+| Visual comparison | `docs/quality-low.png`, `docs/quality-medium.png`, `docs/quality-high.png` (same spot), plus `docs/view-parked-cars.png` |
+| High preset labels | Labels render, but slightly faded because the final post-processing pass tone-maps them. **Known cosmetic issue.** |
 
 ## Milestone 5: polish
 
@@ -82,7 +108,8 @@ Reading the numbers: going from 200 to 400 NPCs adds about 15k triangles, adds n
 
 ## Not tested
 
-- Real GPU frame rate (60 FPS target)
+- Real GPU frame rate (60 FPS target) for each quality preset
+- How the graphics look on a real GPU and display (all screenshots are software-rendered)
 - Load time over the network
 - Pointer-lock mouse look and click-to-inspect (needs a real user gesture)
 - Browsers other than Chromium
