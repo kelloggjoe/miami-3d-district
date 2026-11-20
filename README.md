@@ -1,6 +1,6 @@
-# Miami 3D: Downtown and Brickell
+# Miami 3D District
 
-A stylized, walkable (and flyable), first-person 3D model of Downtown and Brickell, Miami, built in the browser with Three.js from OpenStreetMap data. You can walk Brickell Avenue, cross the Miami River, loop around Bayfront Park, and watch about 300 people follow daily routines on a simulated clock.
+A stylized, walkable (and flyable), first-person 3D model of central Miami: a 6 × 6 km area centered on Axis at Brickell Village. It covers Brickell, Downtown, Brickell Key, Little Havana, Overtown, The Roads, PortMiami and the start of the Rickenbacker Causeway. It's built in the browser with Three.js from OpenStreetMap data. You can walk Brickell Avenue, cross the Miami River, loop around Bayfront Park, and watch about 300 people follow daily routines on a simulated clock.
 
 ![Downtown and Bayfront Park from above](docs/view-downtown-aerial.png)
 
@@ -34,7 +34,7 @@ npm run dev            # http://localhost:5173
 | Command | What it does |
 |---|---|
 | `npm run dev` | Development server with hot reload |
-| `npm run build` | Static site in `dist/` (about 1.6 MB, any static host works) |
+| `npm run build` | Static site in `dist/` (about 6 MB, any static host works) |
 | `npm run build:single` | One self-contained `dist-single/index.html` (about 1.9 MB) for sharing as a file |
 | `npm run preview` | Serves `dist/` locally |
 | `npx vite build --mode artifact` | One page with the code inlined plus `district.json` beside it, for hosting as a claude.ai Artifact |
@@ -97,7 +97,7 @@ pipeline/            Node scripts: fetch -> clean -> project -> heights -> walk 
   preview.mjs        top-down SVG/PNG check map
   run.mjs            one-command entry point; writes data/district.json and docs/pipeline-report.json
 data/
-  district.json      processed data the app loads (0.87 MB)
+  district.json      processed data the app loads (4.9 MB)
   landmarks.json     hand-editable landmark heights and labels
 src/
   world.js           merged chunk meshes, LOD boxes, facade/road shaders, sky, shadows, water, ground, rail, labels

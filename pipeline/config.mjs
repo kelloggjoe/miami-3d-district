@@ -1,5 +1,9 @@
 // Single source of truth for the pipeline. See DECISIONS.md for why each value was chosen.
-export const BBOX = { south: 25.755, west: -80.197, north: 25.786, east: -80.182 };
+// Centered on Axis at Brickell Village (25.76323, -80.19443), extending 3 km in every direction:
+// Brickell, Downtown, Brickell Key, Little Havana (east), Overtown, The Roads, south Edgewater.
+// v1 used S 25.755, W -80.197, N 25.786, E -80.182 (Downtown + Brickell only).
+export const CENTER = { name: 'Axis at Brickell Village', lat: 25.76323, lon: -80.19443 };
+export const BBOX = { south: 25.7363, west: -80.2244, north: 25.7902, east: -80.1645 };
 
 export const OVERPASS_ENDPOINTS = [
   'https://overpass-api.de/api/interpreter',

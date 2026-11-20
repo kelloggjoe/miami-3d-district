@@ -35,7 +35,7 @@ async function main() {
   if (Q.pbr) { renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.5; }
   if (Q.shadows) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.2, 5000);
+  const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.2, 9000);
 
   const timings = {}; let tm = performance.now();
   const lap = (k) => { const n = performance.now(); timings[k] = Math.round(n - tm); tm = n; };

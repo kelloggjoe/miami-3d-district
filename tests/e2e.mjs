@@ -6,6 +6,12 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 
 const { chromium } = createRequire(import.meta.url)('playwright');
+// Camera spots below were chosen in the v1 coordinate frame (origin 25.7705, -80.1895). V() shifts them into the
+// current data frame so they stay on the same streets whatever the bounding box is.
+const META = JSON.parse(fs.readFileSync('data/district.json', 'utf8')).meta;
+const KX = Math.cos(META.origin.lat * Math.PI / 180) * 6371008.8 * Math.PI / 180, KY = 6371008.8 * Math.PI / 180;
+const OFF = [(-80.1895 - META.origin.lon) * KX, (25.7705 - META.origin.lat) * KY];
+const V = (x, y, ...rest) => [x + OFF[0], y + OFF[1], ...rest];
 const PORT = 4179;
 const server = spawn('npx', ['vite', 'preview', '--port', String(PORT), '--strictPort'], { stdio: 'ignore' });
 await new Promise((r) => setTimeout(r, 2500));
@@ -65,15 +71,23 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
       out.pass = out.stuck.length === 0 && out.minEyeHeight >= EYE - 1e-6 && !out.insideBuildingSamples && !out.onWaterSamples;
       return out;
     }
-    // Brickell Avenue: all centerline points of ways named "Brickell Avenue", ordered south to north.
-    const pts = [];
-    for (const r of m.data.roads) if (r.n === 'Brickell Avenue') for (let i = 0; i < r.c.length; i += 2) pts.push([r.c[i], r.c[i + 1]]);
-    // order along the avenue's main axis (PCA)
-    const mx = pts.reduce((s, p) => s + p[0], 0) / pts.length, my = pts.reduce((s, p) => s + p[1], 0) / pts.length;
-    let sxx = 0, sxy = 0, syy = 0; for (const [x, y] of pts) { sxx += (x - mx) ** 2; sxy += (x - mx) * (y - my); syy += (y - my) ** 2; }
-    const ang = 0.5 * Math.atan2(2 * sxy, sxx - syy), ux = Math.cos(ang), uy = Math.sin(ang);
-    pts.sort((a, b) => (a[0] * ux + a[1] * uy) - (b[0] * ux + b[1] * uy));
-    if (pts[0][1] > pts[pts.length - 1][1]) pts.reverse();
+    // Brickell Avenue: follow the connected centerline of the ways named "Brickell Avenue" from its
+    // southernmost point to its northernmost point (shortest path along the avenue's own geometry).
+    const key = (x, y) => `${Math.round(x)},${Math.round(y)}`;
+    const nodes = new Map(), adj = new Map();
+    for (const r of m.data.roads) if (r.n === 'Brickell Avenue') for (let i = 0; i < r.c.length - 2; i += 2) {
+      const a = key(r.c[i], r.c[i + 1]), b = key(r.c[i + 2], r.c[i + 3]);
+      nodes.set(a, [r.c[i], r.c[i + 1]]); nodes.set(b, [r.c[i + 2], r.c[i + 3]]);
+      (adj.get(a) || adj.set(a, []).get(a)).push(b); (adj.get(b) || adj.set(b, []).get(b)).push(a);
+    }
+    const ks = [...nodes.keys()].sort((a, b) => nodes.get(a)[1] - nodes.get(b)[1]);
+    const src = ks[0], dst = ks.at(-1), dist = new Map([[src, 0]]), prev = new Map(), todo = new Set([src]);
+    while (todo.size) {
+      let u = null; for (const k of todo) if (u === null || dist.get(k) < dist.get(u)) u = k;
+      todo.delete(u); if (u === dst) break;
+      for (const v of adj.get(u) || []) { const d = dist.get(u) + Math.hypot(nodes.get(u)[0] - nodes.get(v)[0], nodes.get(u)[1] - nodes.get(v)[1]); if (!dist.has(v) || d < dist.get(v)) { dist.set(v, d); prev.set(v, u); todo.add(v); } }
+    }
+    const pts = []; for (let k = dst; k; k = prev.get(k)) pts.unshift(nodes.get(k));
     // Skip points within 3 m of the modeled edge (the avenue continues beyond the bounding box).
     const ext = m.data.meta.extent, inner = (p) => p[0] > ext.minX + 3 && p[0] < ext.maxX - 3 && p[1] > ext.minY + 3 && p[1] < ext.maxY - 3;
     const ptsIn = pts.filter(inner);
@@ -268,9 +282,9 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
 async function perf(npcs, viewport, quality = 'medium') {
   const { page, errors } = await open(`?npcs=${npcs}&hour=12&quality=${quality}`, viewport);
   const views = {
-    'street, Brickell area': [-165, -585, 1.7, 0.45, 0.02],
+    'street, Brickell area': V(-165, -585, 1.7, 0.45, 0.02),
     'street, Bayfront Park (spawn)': null,
-    'aerial, whole district': [250, -2300, 750, 0.12, -0.42],
+    'aerial, whole district': [0, -4300, 1500, 0.0, -0.36],
   };
   const out = {};
   for (const [name, v] of Object.entries(views)) {
@@ -316,7 +330,7 @@ results.performance = {
     const off = best.w / 2 + 2; const x = best.x + uy * off, y = best.y - ux * off;
     return [x, y, 1.7, Math.atan2(-ux, uy), 0.05];
   });
-  const shots = { 'view-aerial': [250, -2300, 750, 0.12, -0.42], 'view-brickell-ave': bk, 'view-downtown-aerial': [700, 300, 350, 1.25, -0.35], 'quality-medium': [-186.4, -700, 1.7, -0.45, 0.05], 'view-parked-cars': [-300, -1230, 1.7, -1.75, -0.02] };
+  const shots = { 'view-aerial': [0, -4300, 1500, 0.0, -0.36], 'view-axis-aerial': [-350, -700, 320, -0.55, -0.42], 'view-little-havana': [-2050, 250, 30, 1.9, -0.18], 'view-brickell-ave': bk, 'view-downtown-aerial': V(700, 300, 350, 1.25, -0.35), 'quality-medium': V(-186.4, -700, 1.7, -0.45, 0.05), 'view-parked-cars': V(-300, -1230, 1.7, -1.75, -0.02) };
   for (const [name, v] of Object.entries(shots)) {
     await page.evaluate((v) => { const m = window.__miami; m.player.update = function () {}; m.player.state.x = v[0]; m.player.state.y = v[1]; m.world.updateLod(v[0], v[1]); m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ'); }, v);
     await page.waitForTimeout(3500);
@@ -349,7 +363,7 @@ results.performance = {
 // Same street view at each quality, for comparison.
 for (const q of ['low', 'high']) {
   const { page } = await open(`?npcs=300&hour=12.5&quality=${q}`);
-  await page.evaluate(() => { const m = window.__miami; m.player.update = function () {}; const v = [-186.4, -700, 1.7, -0.45, 0.05]; m.player.state.x = v[0]; m.player.state.y = v[1]; m.world.updateLod(v[0], v[1]); m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ'); });
+  await page.evaluate((v) => { const m = window.__miami; m.player.update = function () {}; m.player.state.x = v[0]; m.player.state.y = v[1]; m.world.updateLod(v[0], v[1]); m.camera.position.set(v[0], v[2], -v[1]); m.camera.rotation.set(v[4], v[3], 0, 'YXZ'); }, V(-186.4, -700, 1.7, -0.45, 0.05));
   await page.waitForTimeout(3000);
   await page.screenshot({ path: `docs/quality-${q}.png` });
   await page.close();

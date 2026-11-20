@@ -185,7 +185,7 @@ export function buildProps(scene, data, collision, { castShadow = true } = {}) {
   for (const r of data.roads) {
     if (!['primary', 'secondary', 'tertiary'].includes(r.t) || r.w < 8 || r.b) continue;
     let acc = 19;
-    for (let i = 0; i < r.c.length - 2 && lamps.length < 900; i += 2) {
+    for (let i = 0; i < r.c.length - 2 && lamps.length < 3000; i += 2) {
       const ax = r.c[i], ay = r.c[i + 1], dx = r.c[i + 2] - ax, dy = r.c[i + 3] - ay, L = Math.hypot(dx, dy);
       for (; acc < L; acc += 38) for (const side of [1, -1]) {
         const ux = dx / L, uy = dy / L, off = r.w / 2 + 0.9;
@@ -255,7 +255,7 @@ export function buildProps(scene, data, collision, { castShadow = true } = {}) {
         list.push({ x, y, rot: facing(ux * side, uy * side), color: PAINT[Math.floor(rand() * PAINT.length)] });
         const hl = (suv ? 4.8 : 4.6) / 2, hw = (suv ? 1.9 : 1.8) / 2;
         carPolys.push([[x - ux * hl - uy * hw, y - uy * hl + ux * hw], [x + ux * hl - uy * hw, y + uy * hl + ux * hw], [x + ux * hl + uy * hw, y + uy * hl - ux * hw], [x - ux * hl + uy * hw, y - uy * hl - ux * hw]]);
-        if (carPolys.length >= 500) break outer;
+        if (carPolys.length >= 1500) break outer;
       }
       acc -= L;
     }

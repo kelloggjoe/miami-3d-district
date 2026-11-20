@@ -1,35 +1,238 @@
 {
   "_readme": "Human-editable landmark list. 'match' is a case-insensitive regex tested against the OSM name tag of buildings (and building parts). 'height_m' overrides the height of the tallest matched element; null means label only (OSM height kept). 'verified' must be set to true by a person after checking 'source'. Heights here are the commonly published architectural heights; they were entered from published figures but NOT re-verified online during the build. See DECISIONS.md.",
   "landmarks": [
-    { "name": "Panorama Tower", "match": "^Panorama Tower$", "height_m": 265, "source": "Published architectural height 868 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "Aston Martin Residences", "match": "^Aston Martin Residences$", "height_m": 249, "source": "Published architectural height 817 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "Four Seasons Hotel Miami", "match": "^Four Seasons Hotel Miami$", "height_m": 240, "source": "Published architectural height 789 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "Southeast Financial Center", "match": "^Southeast Financial Center$", "height_m": 233, "source": "Published architectural height 764 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "One Thousand Museum", "match": "^One Thousand Museum$", "height_m": 215, "source": "Published architectural height 709 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "Marquis Miami", "match": "^Marquis Miami$", "height_m": 207, "source": "Published architectural height 679 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "Wells Fargo Center", "match": "^Wells Fargo Center$", "height_m": 200, "source": "Published architectural height 657 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "900 Biscayne Bay", "match": "^900 Biscayne Bay$", "height_m": 198, "source": "Published architectural height 650 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "Miami Tower", "match": "^Miami Tower$", "height_m": 191, "source": "Published architectural height 625 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "1450 Brickell", "match": "^1450 Brickell$", "height_m": 179, "source": "Published architectural height 586 ft (Wikipedia / CTBUH)", "verified": false },
-    { "name": "Freedom Tower", "match": "^Freedom Tower", "height_m": 78, "source": "Published height 255 ft (Wikipedia; National Historic Landmark)", "verified": false },
-    { "name": "Brickell Flatiron", "match": "^Flatiron Building$", "height_m": null, "source": "Label only. OSM name is 'Flatiron Building'; keep OSM height until verified.", "verified": false },
-    { "name": "Brickell City Centre", "match": "^Brickell City Centre$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Brickell World Plaza", "match": "^Brickell World Plaza$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Icon Brickell", "match": "^Icon Brickell North Tower$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Echo Brickell", "match": "^Echo Brickell$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Kaseya Center", "match": "^Kaseya Center$", "height_m": null, "source": "Label only (arena)", "verified": false },
-    { "name": "Bayside Marketplace", "match": "^Bayside Marketplace$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Miami-Dade County Courthouse", "match": "^Miami-Dade County Courthouse$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Gesu Church", "match": "^Gesu Church$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Ten Museum Park", "match": "^Ten Museum Park$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Citigroup Center", "match": "^Citigroup Center$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "HistoryMiami Museum", "match": "^HistoryMiami Museum$", "height_m": null, "source": "Label only", "verified": false },
-    { "name": "Mary Brickell Village", "match": "^The Shops at Mary Brickell Village$", "height_m": null, "source": "Label only", "verified": false }
+    {
+      "name": "Axis at Brickell Village",
+      "match": "^Axis at Brickell Village$",
+      "height_m": null,
+      "source": "Label only; map center. The podium between the towers has no OSM height (default used); the two towers are 127 m from OSM.",
+      "verified": false
+    },
+    {
+      "name": "Panorama Tower",
+      "match": "^Panorama Tower$",
+      "height_m": 265,
+      "source": "Published architectural height 868 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "Aston Martin Residences",
+      "match": "^Aston Martin Residences$",
+      "height_m": 249,
+      "source": "Published architectural height 817 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "Four Seasons Hotel Miami",
+      "match": "^Four Seasons Hotel Miami$",
+      "height_m": 240,
+      "source": "Published architectural height 789 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "Southeast Financial Center",
+      "match": "^Southeast Financial Center$",
+      "height_m": 233,
+      "source": "Published architectural height 764 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "One Thousand Museum",
+      "match": "^One Thousand Museum$",
+      "height_m": 215,
+      "source": "Published architectural height 709 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "Marquis Miami",
+      "match": "^Marquis Miami$",
+      "height_m": 207,
+      "source": "Published architectural height 679 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "Wells Fargo Center",
+      "match": "^Wells Fargo Center$",
+      "height_m": 200,
+      "source": "Published architectural height 657 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "900 Biscayne Bay",
+      "match": "^900 Biscayne Bay$",
+      "height_m": 198,
+      "source": "Published architectural height 650 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "Miami Tower",
+      "match": "^Miami Tower$",
+      "height_m": 191,
+      "source": "Published architectural height 625 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "1450 Brickell",
+      "match": "^1450 Brickell$",
+      "height_m": 179,
+      "source": "Published architectural height 586 ft (Wikipedia / CTBUH)",
+      "verified": false
+    },
+    {
+      "name": "Freedom Tower",
+      "match": "^Freedom Tower",
+      "height_m": 78,
+      "source": "Published height 255 ft (Wikipedia; National Historic Landmark)",
+      "verified": false
+    },
+    {
+      "name": "Brickell Flatiron",
+      "match": "^Flatiron Building$",
+      "height_m": null,
+      "source": "Label only. OSM name is 'Flatiron Building'; keep OSM height until verified.",
+      "verified": false
+    },
+    {
+      "name": "Brickell City Centre",
+      "match": "^Brickell City Centre$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Brickell World Plaza",
+      "match": "^Brickell World Plaza$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Icon Brickell",
+      "match": "^Icon Brickell North Tower$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Echo Brickell",
+      "match": "^Echo Brickell$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Kaseya Center",
+      "match": "^Kaseya Center$",
+      "height_m": null,
+      "source": "Label only (arena)",
+      "verified": false
+    },
+    {
+      "name": "Bayside Marketplace",
+      "match": "^Bayside Marketplace$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Miami-Dade County Courthouse",
+      "match": "^Miami-Dade County Courthouse$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Gesu Church",
+      "match": "^Gesu Church$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Ten Museum Park",
+      "match": "^Ten Museum Park$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Citigroup Center",
+      "match": "^Citigroup Center$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "HistoryMiami Museum",
+      "match": "^HistoryMiami Museum$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "Mary Brickell Village",
+      "match": "^The Shops at Mary Brickell Village$",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    },
+    {
+      "name": "loanDepot park",
+      "match": "^loanDepot [Pp]ark$",
+      "height_m": null,
+      "source": "Label only (ballpark)",
+      "verified": false
+    },
+    {
+      "name": "Lyric Theater",
+      "match": "Lyric Theat",
+      "height_m": null,
+      "source": "Label only",
+      "verified": false
+    }
   ],
   "places": [
-    { "name": "Bayfront Park", "matchPark": "^Bayfront Park$" },
-    { "name": "Maurice A. Ferré Park", "matchPark": "Ferr" },
-    { "name": "Brickell Key", "lat": 25.7685, "lon": -80.1855, "note": "approximate island center, label only" },
-    { "name": "Miami River", "lat": 25.7714, "lon": -80.1935, "note": "approximate point on the river, label only" }
+    {
+      "name": "Bayfront Park",
+      "matchPark": "^Bayfront Park$"
+    },
+    {
+      "name": "Maurice A. Ferré Park",
+      "matchPark": "Ferr"
+    },
+    {
+      "name": "Brickell Key",
+      "lat": 25.7685,
+      "lon": -80.1855,
+      "note": "approximate island center, label only"
+    },
+    {
+      "name": "Miami River",
+      "lat": 25.7714,
+      "lon": -80.1935,
+      "note": "approximate point on the river, label only"
+    },
+    {
+      "name": "Little Havana",
+      "lat": 25.766,
+      "lon": -80.217,
+      "note": "approximate neighborhood center, label only"
+    },
+    {
+      "name": "Overtown",
+      "lat": 25.7845,
+      "lon": -80.2015,
+      "note": "approximate neighborhood center, label only"
+    },
+    {
+      "name": "The Roads",
+      "lat": 25.7545,
+      "lon": -80.2045,
+      "note": "approximate neighborhood center, label only"
+    },
+    {
+      "name": "Máximo Gómez Park (Domino Park)",
+      "matchPark": "M[aá]ximo G[oó]mez"
+    }
   ]
 }

@@ -1,49 +1,56 @@
 {
   "dropped": {
-    "tooSmall": 6,
+    "tooSmall": 138,
     "selfIntersecting": 0,
     "duplicate": 0,
     "degenerate": 0,
-    "outside": 21
+    "outside": 66
   },
   "heightSource": {
-    "tag": 532,
-    "levels": 110,
-    "default": 196,
+    "tag": 9991,
+    "levels": 218,
+    "default": 1222,
     "landmark": 11
   },
   "counts": {
-    "buildings": 648,
-    "parts": 272,
-    "hiddenParents": 71,
-    "roads": 3582,
-    "water": 2,
-    "parks": 156,
-    "rail": 143,
-    "trees": 1499,
-    "lamps": 41,
-    "walkNodes": 12273,
-    "walkEdges": 14189,
-    "walkEdgesDroppedThroughBuildings": 319,
-    "openStructures": 29,
-    "walkNodesDroppedNotLargestComponent": 1134,
+    "buildings": 11191,
+    "parts": 341,
+    "hiddenParents": 90,
+    "roads": 15936,
+    "water": 15,
+    "parks": 504,
+    "rail": 190,
+    "trees": 2363,
+    "lamps": 461,
+    "walkNodes": 57171,
+    "walkEdges": 66183,
+    "walkEdgesDroppedThroughBuildings": 621,
+    "openStructures": 77,
+    "walkNodesDroppedNotLargestComponent": 3141,
     "dest": {
-      "food": 112,
-      "bench": 29,
-      "transit": 121,
-      "park": 1150,
-      "office": 80,
-      "home": 81
+      "food": 180,
+      "bench": 70,
+      "transit": 473,
+      "park": 2312,
+      "office": 166,
+      "home": 212
     }
   },
   "land": {
-    "coastlineWays": 7,
-    "chains": 1,
-    "closedRings": 1,
-    "landPolygons": 2,
+    "coastlineWays": 31,
+    "chains": 3,
+    "closedRings": 10,
+    "landPolygons": 14,
     "danglingPieces": 0
   },
   "landmarks": [
+    {
+      "name": "Axis at Brickell Village",
+      "matched": 1,
+      "osmHeight": 45,
+      "override": null,
+      "diff": null
+    },
     {
       "name": "Panorama Tower",
       "matched": 1,
@@ -117,9 +124,9 @@
     {
       "name": "Freedom Tower",
       "matched": 1,
-      "osmHeight": 58,
+      "osmHeight": 75,
       "override": 78,
-      "diff": 20
+      "diff": 3
     },
     {
       "name": "Brickell Flatiron",
@@ -211,22 +218,36 @@
       "osmHeight": 15.5,
       "override": null,
       "diff": null
+    },
+    {
+      "name": "loanDepot park",
+      "matched": 1,
+      "osmHeight": 78.9,
+      "override": null,
+      "diff": null
+    },
+    {
+      "name": "Lyric Theater",
+      "matched": 1,
+      "osmHeight": 18.2,
+      "override": null,
+      "diff": null
     }
   ],
   "missingPlaces": [],
   "spawn": {
     "spawn": [
-      326.9,
-      537.5
+      822.6,
+      1343.7
     ],
     "bayfrontFound": true
   },
-  "outputBytes": 907946,
+  "outputBytes": 5117719,
   "alignment": [
     {
       "name": "Freedom Tower",
       "expect": "Freedom Tower",
-      "distanceToFootprintM": 47.3
+      "distanceToFootprintM": 47.4
     },
     {
       "name": "Kaseya Center",
@@ -236,12 +257,607 @@
   ],
   "defaultHeightBuildings": [
     {
-      "id": "w300246057",
+      "id": "w582359825",
       "name": null,
       "h": 12
     },
     {
-      "id": "w301823928",
+      "id": "w582359826",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273507",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273508",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273509",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300205",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300206",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300207",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300208",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300209",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300210",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300211",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838300212",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w950162492",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660899",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660904",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273510",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273511",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273512",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273513",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273514",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w838273515",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660905",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660906",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1435547433",
+      "name": "Vita at Grove Isle",
+      "h": 12
+    },
+    {
+      "id": "w1299667188",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1299667189",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w514835425",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w514835457",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828513244",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1055746141",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278823416",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w595193683",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w595193684",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w950162491",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w950162493",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660893",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660900",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660901",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660903",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w474077749",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w474077750",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660891",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660902",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1305769695",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1305769696",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w617992397",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660907",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660908",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660911",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w336335312",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828515640",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828515641",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278823437",
+      "name": "Mobil",
+      "h": 12
+    },
+    {
+      "id": "w950162507",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w950162508",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w950162509",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w950162510",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w950162511",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660890",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683537",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683562",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683572",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683578",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683592",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683635",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683677",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683683",
+      "name": "AB&A Advertising",
+      "h": 12
+    },
+    {
+      "id": "w1100719658",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w810348536",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1100719657",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1305769692",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1305769693",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1305769694",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301822291",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890959",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w595193657",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w595193659",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769474",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769475",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683576",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769467",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683632",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683650",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w690320350",
+      "name": "Saint Sophia Greek Orthodox Cathedral",
+      "h": 12
+    },
+    {
+      "id": "w947769470",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188142",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188153",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188172",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188198",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188224",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188239",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188260",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188266",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890960",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890961",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890962",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890967",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890968",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w474905112",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w480909163",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w480909164",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w480909167",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817976018",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817976019",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817976020",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188162",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188167",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188223",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890969",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890970",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890971",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301890972",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893195",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893196",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893915",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893916",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893917",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893918",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893919",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301893920",
       "name": null,
       "h": 12
     },
@@ -251,7 +867,7 @@
       "h": 12
     },
     {
-      "id": "w1005468267",
+      "id": "w301895792",
       "name": null,
       "h": 12
     },
@@ -261,12 +877,42 @@
       "h": 12
     },
     {
-      "id": "w300246056",
+      "id": "w450841417",
       "name": null,
       "h": 12
     },
     {
-      "id": "w301895792",
+      "id": "w450841418",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841419",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841421",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w480909165",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w480909166",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817976703",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228660916",
       "name": null,
       "h": 12
     },
@@ -277,6 +923,201 @@
     },
     {
       "id": "w303597651",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959939279",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769476",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769477",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829379",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683610",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151223",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151224",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151225",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151226",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151227",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151228",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151230",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151231",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151233",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151234",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151235",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w623127993",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w623127994",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w623127995",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w623127996",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769468",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769469",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769471",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769473",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829380",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829382",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683594",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683698",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683704",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683749",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151221",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151222",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151229",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w496151232",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769466",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w947769472",
+      "name": "Tru",
+      "h": 12
+    },
+    {
+      "id": "w959829381",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1263051969",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1369693425",
       "name": null,
       "h": 12
     },
@@ -311,17 +1152,7 @@
       "h": 12
     },
     {
-      "id": "w450841155",
-      "name": null,
-      "h": 12
-    },
-    {
       "id": "w450841415",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w817976701",
       "name": null,
       "h": 12
     },
@@ -331,7 +1162,97 @@
       "h": 12
     },
     {
-      "id": "w1228660916",
+      "id": "w834820402",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w834820514",
+      "name": "Novotel Miami Brickell",
+      "h": 12
+    },
+    {
+      "id": "w834820515",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1296756251",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300246056",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300246057",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300492235",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300510113",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300510114",
+      "name": "JW Marriott Miami",
+      "h": 45
+    },
+    {
+      "id": "w301823538",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301823928",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w400594468",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w450841155",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w671949120",
+      "name": "Santander",
+      "h": 12
+    },
+    {
+      "id": "w817976701",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w917700559",
+      "name": "Fortune House Hotel",
+      "h": 12
+    },
+    {
+      "id": "w954745206",
+      "name": "DUA Miami, Autograph Collection",
+      "h": 45
+    },
+    {
+      "id": "w1005468267",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1033893768",
       "name": null,
       "h": 12
     },
@@ -341,7 +1262,767 @@
       "h": 12
     },
     {
+      "id": "w294617026",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617029",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617043",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617053",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617064",
+      "name": "Saint Dennis Apartments",
+      "h": 12
+    },
+    {
+      "id": "w294617083",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617102",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617104",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w318008207",
+      "name": "Tower Theater",
+      "h": 12
+    },
+    {
+      "id": "w800160740",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959937425",
+      "name": "U Gas",
+      "h": 12
+    },
+    {
+      "id": "w959937426",
+      "name": "U Gas",
+      "h": 12
+    },
+    {
+      "id": "w959937427",
+      "name": "Mobil",
+      "h": 12
+    },
+    {
+      "id": "w959937429",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124178",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124180",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617048",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617098",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683540",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683658",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683680",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w318011821",
+      "name": "McDonald's",
+      "h": 12
+    },
+    {
+      "id": "w488924325",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w804809079",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w846966519",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124176",
+      "name": "Pollo Tropical",
+      "h": 12
+    },
+    {
+      "id": "w961124177",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124179",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615829",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615834",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617062",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617076",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617078",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617089",
+      "name": "Marathon",
+      "h": 12
+    },
+    {
+      "id": "w294683661",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683693",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w593122941",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829378",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124167",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188133",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188137",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188147",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188150",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188183",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188184",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188186",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188188",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188193",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188201",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188203",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188212",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188219",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188220",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188238",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188242",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188245",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188247",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188256",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188257",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188263",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615795",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615809",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615826",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615966",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w435564937",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w577297010",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w577297011",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w577297012",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w577297013",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w593122943",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829385",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829386",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829388",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829389",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1304959514",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188139",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188141",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188145",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188146",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188148",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188156",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188159",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188173",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188174",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188178",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188180",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188181",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188187",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188189",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188190",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188206",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188207",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188211",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188213",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188214",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188215",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188234",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188237",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188244",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188248",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188249",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188251",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188253",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188255",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188261",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188265",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188269",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188271",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188273",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615918",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616017",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683557",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683571",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w805841164",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w805841165",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w805841166",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w815122237",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w815122238",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w860195684",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w860195685",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w860195686",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w860195720",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w860195723",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829383",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188161",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300465824",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300753075",
+      "name": "Axis at Brickell Village",
+      "h": 45
+    },
+    {
+      "id": "w319423821",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w343316660",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w475883961",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w708556099",
+      "name": "Brickell View Terrace Apartments",
+      "h": 45
+    },
+    {
+      "id": "w708556100",
+      "name": "Brickell View Terrace Garage",
+      "h": 45
+    },
+    {
       "id": "w708556101",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w708556104",
+      "name": "West Brickell Tower",
+      "h": 12
+    },
+    {
+      "id": "w708556107",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w708556108",
+      "name": "Miro Brickell",
+      "h": 12
+    },
+    {
+      "id": "w708556109",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w708556110",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w954745209",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w954745210",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w954745215",
+      "name": "Brickell Heights",
+      "h": 45
+    },
+    {
+      "id": "w1179534173",
+      "name": "Okeydokey",
+      "h": 12
+    },
+    {
+      "id": "w1363671577",
+      "name": "Magnus Brickell",
+      "h": 12
+    },
+    {
+      "id": "w1363671578",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363671579",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363671580",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363671582",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363671583",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188232",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w299469144",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w299469145",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300210405",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300210409",
       "name": null,
       "h": 45
     },
@@ -356,7 +2037,12 @@
       "h": 45
     },
     {
-      "id": "w300465824",
+      "id": "w300449063",
+      "name": "Burger King",
+      "h": 45
+    },
+    {
+      "id": "w300462441",
       "name": null,
       "h": 45
     },
@@ -366,54 +2052,14 @@
       "h": 45
     },
     {
-      "id": "w300510113",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w300510114",
-      "name": "JW Marriott Miami",
-      "h": 45
-    },
-    {
-      "id": "w300753075",
-      "name": "Axis at Brickell Village",
-      "h": 45
-    },
-    {
-      "id": "w301824363",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w400594468",
-      "name": null,
-      "h": 12
-    },
-    {
       "id": "w483321959",
       "name": null,
       "h": 45
     },
     {
-      "id": "w671949120",
-      "name": "Santander",
-      "h": 12
-    },
-    {
-      "id": "w708556099",
-      "name": "Brickell View Terrace Apartments",
+      "id": "w570388347",
+      "name": "Four Ambassadors Park",
       "h": 45
-    },
-    {
-      "id": "w708556100",
-      "name": "Brickell View Terrace Garage",
-      "h": 45
-    },
-    {
-      "id": "w917700559",
-      "name": "Fortune House Hotel",
-      "h": 12
     },
     {
       "id": "w954745204",
@@ -426,19 +2072,9 @@
       "h": 45
     },
     {
-      "id": "w954745206",
-      "name": "DUA Miami, Autograph Collection",
-      "h": 45
-    },
-    {
       "id": "w993335178",
       "name": null,
       "h": 45
-    },
-    {
-      "id": "w1033893768",
-      "name": null,
-      "h": 12
     },
     {
       "id": "w1060151458",
@@ -461,19 +2097,774 @@
       "h": 45
     },
     {
-      "id": "w299469144",
-      "name": null,
+      "id": "w300204849",
+      "name": "The Four Ambassadors",
       "h": 45
     },
     {
-      "id": "w299469145",
-      "name": null,
+      "id": "w300463192",
+      "name": "Blue Parrot Grill",
       "h": 45
     },
     {
-      "id": "w954745207",
+      "id": "w300764148",
       "name": null,
-      "h": 45
+      "h": 12
+    },
+    {
+      "id": "w1442847718",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300764146",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617019",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617039",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617046",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617075",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617081",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617084",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617085",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617086",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617088",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617091",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617097",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617106",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w435234809",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w436034526",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959937428",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016841",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617016",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617031",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617032",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617033",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617040",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617047",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617050",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617054",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617058",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617059",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617060",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617063",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617066",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617068",
+      "name": "Barcelona Apartments",
+      "h": 12
+    },
+    {
+      "id": "w294617074",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617090",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617100",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617111",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w488924324",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016829",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016830",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016840",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124170",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124171",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124172",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124173",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124174",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124175",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1301079338",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615794",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615796",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615814",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615837",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615843",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615853",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615856",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615857",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615885",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615888",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615898",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615910",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615911",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615916",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615923",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615929",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615945",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615946",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615949",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615950",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615953",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615961",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615968",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615974",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615979",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615980",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615992",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616002",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616010",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616025",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616029",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616031",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616037",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616045",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617020",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617021",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617023",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617035",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617036",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617038",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617056",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617057",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617069",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617070",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617079",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617095",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w436109687",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829390",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829391",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016828",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124168",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961124169",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615799",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615818",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615823",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615832",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615838",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615847",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615848",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615882",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615901",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615903",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615938",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615947",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615958",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615962",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615964",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615976",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615989",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616001",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616004",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616008",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616016",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616026",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616043",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w423442995",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829387",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188216",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188258",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615822",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615840",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615876",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615921",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615924",
+      "name": "Shell",
+      "h": 12
+    },
+    {
+      "id": "w294615943",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615956",
+      "name": "Shell",
+      "h": 12
+    },
+    {
+      "id": "w294615967",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615994",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616003",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616038",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616039",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294616044",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w319425175",
+      "name": "Publix",
+      "h": 12
+    },
+    {
+      "id": "w860176286",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w860176287",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630348",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630349",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630350",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959829384",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1099902852",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1099902853",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1150141404",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1471977307",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188196",
+      "name": "CVS Pharmacy",
+      "h": 12
     },
     {
       "id": "w255188254",
@@ -481,7 +2872,62 @@
       "h": 45
     },
     {
-      "id": "w954745208",
+      "id": "w255188267",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w255188272",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615807",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683587",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300753330",
+      "name": "McDonald's",
+      "h": 12
+    },
+    {
+      "id": "w435847890",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w812641424",
+      "name": "AC Miami Hotel Downtown & Element Miami Downtown",
+      "h": 45
+    },
+    {
+      "id": "w954335305",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w954745207",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w992946540",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1034861996",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1179534175",
       "name": null,
       "h": 45
     },
@@ -491,22 +2937,7 @@
       "h": 45
     },
     {
-      "id": "w255188232",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w294683587",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300449063",
-      "name": "Burger King",
-      "h": 45
-    },
-    {
-      "id": "w300462441",
+      "id": "w300193842",
       "name": null,
       "h": 45
     },
@@ -517,11 +2948,6 @@
     },
     {
       "id": "w300491451",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w343316660",
       "name": null,
       "h": 45
     },
@@ -541,27 +2967,7 @@
       "h": 45
     },
     {
-      "id": "w812641424",
-      "name": "AC Miami Hotel Downtown & Element Miami Downtown",
-      "h": 45
-    },
-    {
-      "id": "w815775739",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w954745215",
-      "name": "Brickell Heights",
-      "h": 45
-    },
-    {
       "id": "w992922852",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w1034861996",
       "name": null,
       "h": 45
     },
@@ -569,6 +2975,426 @@
       "id": "w1179066271",
       "name": "Lululemon",
       "h": 45
+    },
+    {
+      "id": "w117635464",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300243362",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300604246",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300614124",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300757774",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228665401",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w300757099",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300757100",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w300764145",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617061",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617067",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617080",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617107",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w437391187",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w437391193",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959930018",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016838",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016839",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1391493152",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617037",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463511",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016831",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016832",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016833",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016834",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016835",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016836",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615805",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615872",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617065",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w435584216",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463500",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463501",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463502",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463503",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463504",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463505",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463506",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463507",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463508",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463509",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463510",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w971029045",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834499",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834502",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834505",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834507",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834509",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834517",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834518",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834524",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834531",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834541",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294615942",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617041",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w644378859",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817920348",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w817920720",
+      "name": "Riverview One",
+      "h": 12
+    },
+    {
+      "id": "w959630351",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630354",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630359",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1099902848",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1099902849",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834495",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834500",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834501",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834510",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834516",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834523",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834527",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834528",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834532",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834539",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w314353434",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w488924322",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630343",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630344",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630346",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630347",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w974955644",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w974955645",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w974955646",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w295992889",
+      "name": "Joseph Bryant Metromover Maintenance Facility",
+      "h": 45
+    },
+    {
+      "id": "w376446205",
+      "name": null,
+      "h": 12
     },
     {
       "id": "w463464161",
@@ -586,12 +3412,57 @@
       "h": 12
     },
     {
-      "id": "w295992889",
-      "name": "Joseph Bryant Metromover Maintenance Facility",
+      "id": "w467880480",
+      "name": null,
       "h": 45
     },
     {
-      "id": "w467880480",
+      "id": "w467891272",
+      "name": "Burger King",
+      "h": 45
+    },
+    {
+      "id": "w648249520",
+      "name": "HistoryMiami Museum",
+      "h": 12
+    },
+    {
+      "id": "w815775739",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w992927356",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w995419560",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w995419561",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363671536",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1546311861",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w375937491",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w375937492",
       "name": null,
       "h": 45
     },
@@ -626,8 +3497,13 @@
       "h": 45
     },
     {
-      "id": "w467885101",
-      "name": "MDC Garage- G2",
+      "id": "w467881898",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467881902",
+      "name": "Flagler Building",
       "h": 45
     },
     {
@@ -641,13 +3517,13 @@
       "h": 45
     },
     {
-      "id": "w467891271",
+      "id": "w467891268",
       "name": null,
       "h": 45
     },
     {
-      "id": "w467891272",
-      "name": "Burger King",
+      "id": "w467891271",
+      "name": null,
       "h": 45
     },
     {
@@ -657,6 +3533,11 @@
     },
     {
       "id": "w467891281",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w467891285",
       "name": null,
       "h": 45
     },
@@ -766,13 +3647,823 @@
       "h": 45
     },
     {
-      "id": "w1363671536",
+      "id": "w1180266280",
       "name": null,
       "h": 45
     },
     {
-      "id": "w356348256",
-      "name": "Government Center",
+      "id": "w1180266281",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w301237012",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w301237024",
+      "name": "FPL Solar Amphitheater at Bayfront Park",
+      "h": 45
+    },
+    {
+      "id": "w301237028",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w463472261",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w463472264",
+      "name": null,
+      "h": 45
+    },
+    {
+      "id": "w1180266282",
+      "name": "Marshalls",
+      "h": 45
+    },
+    {
+      "id": "w952486631",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564862",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w464464152",
+      "name": "Garage K",
+      "h": 12
+    },
+    {
+      "id": "w268564829",
+      "name": "Cruise Terminal D",
+      "h": 12
+    },
+    {
+      "id": "w268564830",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564831",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564832",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564838",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564843",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564845",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564846",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564847",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564848",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746172",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746180",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746189",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746195",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746202",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746208",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746238",
+      "name": "Walgreens",
+      "h": 12
+    },
+    {
+      "id": "w413746241",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746242",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w437391161",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w437391167",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w437391172",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w437391176",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463539",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463542",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463543",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463544",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463545",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464498",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464499",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464500",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464501",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464502",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464503",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464505",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w487423131",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w487423134",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1297334370",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1297334371",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834543",
+      "name": "Miami Fire / Rescue Department Support Service Division",
+      "h": 12
+    },
+    {
+      "id": "w294617030",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617045",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617073",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746168",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746169",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746170",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746171",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746173",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746174",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746176",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746177",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746178",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746179",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746181",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746182",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746183",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746184",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746185",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746186",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746188",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746190",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746191",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746192",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746193",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746194",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746196",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746197",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746198",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746199",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746200",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746201",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746203",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746204",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746205",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746206",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746207",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746210",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746211",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746212",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746213",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746214",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746215",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746216",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746217",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746218",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746219",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746220",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746221",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746222",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746223",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746224",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746225",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746226",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746227",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746228",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746229",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746230",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746232",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746233",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746234",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746235",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746236",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746237",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746239",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w413746240",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463516",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463517",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463518",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463519",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463521",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463522",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463523",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w822382389",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w822382391",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w822383427",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013887",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013888",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013901",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016837",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1304959515",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834513",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834519",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834522",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834526",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834545",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617018",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617024",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w435730884",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w822382390",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w822382392",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961016827",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1301620446",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834533",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834535",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294617099",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648249522",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630355",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630356",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630357",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1254370660",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834504",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834529",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683551",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683569",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683679",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w375234696",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w585600925",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959630342",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w995419563",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1059036886",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1078335667",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1224654379",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363671551",
+      "name": "Block 55 at Sawyer's Walk",
       "h": 12
     },
     {
@@ -781,22 +4472,17 @@
       "h": 12
     },
     {
-      "id": "w467881902",
-      "name": "Flagler Building",
-      "h": 45
-    },
-    {
-      "id": "w648249520",
-      "name": "HistoryMiami Museum",
+      "id": "w463466533",
+      "name": null,
       "h": 12
     },
     {
-      "id": "w1180266281",
+      "id": "w954335306",
       "name": null,
-      "h": 45
+      "h": 12
     },
     {
-      "id": "w815775738",
+      "id": "w954335307",
       "name": null,
       "h": 12
     },
@@ -811,38 +4497,18 @@
       "h": 12
     },
     {
+      "id": "w467885101",
+      "name": "MDC Garage- G2",
+      "h": 45
+    },
+    {
       "id": "w648127392",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w648127395",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w648127396",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w648127398",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w704206422",
       "name": null,
       "h": 12
     },
     {
       "id": "w954335304",
       "name": null,
-      "h": 12
-    },
-    {
-      "id": "w960715591",
-      "name": "Club Space",
       "h": 12
     },
     {
@@ -876,122 +4542,12 @@
       "h": 12
     },
     {
-      "id": "w1445246638",
-      "name": "Apple Store Miami Worldcenter",
-      "h": 12
-    },
-    {
-      "id": "w300210405",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w300210409",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w300463192",
-      "name": "Blue Parrot Grill",
-      "h": 45
-    },
-    {
-      "id": "w300492235",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w301823538",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w1442847718",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300204849",
-      "name": "The Four Ambassadors",
-      "h": 45
-    },
-    {
-      "id": "w300757099",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300764148",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w570388347",
-      "name": "Four Ambassadors Park",
-      "h": 45
-    },
-    {
-      "id": "w117635464",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300193842",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w300243362",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300604246",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300614124",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300757100",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300757774",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300764145",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w300764146",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w1228665401",
-      "name": null,
-      "h": 45
-    },
-    {
       "id": "w263238667",
       "name": "Hard Rock Cafe",
       "h": 12
     },
     {
       "id": "w290629020",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w301237012",
       "name": null,
       "h": 45
     },
@@ -1006,26 +4562,6 @@
       "h": 45
     },
     {
-      "id": "w301237024",
-      "name": "FPL Solar Amphitheater at Bayfront Park",
-      "h": 45
-    },
-    {
-      "id": "w301237028",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w375937491",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w375937492",
-      "name": null,
-      "h": 45
-    },
-    {
       "id": "w441835986",
       "name": null,
       "h": 45
@@ -1036,62 +4572,17 @@
       "h": 45
     },
     {
-      "id": "w463472261",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w463472264",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w467881898",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w467891268",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w467891285",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w484563422",
-      "name": null,
-      "h": 12
-    },
-    {
-      "id": "w1180266280",
-      "name": null,
-      "h": 45
-    },
-    {
-      "id": "w1180266282",
-      "name": "Marshalls",
-      "h": 45
-    },
-    {
-      "id": "w1459955388",
-      "name": "Waldord Astoria Hotel & Residences",
-      "h": 45
-    },
-    {
-      "id": "w380081839",
-      "name": null,
-      "h": 12
-    },
-    {
       "id": "w441835991",
       "name": null,
       "h": 12
     },
     {
       "id": "w441835993",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484563422",
       "name": null,
       "h": 12
     },
@@ -1106,7 +4597,597 @@
       "h": 45
     },
     {
+      "id": "w1459955388",
+      "name": "Waldord Astoria Hotel & Residences",
+      "h": 45
+    },
+    {
+      "id": "w123899155",
+      "name": "Garage G",
+      "h": 12
+    },
+    {
+      "id": "w952486629",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w952486630",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w263238670",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w263238671",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564799",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564802",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564806",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564807",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564808",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268600677",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564817",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564820",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564821",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564823",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564824",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564826",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564827",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564828",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268600678",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268600679",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828518189",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247682",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247686",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247687",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247692",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247694",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247695",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247698",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247700",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247701",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247703",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247705",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247706",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247708",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247709",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247711",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601285032",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601285036",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601285797",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601285799",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601285801",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601285803",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718853",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718861",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718864",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718869",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742213",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742215",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742220",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742222",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742224",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742226",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742232",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530415",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1388101299",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1388101300",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w437391173",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463524",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463525",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463526",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463527",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463528",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463529",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463530",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463531",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463532",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463533",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463534",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463535",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463536",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463537",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463538",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463540",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483463541",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w483464506",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013897",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013898",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013900",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834544",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013885",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013886",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w993098810",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w993098811",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w993797341",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w278834508",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683546",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683715",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683735",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013877",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013878",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013879",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013880",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683561",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683579",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683598",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683663",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683664",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683666",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683670",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683681",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683711",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w792940611",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363671574",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648250278",
+      "name": "Frederick Douglas Head Start",
+      "h": 12
+    },
+    {
+      "id": "w823007824",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648127395",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648127396",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w648127398",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w815775738",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w996954913",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w996954914",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w996954915",
+      "name": null,
+      "h": 12
+    },
+    {
       "id": "w1189408760",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w704206422",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w960715591",
+      "name": "Club Space",
+      "h": 12
+    },
+    {
+      "id": "w1445246638",
+      "name": "Apple Store Miami Worldcenter",
+      "h": 12
+    },
+    {
+      "id": "w380081839",
       "name": null,
       "h": 12
     },
@@ -1116,6 +5197,1001 @@
       "h": 12
     },
     {
+      "id": "w117927410",
+      "name": "Jungle Theatre",
+      "h": 12
+    },
+    {
+      "id": "w117928687",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w301230574",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w419667739",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w419667743",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w419667746",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530411",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530414",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1408260827",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w117927408",
+      "name": "Parrot Bowl",
+      "h": 12
+    },
+    {
+      "id": "w587828070",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530404",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w482808978",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w598497155",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w598497156",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w598497158",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w598497159",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w598497164",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210833",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210835",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210841",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210842",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210845",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210846",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210847",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210848",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600210857",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600623655",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600623657",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w600623658",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601141068",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601141069",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601141072",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235973",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235977",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235981",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235985",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235989",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235992",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235993",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601235995",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236000",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236005",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236007",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236009",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236018",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236022",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236026",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236028",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236031",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236033",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236035",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236043",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236052",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236054",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601236061",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247672",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247673",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247675",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247676",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247677",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247679",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601247680",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718785",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718799",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718802",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718806",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718813",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718817",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718820",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718823",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718826",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718831",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718836",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718844",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601718848",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601737958",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601737961",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601737963",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601737966",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601737969",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742200",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742207",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w601742211",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530400",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530416",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1388101301",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683674",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683675",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w959930907",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013889",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013894",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1099376289",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1291594467",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w119562096",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w119562100",
+      "name": "Debbie School",
+      "h": 12
+    },
+    {
+      "id": "w119562103",
+      "name": "Sewell Building",
+      "h": 12
+    },
+    {
+      "id": "w119562104",
+      "name": "Mailman Center for Childhood Development",
+      "h": 12
+    },
+    {
+      "id": "w119564716",
+      "name": "Singer Plaza",
+      "h": 12
+    },
+    {
+      "id": "w119564721",
+      "name": "Cedars Parking",
+      "h": 12
+    },
+    {
+      "id": "w119564723",
+      "name": "Cedars West",
+      "h": 12
+    },
+    {
+      "id": "w119564726",
+      "name": "Cedars Medical Center",
+      "h": 12
+    },
+    {
+      "id": "w119564729",
+      "name": "Jackson Medical Towers",
+      "h": 12
+    },
+    {
+      "id": "w436121555",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w503485731",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w810360139",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013881",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w961013883",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1304959517",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1304959518",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1372480136",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w119562092",
+      "name": "Biomedical Research Institute",
+      "h": 12
+    },
+    {
+      "id": "w119562099",
+      "name": "National Parkinson Foundation",
+      "h": 12
+    },
+    {
+      "id": "w119562105",
+      "name": "University of Miami Hospital and Clinics",
+      "h": 12
+    },
+    {
+      "id": "w119562107",
+      "name": "Park Plaza West",
+      "h": 12
+    },
+    {
+      "id": "w119562249",
+      "name": "Medical Training and Simulation Laboratory",
+      "h": 12
+    },
+    {
+      "id": "w119562250",
+      "name": "International Health Center",
+      "h": 12
+    },
+    {
+      "id": "w119562252",
+      "name": "Hope Lodge",
+      "h": 12
+    },
+    {
+      "id": "w119562254",
+      "name": "MRI Center",
+      "h": 12
+    },
+    {
+      "id": "w119562626",
+      "name": "Dominion Tower Parking Garage",
+      "h": 12
+    },
+    {
+      "id": "w119562628",
+      "name": "Lois Pope LIFE Center",
+      "h": 12
+    },
+    {
+      "id": "w119562630",
+      "name": "Dominion Tower",
+      "h": 12
+    },
+    {
+      "id": "w119562632",
+      "name": "Wellness Center",
+      "h": 12
+    },
+    {
+      "id": "w119562637",
+      "name": "Batchelor Children’s Research Institute",
+      "h": 12
+    },
+    {
+      "id": "w119562639",
+      "name": "Professional ArtsCenter",
+      "h": 12
+    },
+    {
+      "id": "w119562640",
+      "name": "Diabetes Research Institute",
+      "h": 12
+    },
+    {
+      "id": "w119562641",
+      "name": "Clinical Research Building",
+      "h": 12
+    },
+    {
+      "id": "w119562644",
+      "name": "Ronald McDonald House",
+      "h": 12
+    },
+    {
+      "id": "w119563219",
+      "name": "Papanicolaou Building",
+      "h": 12
+    },
+    {
+      "id": "w119563220",
+      "name": "Gautier Building",
+      "h": 12
+    },
+    {
+      "id": "w119563225",
+      "name": "Fox Building",
+      "h": 12
+    },
+    {
+      "id": "w119567011",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683612",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w617262067",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w954739192",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1456093718",
+      "name": "Griffin Cancer Research Center",
+      "h": 12
+    },
+    {
+      "id": "w294683552",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w294683555",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w436105187",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w436109943",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w741593647",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w823007827",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1099381343",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1228342047",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352674170",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w358929047",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w617152563",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w617152564",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w617152565",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w617152566",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w823007826",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352674172",
+      "name": "Melinda's",
+      "h": 12
+    },
+    {
+      "id": "w352674178",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352674181",
+      "name": "Citizens Bank",
+      "h": 12
+    },
+    {
+      "id": "w352674182",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352674184",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352674185",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352674186",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352674187",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352675378",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352675383",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w352677869",
+      "name": "Miami-Dade County School Board Administration Building",
+      "h": 12
+    },
+    {
+      "id": "w352677871",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1363923600",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w468023501",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w993611079",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w117927876",
+      "name": "Serpentarium",
+      "h": 12
+    },
+    {
+      "id": "w484753305",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530401",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530402",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530403",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w828530493",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140755",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140817",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753301",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753302",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753303",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753304",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753306",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753307",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753308",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w484753309",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140775",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140802",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140803",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140804",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140805",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140806",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140807",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140808",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140809",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140810",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140813",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140814",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140815",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w452140816",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "r21170654",
+      "name": "Government Center",
+      "h": 12
+    },
+    {
+      "id": "r17411922",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "r19153766",
+      "name": "Atlantic Square",
+      "h": 12
+    },
+    {
       "id": "r7417722",
       "name": "Bayside Marketplace",
       "h": 45
@@ -1124,6 +6200,46 @@
       "id": "r7417722",
       "name": "Bayside Marketplace",
       "h": 45
+    },
+    {
+      "id": "r13417021",
+      "name": "Dunns-Josephine Hotel",
+      "h": 12
+    },
+    {
+      "id": "r13417021",
+      "name": "Dunns-Josephine Hotel",
+      "h": 12
+    },
+    {
+      "id": "r1627246",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "r8404965",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "r6719143",
+      "name": "Chapman Partnership for the Homeless",
+      "h": 12
+    },
+    {
+      "id": "w1357104614",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w1357104615",
+      "name": "Publix",
+      "h": 12
+    },
+    {
+      "id": "w1185200181",
+      "name": "Brickell Arch, a Luxury Collection Hotel, Miami",
+      "h": 12
     },
     {
       "id": "w319426351",
@@ -1134,6 +6250,11 @@
       "id": "w319426353",
       "name": "Publix",
       "h": 45
+    },
+    {
+      "id": "w708556105",
+      "name": null,
+      "h": 12
     },
     {
       "id": "w1179534177",
@@ -1161,22 +6282,17 @@
       "h": 45
     },
     {
-      "id": "w1185200181",
-      "name": "Brickell Arch, a Luxury Collection Hotel, Miami",
-      "h": 12
-    },
-    {
-      "id": "w1357104614",
+      "id": "w1105062284",
       "name": null,
       "h": 12
     },
     {
-      "id": "w1357104615",
-      "name": "Publix",
+      "id": "w301421311",
+      "name": null,
       "h": 12
     },
     {
-      "id": "w301421311",
+      "id": "w1393529771",
       "name": null,
       "h": 12
     },
@@ -1206,13 +6322,48 @@
       "h": 45
     },
     {
-      "id": "w1105062284",
+      "id": "w263238668",
+      "name": "World Trade Center Miami",
+      "h": 12
+    },
+    {
+      "id": "w268564787",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564788",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564789",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564803",
+      "name": null,
+      "h": 12
+    },
+    {
+      "id": "w268564805",
       "name": null,
       "h": 12
     },
     {
       "id": "w484587349",
       "name": "Frost Planetarium",
+      "h": 12
+    },
+    {
+      "id": "r8534665",
+      "name": "Cruise Terminal G",
+      "h": 12
+    },
+    {
+      "id": "r8534665",
+      "name": "Cruise Terminal G",
       "h": 12
     }
   ]

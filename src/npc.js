@@ -35,7 +35,7 @@ export function buildGraph(walk, collision) {
       const u = pop();
       if (closed[u] === gen) continue; closed[u] = gen;
       if (u === t) break;
-      if (++expanded > 40000) return null;
+      if (++expanded > 250000) return null;
       for (let k = start[u]; k < start[u + 1]; k++) {
         const v = nbr[k], ng = g[u] + cost[k];
         if (stamp[v] !== gen || ng < g[v]) { stamp[v] = gen; g[v] = ng; from[v] = u; push(v, ng + Math.hypot(nx[v] - nx[t], ny[v] - ny[t])); }
@@ -106,7 +106,27 @@ const SKIN = ['#f1c27d', '#e0ac69', '#c68642', '#8d5524', '#ffdbac', '#a1665e'];
 export function createCrowd(scene, data, graph, collision, { count = 300, seed = 7 } = {}) {
   const rnd = mulberry(seed);
   const dest = data.walk.dest;
-  const pick = (cat) => { const a = dest[cat] && dest[cat].length ? dest[cat] : dest.park; return a[Math.floor(rnd() * a.length)]; };
+  // Destinations are chosen near the person (their "neighborhood"): sample a few candidates and take the
+  // first within TRIP_RANGE of `from`, else the nearest sampled. Keeps trips walkable and A* cheap on a big map.
+  const TRIP_RANGE = 1500;
+  const pick = (cat, from = -1) => {
+    const a = dest[cat] && dest[cat].length ? dest[cat] : dest.park;
+    if (from < 0) return a[Math.floor(rnd() * a.length)];
+    let best = -1, bd = Infinity;
+    for (let k = 0; k < 12; k++) {
+      const c = a[Math.floor(rnd() * a.length)], d = Math.hypot(graph.nx[c] - graph.nx[from], graph.ny[c] - graph.ny[from]);
+      if (d < TRIP_RANGE) return c;
+      if (d < bd) { bd = d; best = c; }
+    }
+    return best;
+  };
+  // Homes: 75% within 1.8 km of the map center (Axis on Brickell) so Brickell and Downtown stay lively;
+  // the rest anywhere, so the outer neighborhoods have people too.
+  const pickHome = () => {
+    const a = dest.home.length ? dest.home : dest.park, central = rnd() < 0.75;
+    for (let k = 0; k < 40; k++) { const c = a[Math.floor(rnd() * a.length)]; if (!central || Math.hypot(graph.nx[c], graph.ny[c]) < 1800) return c; }
+    return a[Math.floor(rnd() * a.length)];
+  };
   const archNames = Object.keys(ARCHETYPES);
   const cum = []; let acc = 0; for (const n of archNames) { acc += ARCHETYPES[n].share; cum.push(acc); }
 
@@ -133,7 +153,7 @@ export function createCrowd(scene, data, graph, collision, { count = 300, seed =
     const n = {
       id: i, arch, jitter, plan: ARCHETYPES[arch].plan, step: -1,
       x: 0, y: 0, heading: rnd() * 6.28, speed: 1.15 + rnd() * 0.45,
-      wp: null, wi: 0, node: pick('home'), goalNode: -1, state: 'inside', activity: '', idleT: 0,
+      wp: null, wi: 0, node: pickHome(), goalNode: -1, state: 'inside', activity: '', idleT: 0,
       body: BODY_TYPES[Math.floor(rnd() * BODY_TYPES.length)], phase: rnd() * 6.28, pending: false, acc: 0, near: false,
     };
     const c = new THREE.Color();
@@ -150,7 +170,7 @@ export function createCrowd(scene, data, graph, collision, { count = 300, seed =
   const queue = [];
   function assign(n, step, initial) {
     n.step = step; const [, label, cat, arrive] = n.plan[step];
-    n.activity = label; n.arrive = arrive; n.goalNode = pick(cat);
+    n.activity = label; n.arrive = arrive; n.goalNode = pick(cat, n.node);
     if (!queue.includes(n)) queue.push(n);
     n.pending = true; n.initial = initial;
   }
@@ -259,7 +279,7 @@ export function createCrowd(scene, data, graph, collision, { count = 300, seed =
       n.idleT -= dt;
       if (n.idleT <= 0) { // wander to a neighbouring destination of the same kind
         const cat = n.plan[n.step][2];
-        n.goalNode = pick(cat === 'park' || cat === 'bench' ? cat : 'park');
+        n.goalNode = pick(cat === 'park' || cat === 'bench' ? cat : 'park', n.node);
         if (Math.hypot(graph.nx[n.goalNode] - n.x, graph.ny[n.goalNode] - n.y) > 250) { n.idleT = 10 + rnd() * 20; return; }
         n.pending = true; n.initial = false; queue.push(n);
       }

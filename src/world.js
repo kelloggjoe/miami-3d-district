@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { makeTextures } from './textures.js';
 
-export const CHUNK = 200;          // m, building chunk size (frustum culling + LOD unit)
+export const CHUNK = 300;          // m, building chunk size (frustum culling + LOD unit)
 export const LOD_DISTANCE = 500;   // m, beyond this a chunk shows simplified boxes
 export const SUN_DIR = new THREE.Vector3(-0.6, 1.0, 0.35).normalize(); // mid-afternoon, from the south-west
 
@@ -216,7 +216,7 @@ export function buildWorld(scene, data, Q, renderer) {
   sun.position.copy(SUN_DIR).multiplyScalar(1000);
   scene.add(sun, sun.target);
   if (Q.sky) {
-    const sky = new Sky(); sky.scale.setScalar(4500);
+    const sky = new Sky(); sky.scale.setScalar(8000);
     const u = sky.material.uniforms;
     u.turbidity.value = 2.5; u.rayleigh.value = 3.0; u.mieCoefficient.value = 0.003; u.mieDirectionalG.value = 0.75;
     u.sunPosition.value.copy(SUN_DIR);
@@ -225,11 +225,11 @@ export function buildWorld(scene, data, Q, renderer) {
     const envScene = new THREE.Scene(); const skyEnv = new Sky(); skyEnv.scale.setScalar(1000); skyEnv.material = sky.material; envScene.add(skyEnv);
     scene.environment = pmrem.fromScene(envScene, 0.02).texture;
     scene.environmentIntensity = 0.45;
-    scene.fog = new THREE.Fog('#a9c6d6', 800, 4200);
+    scene.fog = new THREE.Fog('#a9c6d6', 1500, 8000);
     scene.add(new THREE.HemisphereLight('#cfe6f5', '#a8997a', 0.5));
   } else {
     scene.background = new THREE.Color('#9fd3ea');
-    scene.fog = new THREE.Fog('#bfe2ef', 600, 3200);
+    scene.fog = new THREE.Fog('#bfe2ef', 1200, 7000);
     scene.add(new THREE.HemisphereLight('#e8f6ff', '#c9b991', 1.6));
   }
   if (shadow) {
@@ -252,7 +252,7 @@ export function buildWorld(scene, data, Q, renderer) {
   const waterMat = Q.pbr
     ? new THREE.MeshStandardMaterial({ color: '#2b7d99', roughness: 0.1, metalness: 0.15, normalMap: tex.water, normalScale: new THREE.Vector2(0.35, 0.35) })
     : new THREE.MeshPhongMaterial({ color: '#3f9bbf', specular: '#2a4a55', shininess: 18 });
-  const WS = W + 6000, HS = H + 6000;
+  const WS = W + 12000, HS = H + 12000;
   if (Q.pbr) { tex.water = tex.water.clone(); tex.water.needsUpdate = true; waterMat.normalMap = tex.water; tex.water.repeat.set(WS / 22, HS / 22); }
   const water = new THREE.Mesh(new THREE.PlaneGeometry(WS, HS), waterMat);
   water.rotation.x = -Math.PI / 2; water.position.set((minX + maxX) / 2, -0.6, -(minY + maxY) / 2);
@@ -445,7 +445,7 @@ export function buildWorld(scene, data, Q, renderer) {
     g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(l.n, 20, 38);
     const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthWrite: false, fog: false, toneMapped: false }));
-    const scale = l.k === 'landmark' ? 0.32 : 0.4; sp.scale.set(w * scale, 72 * scale, 1);
+    const scale = l.k === 'landmark' ? 0.32 : 0.3; sp.scale.set(w * scale, 72 * scale, 1);
     sp.position.set(l.x, l.h + 14, -l.y); labels.add(sp);
   }
   scene.add(labels);

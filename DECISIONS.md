@@ -18,8 +18,8 @@ The brief says to proceed with these defaults and flag them. **All five are stil
 
 | Decision | Value | Why |
 |---|---|---|
-| Bounding box | S 25.755, W -80.197, N 25.786, E -80.182 | The brief's box (25.745–25.790, -80.205 to -80.180) is about 12.5 km², about three times the 3–4 km² target. I tightened it to cover Brickell (from about SE 25th Rd) to Museum Park, and from I-95 to Brickell Key. That is **3.45 km × 1.51 km = 5.2 km²**, of which about 1 km² is bay water. **Decision for you:** shrink it further (for example, drop the area south of SE 15th Rd) if you want a strict 4 km². |
-| Data source | Overpass API (overpass.kumi.systems mirror), fetched 2026-11-19 | `overpass-api.de` reset every connection from this build environment. The fetch script tries the main server, then two mirrors, then falls back to tiled downloads from the OSM editing API (sequential, 1.2 s apart, cached). The fallback was written but **not used** for the shipped data. |
+| Bounding box | S 25.7363, W -80.2244, N 25.7902, E -80.1645 (6 × 6 km, about 36 km²), **centered on Axis at Brickell Village** | **Expanded on request** from the v1 Downtown + Brickell box (5.2 km²) to take in the surrounding neighborhoods. This is well over the brief's 3–4 km². The result: 11,191 buildings, 15,936 road/path segments, and 4.9 MB of processed data (about 5.1 MB on disk), right at the 5 MB budget. A bigger box would need tiled data streaming. |
+| Data source | v1: Overpass (overpass.kumi.systems). The expanded map (2026-11-20) used the **OSM API tiled fallback**, because all Overpass servers timed out. | `overpass-api.de` reset every connection from this build environment. The fetch script tries the main server, then two mirrors, then falls back to tiled downloads from the OSM editing API (sequential, 1.2 s apart, cached). The fallback was written but **not used** for the shipped data. |
 | Projection | Equirectangular around the box center (25.7705, -80.1895), 1 unit = 1 m | At this size the distortion is far below 1 m. |
 | Simplification tolerance | 0.5 m (Douglas–Peucker) | As the brief suggests. Water and parks use 1 m / 0.5 m. If simplifying makes a ring self-intersect, the unsimplified ring is kept. |
 | Minimum building area | 20 m² (landmarks exempt) | As the brief says. 6 buildings dropped. |
@@ -66,6 +66,17 @@ The brief says to proceed with these defaults and flag them. **All five are stil
 | Benches, bus shelters | From OSM bench (39) and bus-stop (100 placed) nodes. Shelters are set back from the nearest road edge, facing it. | |
 | Parked cars | **500 generated** in curb lanes of residential, tertiary, secondary and unclassified streets 7 m or wider. None within 6 m of a crossing road, 5 m of a crosswalk, or 18 m of a bus stop. | **Decorative, not from data** (the brief allowed static parked cars). They block the player and NPCs. |
 | Prop culling | Props are split into 250 m chunks (241 instanced meshes). Chunks farther than about 650 m (more when viewed from above) are hidden. | The first version, without chunks, drew about 1.5M triangles per frame. |
+
+## Expanded map (on request)
+
+| Decision | Value | Why |
+|---|---|---|
+| Center | Axis at Brickell Village (25.76323, -80.19443). It is the coordinate origin and has a label. | Requested. |
+| Spawn | Still Bayfront Park | It's a recognizable open space. Use the map (M) to jump to Axis or anywhere else. |
+| Neighborhood labels | Little Havana, Overtown, The Roads (approximate centers), plus loanDepot park, Lyric Theater and Máximo Gómez Park from OSM | Neighborhood label points are approximate and marked as such in `data/landmarks.json`. |
+| NPC homes | 75% within 1.8 km of Axis, the rest anywhere. Trips go to destinations within about 1.5 km when possible. | 300 people spread evenly over 36 km² would be too thin to notice, and cross-city trips made pathfinding cost spike (up to 16.5 ms per frame at 400 NPCs). With local trips it measured 0.4 ms. |
+| Scale knobs | 300 m building chunks, ground and collision raster capped at 4096 px (about 1.5 m per pixel), fog 1.5–8 km, view distance 9 km, up to 3,000 lamps and 1,500 parked cars | Keeps draw calls under 700 even on High. |
+| Coastline | Islands crossing the map edge (PortMiami, Watson Island, Virginia Key) are traced from a point outside the box | Fixes PortMiami rendering as water. |
 
 ## Movement and collision
 

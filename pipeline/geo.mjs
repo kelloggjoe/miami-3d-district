@@ -168,9 +168,14 @@ export function coastlineToLand(chainsAndRings, rect) {
 
   const islands = []; // closed rings fully inside
   const pieces = [];  // open pieces that enter and exit the rect: {pts, ein, eout}
-  for (const { pts, closed } of chainsAndRings) {
+  for (const { pts: raw, closed } of chainsAndRings) {
+    let pts = raw;
+    if (closed && pts.every(inside)) { islands.push(pts); continue; }
+    if (closed) { // island crossing the boundary: start the walk at a vertex outside the box
+      const k = pts.findIndex((p) => !inside(p));
+      pts = pts.slice(k).concat(pts.slice(0, k));
+    }
     const line = closed ? pts.concat([pts[0]]) : pts;
-    if (closed && line.every(inside)) { islands.push(pts); continue; }
     let cur = null;
     for (let i = 0; i < line.length - 1; i++) {
       const a = line[i], b = line[i + 1];

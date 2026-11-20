@@ -1,6 +1,15 @@
 # Testing
 
-All checks are automated in `tests/e2e.mjs` and run against the production build in headless Chromium. Raw output is in `docs/test-results.json`. Last run: 2026-11-19, after the graphics upgrade. Walking and NPC checks run at the default **Medium** quality.
+All checks are automated in `tests/e2e.mjs` and run against the production build in headless Chromium. Raw output is in `docs/test-results.json`. **Expanded map (2026-11-20):** the last complete run is in `docs/test-results.json`. It ran on the 6 × 6 km map *before* two final tweaks: following Brickell Avenue's connected path in the walking test, and choosing NPC destinations locally. On that run, every walking, flying and teleport check passed except the Brickell Avenue walk: 79 of 80 waypoints reached, with 1 stuck, caused by the old test's straight-line sorting of the avenue's points. The NPC checks found 0 inside buildings and 0 on water. Performance: 97–359 draw calls on Medium, 696 at most on High; 275k–410k triangles on Medium.
+
+A rerun after the final tweaks was **killed by the build machine** (out of memory on the larger map) before it finished, so the final build had only a smoke check:
+- it loads with no errors;
+- after 3 simulated hours, 141 people were outdoors, 0 inside buildings and 0 on water;
+- NPC update took 0.42 ms.
+
+**Still needed:** a full `npm run test:e2e` on a machine with more memory, or splitting the suite into parts.
+
+Previous run: 2026-11-19, after the graphics upgrade. Walking and NPC checks run at the default **Medium** quality.
 
 ```
 npm run build && npm run test:e2e

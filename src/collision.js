@@ -96,7 +96,7 @@ export function buildCollision(data) {
   }
 
   // ---- walkable raster (1 m): land minus water, plus bridges ----
-  const RES = 1;
+  const RES = Math.min(1, 4096 / Math.max(maxX - minX, maxY - minY)); // px per m; capped so big districts stay light
   const w = Math.ceil((maxX - minX) * RES), h = Math.ceil((maxY - minY) * RES);
   const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
