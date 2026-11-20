@@ -145,6 +145,8 @@ export function processOsm(raw, landmarkFile) {
       void scale;
     }
     parent.landmark = l.name;
+    if (l.label === false) parent.noLabel = true;
+    if (l.start) parent.isStart = true;
     landmarkReport.push({ name: l.name, matched: matches.length, osmHeight: before != null ? +before.toFixed(1) : null, override: l.height_m, diff: l.height_m != null && before != null ? +(l.height_m - before).toFixed(1) : null });
   }
   for (const b of finalBuildings) {
@@ -320,7 +322,7 @@ export function processOsm(raw, landmarkFile) {
 
   // ---------- labels & spawn ----------
   const labels = [];
-  for (const b of finalBuildings) if (b.landmark) {
+  for (const b of finalBuildings) if (b.landmark && !b.noLabel) {
     const hMax = Math.max(b.h, ...finalBuildings.filter((p) => p.parent === b).map((p) => p.h));
     labels.push({ n: b.landmark, x: r1(b.ctr[0]), y: r1(b.ctr[1]), h: r1(hMax), k: 'landmark' });
   }
@@ -343,6 +345,23 @@ export function processOsm(raw, landmarkFile) {
     }
   }
 
+  // ---------- start / reset point: roof of the landmark marked "start" in landmarks.json ----------
+  let start = null;
+  const startB = finalBuildings.find((b) => b.isStart);
+  if (startB) {
+    const r = startB.outer; let [sx, sy] = centroid(r);
+    if (!pointInRing(sx, sy, r)) { // concave footprint: nearest inside grid point to the centroid
+      let best = null;
+      const xs = r.map((p) => p[0]), ys = r.map((p) => p[1]);
+      for (let x = Math.min(...xs); x <= Math.max(...xs); x += 1) for (let y = Math.min(...ys); y <= Math.max(...ys); y += 1)
+        if (pointInRing(x, y, r)) { const d = Math.hypot(x - sx, y - sy); if (!best || d < best.d) best = { d, x, y }; }
+      if (best) { sx = best.x; sy = best.y; }
+    }
+    // Walk south from the middle toward the roof edge, stopping about 2 m short, so the view south clears the roof.
+    while (pointInRing(sx, sy - 2.5, r)) sy -= 0.5;
+    start = { name: startB.landmark, x: r1(sx), y: r1(sy), yaw: Math.PI, pitch: -0.3 }; // yaw PI = facing south, looking down a little
+  }
+
   // ---------- assemble ----------
   const outBuildings = finalBuildings.map((b) => ({
     c: flat(b.outer), ...(b.holes.length ? { holes: b.holes.map(flat) } : {}),
@@ -359,7 +378,7 @@ export function processOsm(raw, landmarkFile) {
       source: raw._fetched?.endpoint, fetched: raw._fetched?.date, method: raw._fetched?.method || 'overpass',
       bbox: BBOX, origin: { lat: lat0, lon: lon0 }, projection: 'equirectangular, meters, x=east y=north',
       extent: { minX: r1(minX), minY: r1(minY), maxX: r1(maxX), maxY: r1(maxY) },
-      spawn, generated: new Date().toISOString(),
+      spawn, start, generated: new Date().toISOString(),
     },
     buildings: outBuildings, roads, land: land.map(flat), water, parks: parks.map(({ _ring, _area, ...p }) => p), beaches, rail, poi, labels: labels.filter((l) => !l.missing),
     walk: { nodes: gN, edges: gE, dest },

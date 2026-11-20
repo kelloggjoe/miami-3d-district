@@ -131,7 +131,7 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
     wall.pass = wall.slidAlongWallM > 2 && wall.minDistanceToWallM >= 0.34 && !wall.insideAfter;
 
     // Water: from the spawn walk due east toward Biscayne Bay for 60 s.
-    P.reset(); m.camera.rotation.set(0, -Math.PI / 2, 0, 'YXZ');
+    S.x = m.data.meta.spawn[0]; S.y = m.data.meta.spawn[1]; S.z = 0; S.vz = 0; P.setFlying(false); m.camera.rotation.set(0, -Math.PI / 2, 0, 'YXZ'); // Bayfront Park
     for (let k = 0; k < 3600; k++) P.update(1 / 60, { forward: 1, right: 0, sprint: true, jump: false });
     const water = { stoppedAt: [+S.x.toFixed(1), +S.y.toFixed(1)], onWalkableGround: C.walkableGround(S.x, S.y), eastwardM: +(S.x - m.data.meta.spawn[0]).toFixed(1) };
     water.pass = water.onWalkableGround;
@@ -141,7 +141,7 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
     for (let k = 0; k < 120; k++) { P.update(1 / 60, { forward: 0, right: 0, sprint: false, jump: false }); maxZ = Math.max(maxZ, S.z); }
     const jump = { peakM: +maxZ.toFixed(2), landed: S.z === 0, pass: maxZ > 0.3 && maxZ < 0.8 && S.z === 0 };
     P.reset();
-    return { brickell, bayfront, wall, water, jump, resetReturnsToSpawn: S.x === m.data.meta.spawn[0] && S.y === m.data.meta.spawn[1] };
+    return { brickell, bayfront, wall, water, jump, resetGoesToStartRoof: (() => { const st = m.data.meta.start; return S.x === st.x && S.y === st.y && S.z > 200 && Math.abs(m.camera.rotation.y - Math.PI) < 1e-6; })() };
   });
   results.walking.pageErrors = errors;
 
@@ -192,7 +192,7 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
     step(600, { down: true });
     out.waterDescent = { overWater: S.overWater, altitudeM: +S.z.toFixed(2), stillFlying: S.flying, pass: S.overWater && S.flying && S.z >= 0.59 };
     // Speed multiplier: walk 2 s in the park at 1x and at 5x.
-    const walkFor = (mul) => { P.reset(); S.speedMul = mul; m.camera.rotation.set(0, 0, 0, 'YXZ'); const x0 = S.x, y0 = S.y; for (let i = 0; i < 120; i++) P.update(dt, { forward: 1, right: 0, sprint: false, jump: false }); return Math.hypot(S.x - x0, S.y - y0); };
+    const walkFor = (mul) => { P.reset(); S.x = m.data.meta.spawn[0]; S.y = m.data.meta.spawn[1]; S.z = 0; S.speedMul = mul; m.camera.rotation.set(0, 0, 0, 'YXZ'); const x0 = S.x, y0 = S.y; for (let i = 0; i < 120; i++) P.update(dt, { forward: 1, right: 0, sprint: false, jump: false }); return Math.hypot(S.x - x0, S.y - y0); };
     const d1 = walkFor(1), d5 = walkFor(5);
     out.speedMultiplier = { walked2sAt1xM: +d1.toFixed(2), walked2sAt5xM: +d5.toFixed(2), ratio: +(d5 / d1).toFixed(2), pass: Math.abs(d5 / d1 - 5) < 0.3 };
     S.speedMul = 1; P.reset();
@@ -285,7 +285,7 @@ async function perf(npcs, viewport, quality = 'medium') {
   const { page, errors } = await open(`?npcs=${npcs}&hour=12&quality=${quality}`, viewport);
   const views = {
     'street, Brickell area': V(-165, -585, 1.7, 0.45, 0.02),
-    'street, Bayfront Park (spawn)': null,
+    'start: Aston Martin Residences roof': null,
     'aerial, whole district': [0, -4300, 1500, 0.0, -0.36],
   };
   const out = {};

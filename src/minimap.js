@@ -157,11 +157,12 @@ export function createMaps({ data, player, camera, crowd, collision, world, onOp
     else hint.textContent = 'No open ground near there. Try a spot on land.';
   });
   // landmark list
-  const places = [{ n: 'Bayfront Park (start)', x: data.meta.spawn[0], y: data.meta.spawn[1] }, ...data.labels.filter((l) => !l.approx)]
+  const startEntry = data.meta.start ? { n: `${data.meta.start.name} (start)`, reset: true } : { n: 'Bayfront Park (start)', x: data.meta.spawn[0], y: data.meta.spawn[1] };
+  const places = [startEntry, ...(data.meta.start ? [{ n: 'Bayfront Park', x: data.meta.spawn[0], y: data.meta.spawn[1] }] : []), ...data.labels.filter((l) => !l.approx && l.n !== 'Bayfront Park')]
     .concat(data.labels.filter((l) => l.approx));
   for (const p of places) {
     const b = document.createElement('button'); b.textContent = p.n;
-    b.onclick = () => { if (teleport(p.x, p.y)) { setOpen(false); player.controls.lock(); } };
+    b.onclick = () => { if (p.reset) { player.reset(); world.updateLod(st.x, st.y); setOpen(false); player.controls.lock(); } else if (teleport(p.x, p.y)) { setOpen(false); player.controls.lock(); } };
     list.appendChild(b);
   }
   document.getElementById('bigmap-close').onclick = () => setOpen(false);

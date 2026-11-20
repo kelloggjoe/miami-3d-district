@@ -13,7 +13,8 @@ export const FLY = 11, FLY_FAST = 30, FLY_VERTICAL = 8, MAX_ALTITUDE = 800, DOUB
 export const SPEED_STEPS = [0.5, 1, 1.5, 2, 3, 5, 8, 12];
 const WATER_HOVER = 0.6; // flight cannot end over water; the player hovers this high above it
 
-export function createPlayer(camera, dom, collision, spawn) {
+// start (optional): { x, y, yaw, pitch } -- the reset point; you stand on whatever roof is there.
+export function createPlayer(camera, dom, collision, spawn, start = null) {
   const controls = new PointerLockControls(camera, dom);
   const keys = new Set();
   let savedSpeed = 1;
@@ -22,9 +23,12 @@ export function createPlayer(camera, dom, collision, spawn) {
   const listeners = new Set();
   const emit = () => listeners.forEach((f) => f(state));
   const reset = () => {
-    Object.assign(state, { x: spawn[0], y: spawn[1], z: 0, vz: 0, vx: 0, vy: 0, flying: false, fast: false, onGround: true });
-    camera.position.set(state.x, EYE, -state.y);
-    camera.rotation.set(0, Math.PI * 0.5, 0, 'YXZ'); // face west, toward downtown
+    const x = start ? start.x : spawn[0], y = start ? start.y : spawn[1];
+    const z = start ? collision.groundAt(x, y, 1e4) : 0; // stand on the roof at the start point
+    Object.assign(state, { x, y, z, vz: 0, vx: 0, vy: 0, flying: false, fast: false, onGround: true });
+    camera.position.set(state.x, EYE + z, -state.y);
+    if (start) camera.rotation.set(start.pitch || 0, start.yaw, 0, 'YXZ');
+    else camera.rotation.set(0, Math.PI * 0.5, 0, 'YXZ'); // face west, toward downtown
     emit();
   };
   const setFlying = (on) => {

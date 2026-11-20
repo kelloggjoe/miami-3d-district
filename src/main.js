@@ -57,7 +57,7 @@ async function main() {
   const collision = buildCollision(data); lap('collision');
   const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows }) : null; lap('props');
   if (props) collision.addPolys(props.carPolys); // parked cars are solid
-  const player = createPlayer(camera, canvas, collision, data.meta.spawn);
+  const player = createPlayer(camera, canvas, collision, data.meta.spawn, data.meta.start);
   const graph = buildGraph(data.walk, collision);
   const crowd = createCrowd(scene, data, graph, collision, { count: +(params.get('npcs') || 300) }); lap('npcs');
   if (Q.shadows) for (const m of Object.values(crowd.meshes)) m.castShadow = true;

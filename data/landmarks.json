@@ -20,7 +20,10 @@
       "match": "^Aston Martin Residences$",
       "height_m": 249,
       "source": "Published architectural height 817 ft (Wikipedia / CTBUH)",
-      "verified": false
+      "verified": false,
+      "label": false,
+      "start": true,
+      "_note": "label: false hides its floating label (it is the start point). start: true makes its roof the start/reset location."
     },
     {
       "name": "Four Seasons Hotel Miami",
