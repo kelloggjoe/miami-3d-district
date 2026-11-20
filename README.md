@@ -1,4 +1,4 @@
-# Miami 3D District
+# Dynamic City Renderer
 
 A stylized, walkable (and flyable), first-person 3D model of central Miami: a 6 × 6 km area centered on Axis at Brickell Village. It covers Brickell, Downtown, Brickell Key, Little Havana, Overtown, The Roads, PortMiami and the start of the Rickenbacker Causeway. It's built in the browser with Three.js from OpenStreetMap data. You can walk Brickell Avenue, cross the Miami River, loop around Bayfront Park, and watch about 300 people follow daily routines on a simulated clock.
 
