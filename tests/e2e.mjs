@@ -25,6 +25,8 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   const t0 = Date.now();
+  // Pin Medium unless a test asks otherwise, so test runs never spend Google Photoreal sessions.
+  if (!/quality=/.test(query)) query += (query.includes('?') ? '&' : '?') + 'quality=medium';
   await page.goto(`http://localhost:${PORT}/${query}`);
   await page.waitForSelector('body[data-ready="1"]', { timeout: 90_000 });
   const readyMs = Date.now() - t0;

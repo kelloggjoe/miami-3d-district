@@ -1,4 +1,4 @@
-// Graphics quality presets. Chosen at load time (URL ?quality=, else saved choice, else medium);
+// Graphics quality presets. Chosen at load time (URL ?quality=, else saved choice, else Photoreal if available, else Medium);
 // changing it reloads the page so every material is built once for the chosen preset.
 export const PRESETS = {
   low: { name: 'Low', textures: false, shadows: false, shadowSize: 0, sky: false, pbr: false, props: false, post: false, pixelRatio: 1 },
@@ -16,7 +16,9 @@ export function getQuality() {
   if (q && PRESETS[q] && availablePresets().includes(q)) return { id: q, ...PRESETS[q] };
   let saved = null;
   try { saved = localStorage.getItem(KEY); } catch { /* storage unavailable */ }
-  const id = saved && PRESETS[saved] && availablePresets().includes(saved) ? saved : 'medium';
+  // Default: Photoreal when this build has a Google key, otherwise Medium. A visitor's own choice wins.
+  const fallback = availablePresets().includes('photoreal') ? 'photoreal' : 'medium';
+  const id = saved && PRESETS[saved] && availablePresets().includes(saved) ? saved : fallback;
   return { id, ...PRESETS[id] };
 }
 
