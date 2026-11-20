@@ -4,15 +4,19 @@ export const PRESETS = {
   low: { name: 'Low', textures: false, shadows: false, shadowSize: 0, sky: false, pbr: false, props: false, post: false, pixelRatio: 1 },
   medium: { name: 'Medium', textures: true, shadows: true, shadowSize: 2048, sky: true, pbr: true, props: true, post: false, pixelRatio: 1.25 },
   high: { name: 'High', textures: true, shadows: true, shadowSize: 4096, sky: true, pbr: true, props: true, post: true, pixelRatio: 1.5 },
+  // Google's scanned 3D city in place of the generated one (needs a Google Map Tiles API key at build time).
+  photoreal: { name: 'Photoreal', photoreal: true, textures: false, shadows: false, shadowSize: 0, sky: false, pbr: false, props: false, post: false, pixelRatio: 1.25 },
 };
+import { photorealAvailable } from './photoreal.js';
+export const availablePresets = () => Object.keys(PRESETS).filter((id) => id !== 'photoreal' || photorealAvailable());
 const KEY = 'miami3d.quality';
 
 export function getQuality() {
   const q = new URLSearchParams(location.search).get('quality');
-  if (q && PRESETS[q]) return { id: q, ...PRESETS[q] };
+  if (q && PRESETS[q] && availablePresets().includes(q)) return { id: q, ...PRESETS[q] };
   let saved = null;
   try { saved = localStorage.getItem(KEY); } catch { /* storage unavailable */ }
-  const id = saved && PRESETS[saved] ? saved : 'medium';
+  const id = saved && PRESETS[saved] && availablePresets().includes(saved) ? saved : 'medium';
   return { id, ...PRESETS[id] };
 }
 

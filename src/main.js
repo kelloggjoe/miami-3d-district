@@ -5,7 +5,8 @@ import { createPlayer } from './player.js';
 import { buildGraph, createCrowd, fmtTime, ARCHETYPES } from './npc.js';
 import { buildProps } from './props.js';
 import { createMaps } from './minimap.js';
-import { getQuality, setQuality, PRESETS } from './quality.js';
+import { getQuality, setQuality, PRESETS, availablePresets } from './quality.js';
+import { createPhotoreal } from './photoreal.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
@@ -41,6 +42,15 @@ async function main() {
   const lap = (k) => { const n = performance.now(); timings[k] = Math.round(n - tm); tm = n; };
   lap('fetch+parse');
   const world = buildWorld(scene, data, Q, renderer); lap('world');
+  let photo = null;
+  if (Q.photoreal) {
+    // Keep the generated city for collision, people and labels, but show Google's scan instead of it.
+    for (const o of scene.children) if (!o.isLight && o !== world.labels) o.visible = false;
+    for (const c of world.chunkList) { c.full.visible = false; if (c.lod) c.lod.visible = false; }
+    world.updateLod = () => {}; // the generated buildings stay hidden
+    scene.background = new THREE.Color('#a9d4ea'); scene.fog = null;
+    photo = createPhotoreal(scene, camera, renderer, data, { calibrateAt: data.meta.spawn });
+  }
   const collision = buildCollision(data); lap('collision');
   const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows }) : null; lap('props');
   if (props) collision.addPolys(props.carPolys); // parked cars are solid
@@ -68,7 +78,7 @@ async function main() {
 
   // Graphics quality picker (reloads the page).
   const qBox = $('quality');
-  for (const id of Object.keys(PRESETS)) {
+  for (const id of availablePresets()) {
     const b = document.createElement('button'); b.textContent = PRESETS[id].name; b.className = id === Q.id ? 'on' : '';
     b.onclick = (e) => { e.stopPropagation(); if (id !== Q.id) setQuality(id); };
     qBox.appendChild(b);
@@ -122,6 +132,7 @@ async function main() {
     if (!maps.open) player.update(dt); // no walking while the map is open
     lodTimer -= dt; if (lodTimer <= 0) { world.updateLod(player.state.x, player.state.y); lodTimer = 0.25; }
     world.updateShadow(camera); world.updateWater(now / 1000);
+    if (photo) photo.update(dt);
     if (props) props.update(camera);
     maps.update(dt);
     crowd.update(dt, clock.hour, simDtH, player.state);
@@ -158,10 +169,14 @@ async function main() {
     if (!window.__firstFrameMs) { window.__firstFrameMs = performance.now(); document.body.dataset.firstFrame = '1'; }
     requestAnimationFrame(frame);
   }
+  if (photo) { // Google requires its name and the imagery providers' credits on screen.
+    const base = $('attrib').innerHTML;
+    setInterval(() => { const t = photo.attributionText(); $('attrib').innerHTML = `${base} · <b>Google</b>${t ? ' · ' + t.replace(/[<>&]/g, '') : ''}`; }, 2000);
+  }
   requestAnimationFrame(frame);
 
   // Test/automation hook (used by tests/e2e.mjs). Read-only use in normal play.
-  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings, maps };
+  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings, maps, photo };
   document.body.dataset.ready = '1';
 }
 

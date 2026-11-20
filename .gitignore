@@ -4,3 +4,4 @@ dist-single/
 pipeline/cache/tiles/
 .DS_Store
 dist-artifact/
+.env.local
