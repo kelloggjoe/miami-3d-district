@@ -87,6 +87,13 @@ Flying works like Minecraft creative mode:
 - **Collision:** buildings stay solid at every height, so you fly around towers or over them.
 - **Water:** you can't land on the bay or the river; you hover just above it.
 
+### Traffic and people
+
+- **Moving traffic:** about 220 cars on Medium (120 on Low, 300 on High) drive the real road network on the right-hand side. They keep a gap to the car ahead and pause at some intersections. Traffic is generated in a bubble around you, so streets look busy wherever you go.
+- **Parked cars:** about 1,500 line local streets on Medium and High.
+- **Car models:** both use Kenney's **Car Kit** (CC0, www.kenney.nl): 12 models including sedans, SUVs, taxis, police cars, vans, trucks, delivery vans, an ambulance and a garbage truck. Each set of cars draws in one batch.
+- **People:** 600 by default. Use `?npcs=` to change it, up to 800, and `?traffic=off` to turn cars off.
+
 ## How it works
 
 ```
@@ -105,6 +112,8 @@ src/
   textures.js        procedural tileable textures
   quality.js         Low / Medium / High presets
   minimap.js         corner minimap + full map with click-to-teleport
+  vehicles.js        parked cars + moving traffic (Kenney Car Kit models, BatchedMesh)
+  photoreal.js       Google Photorealistic 3D Tiles mode
   collision.js       footprint polygons in a grid + 1 m land/water raster; sliding movement
   player.js          pointer-lock first-person controller
   npc.js             walk graph + A*, routines, separation steering, instanced procedural bodies
@@ -128,4 +137,5 @@ Photorealistic textures or photogrammetry, traffic simulation, talking NPCs, mul
 ## License and attribution
 
 - Code: MIT (see `LICENSE`).
+- Car models: Kenney Car Kit, CC0 (see `assets/cars/License.txt`).
 - Map data: **© OpenStreetMap contributors**, under the ODbL (see `DATA_LICENSE.md`). The app shows this attribution at all times.

@@ -128,7 +128,7 @@ function roadIndex(roads) {
 }
 
 // ---------------------------------------------------------------- build
-export function buildProps(scene, data, collision, { castShadow = true } = {}) {
+export function buildProps(scene, data, collision, { castShadow = true, useCarModels = false } = {}) {
   const rand = rng(42);
   const roadsIdx = roadIndex(data.roads);
   const stats = {};
@@ -260,9 +260,13 @@ export function buildProps(scene, data, collision, { castShadow = true } = {}) {
       acc -= L;
     }
   }
-  const paint = { vertexColors: true, roughness: 0.35, metalness: 0.5, flatShading: true };
-  instanced(carGeometry(false), new THREE.MeshStandardMaterial(paint), cars[0]);
-  instanced(carGeometry(true), new THREE.MeshStandardMaterial(paint), cars[1]);
+  // Parked cars are drawn by vehicles.js with real car models; fall back to simple boxes if those didn't load.
+  if (!useCarModels) {
+    const paint = { vertexColors: true, roughness: 0.35, metalness: 0.5, flatShading: true };
+    instanced(carGeometry(false), new THREE.MeshStandardMaterial(paint), cars[0]);
+    instanced(carGeometry(true), new THREE.MeshStandardMaterial(paint), cars[1]);
+  }
+  const parkedSpots = [...cars[0].map((c) => ({ ...c, suv: false })), ...cars[1].map((c) => ({ ...c, suv: true }))];
   stats.parkedCars = carPolys.length;
   const PROP_RANGE = 650;
   function update(camera) {
@@ -270,5 +274,5 @@ export function buildProps(scene, data, collision, { castShadow = true } = {}) {
     for (const c of chunkMeshes) c.mesh.visible = Math.hypot(c.cx - x, c.cy - y) < far;
   }
   stats.chunkMeshes = chunkMeshes.length;
-  return { update, stats, carPolys, carSample: cars[0].slice(0, 20).map((c) => [c.x, c.y, c.rot]) };
+  return { update, stats, carPolys, parkedSpots, carSample: cars[0].slice(0, 20).map((c) => [c.x, c.y, c.rot]) };
 }

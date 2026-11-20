@@ -103,7 +103,7 @@ const SHIRTS = ['#e0457b', '#1f8a8a', '#f2b134', '#ffffff', '#3d5a80', '#ee6c4d'
 const PANTS = ['#2b2d42', '#3d405b', '#6c757d', '#c2b280', '#1d3557', '#5c4033'];
 const SKIN = ['#f1c27d', '#e0ac69', '#c68642', '#8d5524', '#ffdbac', '#a1665e'];
 
-export function createCrowd(scene, data, graph, collision, { count = 300, seed = 7 } = {}) {
+export function createCrowd(scene, data, graph, collision, { count = 600, seed = 7 } = {}) {
   const rnd = mulberry(seed);
   const dest = data.walk.dest;
   // Destinations are chosen near the person (their "neighborhood"): sample a few candidates and take the
@@ -131,7 +131,7 @@ export function createCrowd(scene, data, graph, collision, { count = 300, seed =
   const cum = []; let acc = 0; for (const n of archNames) { acc += ARCHETYPES[n].share; cum.push(acc); }
 
   // ---- instanced bodies ----
-  const MAX = 400;
+  const MAX = 800;
   const parts = {
     torso: new THREE.BoxGeometry(0.42, 0.6, 0.24).translate(0, 1.18, 0),
     head: new THREE.BoxGeometry(0.22, 0.24, 0.22).translate(0, 1.62, 0),

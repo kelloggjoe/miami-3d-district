@@ -78,6 +78,16 @@ The brief says to proceed with these defaults and flag them. **All five are stil
 | Scale knobs | 300 m building chunks, ground and collision raster capped at 4096 px (about 1.5 m per pixel), fog 1.5–8 km, view distance 9 km, up to 3,000 lamps and 1,500 parked cars | Keeps draw calls under 700 even on High. |
 | Coastline | Islands crossing the map edge (PortMiami, Watson Island, Virginia Key) are traced from a point outside the box | Fixes PortMiami rendering as water. |
 
+## Traffic and crowd (added on request)
+
+| Decision | Value | Why |
+|---|---|---|
+| Car models | Kenney Car Kit (CC0), 12 models, about 2,000–3,000 triangles each, all sharing one texture | Free, public-domain, and small (about 2.6 MB in total). The shared texture lets every car draw through one `BatchedMesh`, with per-car frustum culling. Photo-real car models would need paid or attribution-licensed assets and many more triangles. |
+| Moving traffic | A bubble of cars within 700 m of the camera (120 / 220 / 300 by preset). Cars more than 850 m away move to roads 250–700 m away, out of sight. Cars beyond about 450 m are hidden. | Dense traffic wherever you are, at a fixed cost. |
+| Driving rules | Right-hand lane offset of a quarter of the road width (between 1.6 and 4.5 m). Speed by road type (5–24 m/s). Cars brake for the car ahead and pause 0.8–3.3 s at 25% of junctions. Turns favor going straight. | Simple and cheap. **Not modeled:** traffic lights, one-way streets (the data doesn't keep the `oneway` tag), lane changes, or reacting to pedestrians. |
+| Parked cars | Same 1,500 curbside spots as before, now with car or SUV models. Hidden beyond about 320 m. | |
+| People | Default 600 (was 300), maximum 800 | Busier sidewalks. People are still the simple box figures. |
+
 ## Movement and collision
 
 | Decision | Value | Why |

@@ -4,6 +4,7 @@ import { buildCollision } from './collision.js';
 import { createPlayer } from './player.js';
 import { buildGraph, createCrowd, fmtTime, ARCHETYPES } from './npc.js';
 import { buildProps } from './props.js';
+import { loadCarModels, createVehicles } from './vehicles.js';
 import { createMaps } from './minimap.js';
 import { getQuality, setQuality, PRESETS, availablePresets } from './quality.js';
 import { createPhotoreal } from './photoreal.js';
@@ -55,11 +56,16 @@ async function main() {
     });
   }
   const collision = buildCollision(data); lap('collision');
-  const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows }) : null; lap('props');
+  let carKit = null;
+  try { carKit = await loadCarModels(); } catch (e) { console.warn('Car models failed to load; using simple shapes.', e); }
+  lap('car models');
+  const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows, useCarModels: !!carKit }) : null; lap('props');
   if (props) collision.addPolys(props.carPolys); // parked cars are solid
   const player = createPlayer(camera, canvas, collision, data.meta.spawn, data.meta.start);
   const graph = buildGraph(data.walk, collision);
-  const crowd = createCrowd(scene, data, graph, collision, { count: +(params.get('npcs') || 300) }); lap('npcs');
+  const crowd = createCrowd(scene, data, graph, collision, { count: +(params.get('npcs') || 600) }); lap('npcs');
+  // Parked cars (Medium/High) and moving traffic (all presets), drawn with real car models.
+  const vehicles = carKit && params.get('traffic') !== 'off' ? createVehicles(scene, data, Q, carKit, props ? props.parkedSpots : [], collision) : null; lap('vehicles');
   if (Q.shadows) for (const m of Object.values(crowd.meshes)) m.castShadow = true;
 
   // High: ambient occlusion + subtle bloom.
@@ -142,6 +148,7 @@ async function main() {
     world.updateShadow(camera); world.updateWater(now / 1000);
     if (photo) photo.update(dt);
     if (props) props.update(camera);
+    if (vehicles) vehicles.update(dt, camera);
     maps.update(dt);
     crowd.update(dt, clock.hour, simDtH, player.state);
     renderer.info.reset();
@@ -184,7 +191,7 @@ async function main() {
   requestAnimationFrame(frame);
 
   // Test/automation hook (used by tests/e2e.mjs). Read-only use in normal play.
-  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings, maps, photo };
+  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings, maps, photo, vehicles };
   document.body.dataset.ready = '1';
 }
 
