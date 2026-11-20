@@ -44,6 +44,8 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
   results.walking = await page.evaluate(() => {
     const m = window.__miami, P = m.player, S = P.state, C = m.collision;
     const EYE = 1.7, dt = 1 / 60;
+    // The app starts flying at 12x on a roof; the walking checks measure an ordinary walker.
+    P.setFlying(false); S.speedMul = 1; S.z = 0; S.vz = 0;
     function walkTo(tx, ty, { sprint = true, maxT = 400 } = {}) {
       let t = 0, best = Math.hypot(tx - S.x, ty - S.y), lastImprove = 0, minEye = Infinity;
       while (t < maxT) {
@@ -141,13 +143,13 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
     for (let k = 0; k < 120; k++) { P.update(1 / 60, { forward: 0, right: 0, sprint: false, jump: false }); maxZ = Math.max(maxZ, S.z); }
     const jump = { peakM: +maxZ.toFixed(2), landed: S.z === 0, pass: maxZ > 0.3 && maxZ < 0.8 && S.z === 0 };
     P.reset();
-    return { brickell, bayfront, wall, water, jump, resetGoesToStartRoof: (() => { const st = m.data.meta.start; return S.x === st.x && S.y === st.y && S.z > 200 && Math.abs(m.camera.rotation.y - Math.PI) < 1e-6; })() };
+    return { brickell, bayfront, wall, water, jump, resetGoesToStartRoof: (() => { const st = m.data.meta.start; return S.x === st.x && S.y === st.y && S.z > 200 && S.flying && S.speedMul === 1 && Math.abs(m.camera.rotation.y - Math.PI) < 1e-6; })() };
   });
   results.walking.pageErrors = errors;
 
   // ---------------------------------------------------------------- flying (creative mode) + speed
   // Real keyboard events for the double-tap toggle; scripted input for the rest.
-  await page.evaluate(() => window.__miami.player.reset());
+  await page.evaluate(() => { window.__miami.player.reset(); window.__miami.player.setFlying(false); }); // double-tap should turn flying on
   // Two Space taps 150 ms apart, dispatched in-page (Playwright's own key presses arrive ~450 ms apart on this
   // software-rendered page, longer than the 350 ms double-tap window).
   await page.evaluate(async () => {
@@ -161,7 +163,7 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
     const face = (tx, ty) => m.camera.rotation.set(0, Math.atan2(-(tx - S.x), ty - S.y), 0, 'YXZ');
     const out = { doubleTapSpaceStartsFlying: toggledOn };
     // Climb for 5 s.
-    P.reset(); P.setFlying(true); step(300, { up: true });
+    P.reset(); S.speedMul = 1; P.setFlying(true); step(300, { up: true });
     out.climb5s = { altitudeM: +S.z.toFixed(1), stillFlying: S.flying };
     // Tallest footprint: fly into it at 60 m altitude and check we never enter it.
     const tall = C.polys.filter((p) => !p.extra && !p.noStand).sort((a, b) => b.h - a.h)[0];
@@ -192,7 +194,7 @@ async function open(query = '', viewport = { width: 1280, height: 720 }) {
     step(600, { down: true });
     out.waterDescent = { overWater: S.overWater, altitudeM: +S.z.toFixed(2), stillFlying: S.flying, pass: S.overWater && S.flying && S.z >= 0.59 };
     // Speed multiplier: walk 2 s in the park at 1x and at 5x.
-    const walkFor = (mul) => { P.reset(); S.x = m.data.meta.spawn[0]; S.y = m.data.meta.spawn[1]; S.z = 0; S.speedMul = mul; m.camera.rotation.set(0, 0, 0, 'YXZ'); const x0 = S.x, y0 = S.y; for (let i = 0; i < 120; i++) P.update(dt, { forward: 1, right: 0, sprint: false, jump: false }); return Math.hypot(S.x - x0, S.y - y0); };
+    const walkFor = (mul) => { P.reset(); P.setFlying(false); S.x = m.data.meta.spawn[0]; S.y = m.data.meta.spawn[1]; S.z = 0; S.speedMul = mul; m.camera.rotation.set(0, 0, 0, 'YXZ'); const x0 = S.x, y0 = S.y; for (let i = 0; i < 120; i++) P.update(dt, { forward: 1, right: 0, sprint: false, jump: false }); return Math.hypot(S.x - x0, S.y - y0); };
     const d1 = walkFor(1), d5 = walkFor(5);
     out.speedMultiplier = { walked2sAt1xM: +d1.toFixed(2), walked2sAt5xM: +d5.toFixed(2), ratio: +(d5 / d1).toFixed(2), pass: Math.abs(d5 / d1 - 5) < 0.3 };
     S.speedMul = 1; P.reset();

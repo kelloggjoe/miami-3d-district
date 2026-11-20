@@ -17,15 +17,17 @@ const WATER_HOVER = 0.6; // flight cannot end over water; the player hovers this
 export function createPlayer(camera, dom, collision, spawn, start = null) {
   const controls = new PointerLockControls(camera, dom);
   const keys = new Set();
-  let savedSpeed = 1;
-  try { savedSpeed = SPEED_STEPS.indexOf(+localStorage.getItem('miami3d.speed')) >= 0 ? +localStorage.getItem('miami3d.speed') : 1; } catch { /* storage unavailable */ }
+  const DEFAULT_SPEED = 12; // fast by default for crossing the district; a visitor's own +/- choice is remembered
+  let savedSpeed = DEFAULT_SPEED;
+  try { const v = +localStorage.getItem('miami3d.speed'); if (SPEED_STEPS.includes(v)) savedSpeed = v; } catch { /* storage unavailable */ }
   const state = { x: spawn[0], y: spawn[1], z: 0, vz: 0, vx: 0, vy: 0, onGround: true, flying: false, fast: false, overWater: false, distance: 0, speedMul: savedSpeed };
   const listeners = new Set();
   const emit = () => listeners.forEach((f) => f(state));
   const reset = () => {
     const x = start ? start.x : spawn[0], y = start ? start.y : spawn[1];
     const z = start ? collision.groundAt(x, y, 1e4) : 0; // stand on the roof at the start point
-    Object.assign(state, { x, y, z, vz: 0, vx: 0, vy: 0, flying: false, fast: false, onGround: true });
+    // At the start point you begin already flying (hovering at the roof); without one, on foot.
+    Object.assign(state, { x, y, z, vz: 0, vx: 0, vy: 0, flying: !!start, fast: false, onGround: !start });
     camera.position.set(state.x, EYE + z, -state.y);
     if (start) camera.rotation.set(start.pitch || 0, start.yaw, 0, 'YXZ');
     else camera.rotation.set(0, Math.PI * 0.5, 0, 'YXZ'); // face west, toward downtown
