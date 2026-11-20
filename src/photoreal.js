@@ -35,7 +35,12 @@ export function createPhotoreal(scene, camera, renderer, data, { calibrateAt }) 
   const ray = new THREE.Raycaster();
   let calibrated = false, calibTimer = 0, offset = 0;
   const state = { loadedTiles: 0, calibrated: false, groundOffsetM: 0, error: null };
-  tiles.addEventListener('load-error', (e) => { state.error = String(e.error || e.message || 'load error'); });
+  // If nothing has loaded and Google refuses (daily cap reached, key problem, offline), report failure so the
+  // app can fall back to the generated city instead of showing empty sky.
+  const failListeners = [];
+  const fail = (why) => { if (state.failed) return; state.failed = true; state.error = why; failListeners.forEach((f) => f(why)); };
+  tiles.addEventListener('load-error', (e) => { const why = String(e.error?.message || e.error || 'load error'); state.error = why; if (state.loadedTiles === 0) fail(why); });
+  setTimeout(() => { if (state.loadedTiles === 0) fail(state.error || 'timeout'); }, 20000);
   tiles.addEventListener('load-model', () => { state.loadedTiles++; });
 
   function calibrate() {
@@ -75,5 +80,5 @@ export function createPhotoreal(scene, camera, renderer, data, { calibrateAt }) 
     return words;
   }
 
-  return { tiles, frame, update, state, attributionText };
+  return { tiles, frame, update, state, attributionText, onFail: (f) => failListeners.push(f) };
 }

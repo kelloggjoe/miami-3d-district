@@ -43,3 +43,4 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #9fd3ea; fon
 #bigmap-places button { text-align: left; border: 1px solid #0001; background: #fff; border-radius: 6px; padding: 6px 9px; cursor: pointer; font: inherit; font-size: 13px; color: var(--ink); }
 #bigmap-places button:hover, #bigmap-places button:focus-visible { background: var(--teal); color: #fff; }
 @media (max-width: 700px) { .bigmap-side { display: none; } #minimap { width: 120px; height: 120px; } }
+.notice { margin: 0 0 12px; padding: 8px 10px; border-radius: 8px; background: #fff3d6; color: #6b4b00; font-size: 13px; }

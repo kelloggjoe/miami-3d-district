@@ -50,6 +50,9 @@ async function main() {
     world.updateLod = () => {}; // the generated buildings stay hidden
     scene.background = new THREE.Color('#a9d4ea'); scene.fog = null;
     photo = createPhotoreal(scene, camera, renderer, data, { calibrateAt: data.meta.spawn });
+    photo.onFail(() => { // Google's daily cap or a key problem: reload as the generated city (don't change the saved choice)
+      const u = new URL(location.href); u.searchParams.set('quality', 'medium'); u.searchParams.set('photoreal', 'unavailable'); location.replace(u.toString());
+    });
   }
   const collision = buildCollision(data); lap('collision');
   const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows }) : null; lap('props');
@@ -96,6 +99,11 @@ async function main() {
   const loadMs = performance.now() - t0;
   $('loading').textContent = `Loaded ${data.buildings.length.toLocaleString()} building shapes in ${(loadMs / 1000).toFixed(1)} s.`;
   $('go').disabled = false;
+  if (params.get('photoreal') === 'unavailable') {
+    const n = document.createElement('p'); n.className = 'notice';
+    n.textContent = "Photoreal isn't available right now (its daily limit may be used up), so you're seeing the generated city. Try Photoreal again later.";
+    $('loading').after(n);
+  }
   $('go').onclick = () => player.controls.lock();
   canvas.addEventListener('click', () => { if (!player.controls.isLocked) player.controls.lock(); else inspect(); });
   player.controls.addEventListener('lock', () => $('start').classList.add('hidden'));
