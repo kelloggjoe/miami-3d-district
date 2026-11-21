@@ -89,6 +89,19 @@ The brief says to proceed with these defaults and flag them. **All five are stil
 | People | Ambient crowd within about 350 m of the camera (600 / 1,500 / 2,500 by preset). People walk the walk graph, picking a direction at each corner, with no route planning. The number outdoors follows the clock (about 5% at 3 AM, 100% at noon and 6 PM). | Replaces the routine-based crowd, which planned long A* routes across the whole map. Thousands of people now cost almost nothing at load, and wherever you are looks busy. The trade-off: people no longer commute between specific homes and offices. |
 | Styles | Normal, Miami Vice, Noir. Each changes the sun, sky, fog and lights, then a final color-grade pass (plus bloom for Miami Vice). Photoreal gets the grade only. | Live switching with no reload. The grade runs after tone mapping, on display colors. |
 
+## Build any area (added on request)
+
+| Decision | Value | Why |
+|---|---|---|
+| Where it runs | Entirely in the browser: data download, then the existing pipeline in a Web Worker, cached in IndexedDB | No server to run or pay for. The same code builds the prebuilt Miami data. |
+| Data source | Overpass (40 s timeout), then the OpenStreetMap API in about 650 m tiles, plus up to 60 multipolygon relations | Overpass was often unreachable or slow from the build machine. The OSM API answered reliably and allows browser requests. Each build makes 15 to 100 requests, one at a time. Heavy public use would need a self-hosted extract instead. |
+| Area size | 1, 2, 3 or 4 km square (default 2) | Keeps downloads under about 50 MB and builds under a minute. |
+| Default heights | Median of the area's tagged building heights (6 to 30 m); 8 m if fewer than 20 are tagged | The Miami "core points" don't apply elsewhere. This avoids 45 m suburban houses. |
+| Landmarks | Up to 7 tallest named buildings (25 m or more), then named buildings with a Wikipedia or Wikidata link, 10 total. Plus the 4 largest named parks and up to 4 neighborhood names. | A reasonable automatic version of the hand-made Miami list. Labels now keep a constant on-screen size. |
+| Busyness | 0.8 × (floor-area ratio / 1.6)^0.6, plus up to 0.3 from restaurants and cafés per km², clamped to 0.2–1.3. It multiplies crowd and traffic size. | Chicago Loop → 1.3 (1,950 people, 780 cars); Oak Park → 0.47 (705 people, 282 cars). Miami's prebuilt data stays at 1.0. |
+| Start | Flying at 110–320 m (scaled to the tallest building), 30% of the area south of center, looking north | Gives an immediate overview of any area. |
+| Explore page look | joeferber.com tokens: Inter, navy ink, #533afd accent, white card with a soft float shadow | Matches the site it's hosted on. |
+
 ## Movement and collision
 
 | Decision | Value | Why |

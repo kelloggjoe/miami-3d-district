@@ -457,8 +457,9 @@ export function buildWorld(scene, data, Q, renderer) {
     g.beginPath(); g.roundRect(0, 0, w, 72, 18); g.fill();
     g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(l.n, 20, 38);
     const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
-    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthWrite: false, fog: false, toneMapped: false }));
-    const scale = l.k === 'landmark' ? 0.32 : 0.3; sp.scale.set(w * scale, 72 * scale, 1);
+    // Constant on-screen size (not world meters), so labels stay readable far away and don't fill the screen up close.
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthWrite: false, fog: false, toneMapped: false, sizeAttenuation: false }));
+    const hgt = l.k === 'landmark' ? 0.034 : 0.04; sp.scale.set((w / 72) * hgt, hgt, 1);
     sp.position.set(l.x, l.h + 14, -l.y); labels.add(sp);
   }
   scene.add(labels);

@@ -72,6 +72,22 @@ npm run dev            # http://localhost:5173
 
 URL options: `?npcs=200` (0 to 400), `?hour=17.5` (start time), `?quality=low|medium|high`.
 
+### Explore: build any area
+
+Open **explore.html** (the "Pick another area" link on the start screen). Search for a place, pan the map so the square covers the area you want (1–4 km), and click **Build this area**.
+
+- **How it's built:** the browser downloads OpenStreetMap data (Overpass, falling back to the OpenStreetMap API in tiles) and runs the same pipeline as the Miami build, in a Web Worker.
+- **Saved in your browser:** results are cached, so a revisit is instant.
+- **Shareable:** the link (`?area=lat,lon,km&name=…`) rebuilds the same area for anyone.
+- **Picked automatically:**
+  - landmarks: the tallest named buildings, plus named buildings with a Wikipedia or Wikidata link;
+  - parks and neighborhood labels;
+  - default height for untagged buildings: the area's median tagged height;
+  - start: an overlook that you're flying above;
+  - a **busyness** score from floor area and restaurants per km², which scales the crowd and traffic. The Chicago Loop scores 130%; a quiet Oak Park block scores 47%.
+- **Speed:** measured here, a 2 km area of the Chicago Loop built in about 37 s, and a 1 km area of Oak Park in about 9 s.
+- **Map and search:** MapLibre with OpenFreeMap tiles (free, no key) and Nominatim search.
+
 ### Map and teleporting
 
 - **Minimap:** the round map in the bottom-left corner. It follows you with north up and shows people outdoors as pink dots.
@@ -118,6 +134,10 @@ src/
   quality.js         Low / Medium / High presets
   minimap.js         corner minimap + full map with click-to-teleport
   vehicles.js        parked cars + moving traffic (Kenney Car Kit models, BatchedMesh)
+  pedestrians.js     ambient crowd around the player
+  styles.js          Normal / Miami Vice / Noir
+  generator.js       build any area in the browser (+ generator.worker.js, overpass-query.js)
+  explore.js/.css    the area picker page (explore.html)
   photoreal.js       Google Photorealistic 3D Tiles mode
   collision.js       footprint polygons in a grid + 1 m land/water raster; sliding movement
   player.js          pointer-lock first-person controller

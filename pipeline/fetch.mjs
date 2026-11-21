@@ -132,20 +132,8 @@ async function viaOsmApi(tileCacheDir) {
   return { elements, source: { method: 'osm-api-tiles', endpoint: API, tileDeg: STEP, requests } };
 }
 
-// Keep only what the pipeline uses (the OSM API returns everything in each tile).
-const WANT_WAY = (t) => t.building || t['building:part'] || t.highway || t.leisure || t.landuse || t.natural || t.waterway || t.railway || t.man_made === 'bridge' || t.water;
-const WANT_NODE = (t) => t.natural === 'tree' || /^(street_lamp|bus_stop|crossing)$/.test(t.highway || '') ||
-  /^(cafe|restaurant|fast_food|bench|bar|pub)$/.test(t.amenity || '') || /^(station|stop|halt)$/.test(t.railway || '') ||
-  /^(station|platform|stop_position)$/.test(t.public_transport || '') || t.entrance;
-const WANT_REL = (t) => t.building || t['building:part'] || t.leisure || t.natural === 'water' || t.waterway || t.water;
-export function filterElements(elements) {
-  return elements.filter((e) => {
-    const t = e.tags || {};
-    if (e.type === 'node') return WANT_NODE(t);
-    if (e.type === 'way') return WANT_WAY(t);
-    return WANT_REL(t);
-  });
-}
+export { filterElements } from './osm-normalize.mjs';
+import { filterElements } from './osm-normalize.mjs';
 
 export async function fetchOsm(cacheFile, { refresh = false, skipOverpass = false } = {}) {
   if (!refresh && fs.existsSync(cacheFile)) {

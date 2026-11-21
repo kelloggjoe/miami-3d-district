@@ -25,7 +25,8 @@ export function createPlayer(camera, dom, collision, spawn, start = null) {
   const emit = () => listeners.forEach((f) => f(state));
   const reset = () => {
     const x = start ? start.x : spawn[0], y = start ? start.y : spawn[1];
-    const z = start ? collision.groundAt(x, y, 1e4) : 0; // stand on the roof at the start point
+    // stand on the roof at the start point, or hover at start.alt (generated areas)
+    const z = start ? Math.max(start.alt || 0, collision.groundAt(x, y, 1e4)) : 0;
     // At the start point you begin already flying (hovering at the roof); without one, on foot.
     Object.assign(state, { x, y, z, vz: 0, vx: 0, vy: 0, flying: !!start, fast: false, onGround: !start });
     camera.position.set(state.x, EYE + z, -state.y);

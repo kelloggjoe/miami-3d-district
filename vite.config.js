@@ -12,5 +12,5 @@ export default defineConfig(({ mode }) => ({
     ? { outDir: 'dist-single', assetsInlineLimit: 100_000_000, chunkSizeWarningLimit: 4000 }
     : mode === 'artifact' // JS/CSS inlined, map data kept as a separate file fetched by relative URL
       ? { outDir: 'dist-artifact', assetsInlineLimit: 0, chunkSizeWarningLimit: 4000 }
-      : { outDir: 'dist', chunkSizeWarningLimit: 1000 },
+      : { outDir: 'dist', chunkSizeWarningLimit: 2000, rollupOptions: { input: { main: 'index.html', explore: 'explore.html' } } },
 }));

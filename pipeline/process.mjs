@@ -1,11 +1,12 @@
 // Converts cached raw OSM JSON into the compact district file the app loads.
-import { BBOX, SIMPLIFY_TOLERANCE_M, MIN_BUILDING_AREA_M2, LEVEL_HEIGHT_M, DEFAULT_HEIGHT_CORE_M,
+import { BBOX as CONFIG_BBOX, SIMPLIFY_TOLERANCE_M, MIN_BUILDING_AREA_M2, LEVEL_HEIGHT_M, DEFAULT_HEIGHT_CORE_M,
   DEFAULT_HEIGHT_EDGE_M, CORE_POINTS, CORE_RADIUS_M, ROAD_WIDTH_DEFAULTS, LANE_WIDTH_M } from './config.mjs';
 import { makeProjection, ringArea, centroid, pointInRing, simplifyRing, simplifyLine, dedupeRing,
   selfIntersects, stitch, coastlineToLand, clipPolyline } from './geo.mjs';
 
 const r1 = (v) => Math.round(v * 10) / 10;
 const flat = (ring) => ring.flatMap(([x, y]) => [r1(x), r1(y)]);
+const ring2 = (f) => { const r = []; for (let i = 0; i < f.length; i += 2) r.push([f[i], f[i + 1]]); return r; };
 
 function parseLength(v) {
   if (v == null) return null;
@@ -19,7 +20,13 @@ function parseLength(v) {
   return null;
 }
 
-export function processOsm(raw, landmarkFile) {
+// opts (all optional; defaults are the hand-tuned Miami build):
+//   bbox            { south, west, north, east }
+//   corePoints      [{ lat, lon }] for the downtown default height; null = use the area's median tagged height
+//   title           shown in the app
+export function processOsm(raw, landmarkFile, opts = {}) {
+  const BBOX = opts.bbox || CONFIG_BBOX;
+  const CORE = opts.corePoints === undefined ? CORE_POINTS : opts.corePoints;
   const lat0 = (BBOX.south + BBOX.north) / 2, lon0 = (BBOX.west + BBOX.east) / 2;
   const P = makeProjection(lat0, lon0);
   const [minX, minY] = P.project(BBOX.south, BBOX.west);
@@ -72,7 +79,15 @@ export function processOsm(raw, landmarkFile) {
   // ---------- buildings ----------
   const landmarkCfg = landmarkFile;
   const isLandmarkName = (n) => n && landmarkCfg.landmarks.some((l) => new RegExp(l.match, 'i').test(n));
-  const corePts = CORE_POINTS.map((c) => P.project(c.lat, c.lon));
+  const corePts = (CORE || []).map((c) => P.project(c.lat, c.lon));
+  // Without core points (generated areas), untagged buildings get the median height of the area's tagged ones.
+  let medianH = null;
+  if (!CORE) {
+    const hs = [];
+    for (const e of raw.elements) { const t = e.tags || {}; if (!t.building || t['building:part']) continue; const h = parseLength(t.height) ?? (t['building:levels'] != null && !isNaN(parseFloat(t['building:levels'])) ? parseFloat(t['building:levels']) * LEVEL_HEIGHT_M : null); if (h > 0) hs.push(h); }
+    hs.sort((a, b) => a - b);
+    medianH = hs.length >= 20 ? Math.min(30, Math.max(6, hs[Math.floor(hs.length / 2)])) : 8;
+  }
   const seen = new Map();
   const buildings = [];
   for (const kind of ['building', 'building:part']) {
@@ -94,8 +109,9 @@ export function processOsm(raw, landmarkFile) {
       if (h == null || h <= 0) {
         if (kind === 'building:part') { h = null; src = 'inherit'; }
         else {
-          const dCore = Math.min(...corePts.map((q) => Math.hypot(ctr[0] - q[0], ctr[1] - q[1])));
-          h = dCore < CORE_RADIUS_M ? DEFAULT_HEIGHT_CORE_M : DEFAULT_HEIGHT_EDGE_M; src = 'default';
+          if (medianH != null) h = medianH;
+          else { const dCore = Math.min(...corePts.map((q) => Math.hypot(ctr[0] - q[0], ctr[1] - q[1]))); h = dCore < CORE_RADIUS_M ? DEFAULT_HEIGHT_CORE_M : DEFAULT_HEIGHT_EDGE_M; }
+          src = 'default';
         }
       }
       let mh = parseLength(t.min_height);
@@ -334,8 +350,11 @@ export function processOsm(raw, landmarkFile) {
       else labels.push({ n: pl.name, missing: true });
     } else { const [x, y] = P.project(pl.lat, pl.lon); labels.push({ n: pl.name, x: r1(x), y: r1(y), h: 30, k: 'place', approx: true }); }
   }
-  const bayfront = parks.filter((q) => q.n && /^Bayfront Park$/i.test(q.n)).sort((a, b) => b._area - a._area)[0];
+  // Spawn / calibration point: Bayfront Park in Miami; elsewhere the largest park, else the street nearest the center.
+  const bayfront = parks.filter((q) => q.n && /^Bayfront Park$/i.test(q.n)).sort((a, b) => b._area - a._area)[0]
+    || parks.filter((q) => q._area > 3000 && pointInRing(...centroid(q._ring), q._ring)).sort((a, b) => b._area - a._area)[0];
   let spawn = [0, 0];
+  if (!bayfront && gN.length) { let bi = 0, bd = Infinity; for (let i = 0; i < gN.length / 2; i++) { const d = Math.hypot(gN[2 * i], gN[2 * i + 1]); if (d < bd) { bd = d; bi = i; } } spawn = [gN[2 * bi], gN[2 * bi + 1]]; }
   if (bayfront) {
     const c = centroid(bayfront._ring);
     const blocked = (x, y) => finalBuildings.some((b) => pointInRing(x, y, b.outer)) || !pointInRing(x, y, bayfront._ring);
@@ -362,6 +381,19 @@ export function processOsm(raw, landmarkFile) {
     start = { name: startB.landmark, x: r1(sx), y: r1(sy), yaw: Math.PI, pitch: -0.3 }; // yaw PI = facing south, looking down a little
   }
 
+  // Generated areas: start flying south of the center, looking north over the area.
+  const maxH = finalBuildings.reduce((m, b) => Math.max(m, b.h || 0), 0);
+  if (!start) {
+    const span = Math.min(maxX - minX, maxY - minY);
+    start = { name: 'Overlook', x: 0, y: r1(-Math.min(700, span * 0.32)), yaw: 0, pitch: -0.36, alt: Math.round(Math.min(320, Math.max(110, maxH * 0.7 + 90))) };
+  }
+  // Busyness: floor area per land area relative to Brickell (about 1.0 there), scaled gently. Drives crowd and traffic size.
+  let floor = 0; for (const b of finalBuildings) if (!b.hasParts && !b.open) floor += b.area * Math.max(1, (b.h - (b.mh || 0)) / LEVEL_HEIGHT_M);
+  let landArea = 0; for (const r of land) landArea += Math.abs(ringArea(r)); for (const w of water) landArea -= Math.abs(ringArea(ring2(w.c)));
+  const far = floor / Math.max(1, landArea);
+  const shops = poi.food.length / Math.max(0.2, landArea / 1e6);
+  const density = +Math.min(1.3, Math.max(0.2, Math.pow(far / 1.6, 0.6) * 0.8 + Math.min(0.3, shops / 400))).toFixed(2);
+
   // ---------- assemble ----------
   const outBuildings = finalBuildings.map((b) => ({
     c: flat(b.outer), ...(b.holes.length ? { holes: b.holes.map(flat) } : {}),
@@ -372,13 +404,13 @@ export function processOsm(raw, landmarkFile) {
   }));
   const data = {
     meta: {
-      title: 'Downtown and Brickell, Miami',
+      title: opts.title || 'Downtown and Brickell, Miami',
       attribution: '© OpenStreetMap contributors',
       license: 'ODbL 1.0 (https://opendatacommons.org/licenses/odbl/1-0/)',
       source: raw._fetched?.endpoint, fetched: raw._fetched?.date, method: raw._fetched?.method || 'overpass',
       bbox: BBOX, origin: { lat: lat0, lon: lon0 }, projection: 'equirectangular, meters, x=east y=north',
       extent: { minX: r1(minX), minY: r1(minY), maxX: r1(maxX), maxY: r1(maxY) },
-      spawn, start, generated: new Date().toISOString(),
+      spawn, start, density, floorAreaRatio: +far.toFixed(2), generated: new Date().toISOString(),
     },
     buildings: outBuildings, roads, land: land.map(flat), water, parks: parks.map(({ _ring, _area, ...p }) => p), beaches, rail, poi, labels: labels.filter((l) => !l.missing),
     walk: { nodes: gN, edges: gE, dest },

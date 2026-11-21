@@ -9,6 +9,7 @@ import { loadCarModels, createVehicles } from './vehicles.js';
 import { createMaps } from './minimap.js';
 import { getQuality, setQuality, PRESETS, availablePresets } from './quality.js';
 import { createPhotoreal } from './photoreal.js';
+import { parseArea, generateArea } from './generator.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
@@ -21,6 +22,13 @@ const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 
 async function loadData() {
+  // A generated area (?area=lat,lon,km from the Explore page): download and build it in the browser.
+  const area = parseArea(params);
+  if (area) {
+    document.body.classList.add('generated');
+    $('area-name').textContent = area.name || `${area.lat.toFixed(3)}, ${area.lon.toFixed(3)}`;
+    return generateArea(area, (p) => { $('loading').textContent = p.text; });
+  }
   // Artifact build: data is published beside the page. Other builds: hashed asset (or inlined data: URL in the single-file build).
   const dataUrl = import.meta.env.MODE === 'artifact' ? './district.json' : (await import('../data/district.json?url')).default;
   const res = await fetch(dataUrl);
@@ -67,7 +75,7 @@ async function main() {
   const graph = buildGraph(data.walk, collision);
   // People: an ambient crowd around the player (sized by preset; ?npcs= overrides).
   const crowdSize = +(params.get('npcs') || (Q.id === 'low' ? 600 : Q.id === 'high' ? 2500 : 1500));
-  const density = data.meta.density || 1; // generated areas scale crowds and traffic to how built-up they are
+  const density = data.meta.autoDensity ? data.meta.density : 1; // generated areas scale crowds and traffic to how built-up they are
   const crowd = createPedestrians(scene, data, collision, { count: crowdSize, density }); lap('npcs');
   if (Q.shadows) for (const m of Object.values(crowd.meshes)) m.castShadow = true;
   let vehicles = null;
@@ -133,7 +141,15 @@ async function main() {
 
   // ---- UI wiring ----
   const loadMs = performance.now() - t0;
-  $('loading').textContent = `Loaded ${data.buildings.length.toLocaleString()} building shapes in ${(loadMs / 1000).toFixed(1)} s.`;
+  $('loading').textContent = data.meta.autoDensity
+    ? `${data.buildings.length.toLocaleString()} buildings · busyness ${Math.round(data.meta.density * 100)}% · ready`
+    : `Loaded ${data.buildings.length.toLocaleString()} building shapes in ${(loadMs / 1000).toFixed(1)} s.`;
+  const copy = $('copy-link');
+  if (copy) copy.onclick = async (e) => {
+    e.stopPropagation();
+    try { await navigator.clipboard.writeText(location.href); copy.textContent = 'Link copied'; } catch { copy.textContent = 'Copy the address bar to share'; }
+    setTimeout(() => { copy.textContent = 'Copy link'; }, 2500);
+  };
   $('go').disabled = false;
   if (params.get('photoreal') === 'unavailable') {
     const n = document.createElement('p'); n.className = 'notice';
@@ -227,4 +243,4 @@ async function main() {
   document.body.dataset.ready = '1';
 }
 
-main().catch((e) => { console.error(e); $('loading').textContent = `Error: ${e.message}`; });
+main().catch((e) => { console.error(e); $('loading').textContent = e.message; $('loading').classList.add('error'); });
