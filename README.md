@@ -66,6 +66,7 @@ npm run dev            # http://localhost:5173
 | P, [ , ] | Pause the clock, slower, faster (1× to 600×) |
 | L | Labels on/off |
 | G | Next graphics quality (reloads) |
+| V | Next style: Normal, Miami Vice, Noir |
 | ` (backtick) | Debug overlay: FPS, draw calls, triangles, position, NPC timing |
 | Esc | Release the mouse |
 
@@ -89,10 +90,14 @@ Flying works like Minecraft creative mode:
 
 ### Traffic and people
 
-- **Moving traffic:** about 220 cars on Medium (120 on Low, 300 on High) drive the real road network on the right-hand side. They keep a gap to the car ahead and pause at some intersections. Traffic is generated in a bubble around you, so streets look busy wherever you go.
+- **Moving traffic:** about 600 cars on Medium (300 on Low, 900 on High) drive the real road network on the right-hand side. They keep a gap to the car ahead and pause at some intersections. Traffic is generated in a bubble around you, so streets look busy wherever you go. Car models load in the background after the first frame.
 - **Parked cars:** about 1,500 line local streets on Medium and High.
 - **Car models:** both use Kenney's **Car Kit** (CC0, www.kenney.nl): 12 models including sedans, SUVs, taxis, police cars, vans, trucks, delivery vans, an ambulance and a garbage truck. Each set of cars draws in one batch.
-- **People:** 600 by default. Use `?npcs=` to change it, up to 800, and `?traffic=off` to turn cars off.
+- **People:** an ambient crowd around you, 1,500 on Medium (600 Low, 2,500 High). People walk the sidewalks, are recycled as you move, and thin out at night. Use `?npcs=` to change the count and `?traffic=off` to turn cars off.
+
+### Styles
+
+Pick a **Style** on the start screen or press **V**: Normal, **Miami Vice** (sunset sky, neon windows, pink-and-teal grade with bloom and grain) or **Noir** (black-and-white, hard contrast, grain). Styles switch instantly. In Photoreal, the grade works as a filter over Google's scan.
 
 ## How it works
 

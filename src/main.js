@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { buildWorld } from './world.js';
 import { buildCollision } from './collision.js';
 import { createPlayer } from './player.js';
-import { buildGraph, createCrowd, fmtTime, ARCHETYPES } from './npc.js';
+import { buildGraph, fmtTime, ARCHETYPES } from './npc.js';
+import { createPedestrians } from './pedestrians.js';
 import { buildProps } from './props.js';
 import { loadCarModels, createVehicles } from './vehicles.js';
 import { createMaps } from './minimap.js';
@@ -13,6 +14,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { STYLES, GradeShader, getStyle, saveStyle, createStyleController } from './styles.js';
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -30,7 +33,7 @@ async function main() {
   const data = await loadData();
   const canvas = $('c');
   const Q = getQuality();
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !Q.post, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, Q.pixelRatio));
   renderer.setSize(innerWidth, innerHeight);
   renderer.info.autoReset = false;
@@ -56,23 +59,27 @@ async function main() {
     });
   }
   const collision = buildCollision(data); lap('collision');
-  let carKit = null;
-  try { carKit = await loadCarModels(); } catch (e) { console.warn('Car models failed to load; using simple shapes.', e); }
-  lap('car models');
-  const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows, useCarModels: !!carKit }) : null; lap('props');
+  // Car models load in the background; parked and moving cars appear a moment after the first frame.
+  const carKitPromise = params.get('traffic') === 'off' ? Promise.resolve(null) : loadCarModels().catch((e) => { console.warn('Car models failed to load.', e); return null; });
+  const props = Q.props ? buildProps(scene, data, collision, { castShadow: Q.shadows, useCarModels: params.get('traffic') !== 'off' }) : null; lap('props');
   if (props) collision.addPolys(props.carPolys); // parked cars are solid
   const player = createPlayer(camera, canvas, collision, data.meta.spawn, data.meta.start);
   const graph = buildGraph(data.walk, collision);
-  const crowd = createCrowd(scene, data, graph, collision, { count: +(params.get('npcs') || 600) }); lap('npcs');
-  // Parked cars (Medium/High) and moving traffic (all presets), drawn with real car models.
-  const vehicles = carKit && params.get('traffic') !== 'off' ? createVehicles(scene, data, Q, carKit, props ? props.parkedSpots : [], collision) : null; lap('vehicles');
+  // People: an ambient crowd around the player (sized by preset; ?npcs= overrides).
+  const crowdSize = +(params.get('npcs') || (Q.id === 'low' ? 600 : Q.id === 'high' ? 2500 : 1500));
+  const density = data.meta.density || 1; // generated areas scale crowds and traffic to how built-up they are
+  const crowd = createPedestrians(scene, data, collision, { count: crowdSize, density }); lap('npcs');
   if (Q.shadows) for (const m of Object.values(crowd.meshes)) m.castShadow = true;
+  let vehicles = null;
+  carKitPromise.then((kit) => { if (kit) vehicles = createVehicles(scene, data, Q, kit, props ? props.parkedSpots : [], collision, { density }); window.__miami && (window.__miami.vehicles = vehicles); });
 
   // High: ambient occlusion + subtle bloom.
-  let composer = null;
+  // Post-processing: one composer, passes switched on as needed. Normal style without High quality renders
+  // directly (no extra cost); High adds ambient occlusion + light bloom; styles add bloom and a color grade.
+  const rt = new THREE.WebGLRenderTarget(innerWidth * renderer.getPixelRatio(), innerHeight * renderer.getPixelRatio(), { samples: 4, type: THREE.HalfFloatType });
+  const composer = new EffectComposer(renderer, rt);
+  composer.addPass(new RenderPass(scene, camera));
   if (Q.post) {
-    composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
     const ao = new GTAOPass(scene, camera, innerWidth, innerHeight);
     ao.updateGtaoMaterial({ radius: 2.0, distanceExponent: 1.5, thickness: 2.0, scale: 1.0 });
     // Labels (sprites) and transparent glass must not write into the AO depth/normal pass.
@@ -81,9 +88,32 @@ async function main() {
       this.scene.traverse((o) => { cache.set(o, o.visible); if (o.isPoints || o.isLine || o.isSprite || (o.material && o.material.transparent)) o.visible = false; });
     };
     composer.addPass(ao);
-    composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.18, 0.5, 0.9));
-    composer.addPass(new OutputPass());
   }
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.18, 0.5, 0.9);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+  const grade = new ShaderPass(GradeShader);
+  composer.addPass(grade);
+  const styler = createStyleController({ scene, renderer, world, Q, photoreal: !!photo });
+  let style = 'normal', useComposer = Q.post;
+  function setStyle(id) {
+    style = id; saveStyle(id);
+    styler.apply(id);
+    const vice = id === 'miamivice';
+    bloom.enabled = Q.post || vice;
+    bloom.strength = vice ? (photo ? 0.3 : 0.45) : 0.18; bloom.radius = vice ? 0.5 : 0.5; bloom.threshold = vice ? 0.82 : 0.9;
+    grade.enabled = id !== 'normal';
+    grade.uniforms.uMode.value = id === 'miamivice' ? 1 : id === 'noir' ? 2 : 0;
+    useComposer = Q.post || id !== 'normal';
+    for (const b of document.querySelectorAll('#style button')) b.classList.toggle('on', b.dataset.id === id);
+  }
+  const sBox = $('style');
+  for (const [id, name] of Object.entries(STYLES)) {
+    const b = document.createElement('button'); b.textContent = name; b.dataset.id = id;
+    b.onclick = (e) => { e.stopPropagation(); setStyle(id); };
+    sBox.appendChild(b);
+  }
+  setStyle(getStyle());
 
   // Graphics quality picker (reloads the page).
   const qBox = $('quality');
@@ -119,12 +149,13 @@ async function main() {
   addEventListener('keydown', (e) => {
     if (e.code === 'Backquote') $('debug').classList.toggle('hidden');
     if (e.code === 'KeyL') world.labels.visible = !world.labels.visible;
+    if (e.code === 'KeyV') { const ids = Object.keys(STYLES); setStyle(ids[(ids.indexOf(style) + 1) % ids.length]); }
     if (e.code === 'KeyG') { const ids = Object.keys(PRESETS); setQuality(ids[(ids.indexOf(Q.id) + 1) % ids.length]); }
     if (e.code === 'KeyP') clock.paused = !clock.paused;
     if (e.code === 'BracketLeft') setSpeed(-1);
     if (e.code === 'BracketRight') setSpeed(1);
   });
-  addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); if (composer) composer.setSize(innerWidth, innerHeight); });
+  addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); });
 
   // ---- NPC inspection (center of screen) ----
   const ray = new THREE.Raycaster(); ray.far = 60;
@@ -150,9 +181,10 @@ async function main() {
     if (props) props.update(camera);
     if (vehicles) vehicles.update(dt, camera);
     maps.update(dt);
-    crowd.update(dt, clock.hour, simDtH, player.state);
+    crowd.update(dt, clock.hour, simDtH, player.state, camera);
     renderer.info.reset();
-    if (composer) composer.render(); else renderer.render(scene, camera);
+    grade.uniforms.uTime.value = (now / 1000) % 100; grade.uniforms.uRes.value.set(innerWidth, innerHeight);
+    if (useComposer) composer.render(); else renderer.render(scene, camera);
     // HUD
     fps.frames++;
     if (now - fps.t > 500) { fps.value = (fps.frames * 1000) / (now - fps.t); fps.frames = 0; fps.t = now; }
@@ -191,7 +223,7 @@ async function main() {
   requestAnimationFrame(frame);
 
   // Test/automation hook (used by tests/e2e.mjs). Read-only use in normal play.
-  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings, maps, photo, vehicles };
+  window.__miami = { THREE, data, scene, camera, renderer, world, collision, player, graph, crowd, clock, loadMs, fps, quality: Q, props, timings, maps, photo, vehicles, setStyle, get style() { return style; } };
   document.body.dataset.ready = '1';
 }
 

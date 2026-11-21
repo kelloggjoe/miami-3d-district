@@ -83,10 +83,11 @@ The brief says to proceed with these defaults and flag them. **All five are stil
 | Decision | Value | Why |
 |---|---|---|
 | Car models | Kenney Car Kit (CC0), 12 models, about 2,000–3,000 triangles each, all sharing one texture | Free, public-domain, and small (about 2.6 MB in total). The shared texture lets every car draw through one `BatchedMesh`, with per-car frustum culling. Photo-real car models would need paid or attribution-licensed assets and many more triangles. |
-| Moving traffic | A bubble of cars within 700 m of the camera (120 / 220 / 300 by preset). Cars more than 850 m away move to roads 250–700 m away, out of sight. Cars beyond about 450 m are hidden. | Dense traffic wherever you are, at a fixed cost. |
+| Moving traffic | A bubble of cars within 650 m of the camera (300 / 600 / 900 by preset). Car models load after the first frame. Cars more than 850 m away move to roads 250–700 m away, out of sight. Cars beyond about 450 m are hidden. | Dense traffic wherever you are, at a fixed cost. |
 | Driving rules | Right-hand lane offset of a quarter of the road width (between 1.6 and 4.5 m). Speed by road type (5–24 m/s). Cars brake for the car ahead and pause 0.8–3.3 s at 25% of junctions. Turns favor going straight. | Simple and cheap. **Not modeled:** traffic lights, one-way streets (the data doesn't keep the `oneway` tag), lane changes, or reacting to pedestrians. |
 | Parked cars | Same 1,500 curbside spots as before, now with car or SUV models. Hidden beyond about 320 m. | |
-| People | Default 600 (was 300), maximum 800 | Busier sidewalks. People are still the simple box figures. |
+| People | Ambient crowd within about 350 m of the camera (600 / 1,500 / 2,500 by preset). People walk the walk graph, picking a direction at each corner, with no route planning. The number outdoors follows the clock (about 5% at 3 AM, 100% at noon and 6 PM). | Replaces the routine-based crowd, which planned long A* routes across the whole map. Thousands of people now cost almost nothing at load, and wherever you are looks busy. The trade-off: people no longer commute between specific homes and offices. |
+| Styles | Normal, Miami Vice, Noir. Each changes the sun, sky, fog and lights, then a final color-grade pass (plus bloom for Miami Vice). Photoreal gets the grade only. | Live switching with no reload. The grade runs after tone mapping, on display colors. |
 
 ## Movement and collision
 

@@ -23,9 +23,9 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #9fd3ea; fon
 #attrib a { color: var(--ink); }
 
 .qrow { margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #456; }
-#quality { display: inline-flex; gap: 4px; }
-#quality button { border: 1px solid #0002; background: #fff; border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; color: var(--ink); }
-#quality button.on { background: var(--teal); color: #fff; border-color: var(--teal); }
+#quality, #style { display: inline-flex; gap: 4px; flex-wrap: wrap; }
+#quality button, #style button { border: 1px solid #0002; background: #fff; border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; color: var(--ink); }
+#quality button.on, #style button.on { background: var(--teal); color: #fff; border-color: var(--teal); }
 #mode { left: 50%; bottom: 18px; transform: translateX(-50%); font: 600 13px ui-monospace, monospace; }
 
 #minimap { position: fixed; left: 12px; bottom: 12px; width: 180px; height: 180px; border-radius: 50%; border: 3px solid #fffd; box-shadow: 0 4px 18px #0005; cursor: pointer; background: #5aa9c9; }

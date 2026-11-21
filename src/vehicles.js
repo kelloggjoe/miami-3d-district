@@ -89,7 +89,7 @@ function buildRoadGraph(roads) {
   return { nx, ny, adj, n: nx.length };
 }
 
-export function createVehicles(scene, data, Q, carKit, parkedSpots, collision) {
+export function createVehicles(scene, data, Q, carKit, parkedSpots, collision, opts = {}) {
   const { models, material } = carKit;
   const rand = rng(99);
   const stats = { models: Object.keys(models).length };
@@ -114,8 +114,8 @@ export function createVehicles(scene, data, Q, carKit, parkedSpots, collision) {
 
   // ---------------- moving traffic ----------------
   const G = buildRoadGraph(data.roads);
-  const COUNT = Q.id === 'low' ? 120 : Q.id === 'high' ? 300 : 220;
-  const R = 700, VIS = 450;
+  const COUNT = Math.round((Q.id === 'low' ? 300 : Q.id === 'high' ? 900 : 600) * (opts.density || 1));
+  const R = 650, VIS = 420;
   const pickAny = weightedPicker(models, () => true, rand);
   const traffic = makeBatch(models, material, COUNT);
   traffic.bm.castShadow = castShadow; traffic.bm.receiveShadow = true;

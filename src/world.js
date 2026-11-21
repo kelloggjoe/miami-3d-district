@@ -83,16 +83,25 @@ function geomFrom({ pos, col, sty }) {
 
 // Facade material: vertex colors + procedural floors/windows (no textures needed).
 // With PBR, window glass is smooth and reflective (picks up the sky environment) and walls get grime.
+// Shared uniforms so a visual style can light the windows up (Miami Vice) without rebuilding materials.
+export const WINDOW_GLOW = { amount: { value: 0 }, color: { value: new THREE.Color('#ff4fb3') } };
 function facadeMaterial({ pbr, grime }) {
   const m = pbr ? new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, metalness: 0.0 })
     : new THREE.MeshLambertMaterial({ vertexColors: true });
   m.onBeforeCompile = (sh) => {
     if (grime) sh.uniforms.uGrime = { value: grime };
+    sh.uniforms.uGlow = WINDOW_GLOW.amount; sh.uniforms.uGlowColor = WINDOW_GLOW.color;
     sh.vertexShader = sh.vertexShader
       .replace('#include <common>', '#include <common>\nattribute float aStyle; varying float vStyle; varying vec3 vWPos; varying vec3 vWNorm;')
       .replace('#include <worldpos_vertex>', '#include <worldpos_vertex>\nvStyle = aStyle; vWPos = (modelMatrix * vec4(transformed,1.0)).xyz; vWNorm = normalize(mat3(modelMatrix) * objectNormal);');
     sh.fragmentShader = sh.fragmentShader
-      .replace('#include <common>', `#include <common>\nvarying float vStyle; varying vec3 vWPos; varying vec3 vWNorm;${grime ? '\nuniform sampler2D uGrime;' : ''}`)
+      .replace('#include <common>', `#include <common>\nvarying float vStyle; varying vec3 vWPos; varying vec3 vWNorm; uniform float uGlow; uniform vec3 uGlowColor;${grime ? '\nuniform sampler2D uGrime;' : ''}`)
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+        if (uGlow > 0.0) { // about half the windows lit, in two tints, for night styles
+          float cellId = fract(sin(floor(vWPos.y / 3.5) * 12.9898 + floor((abs(vWNorm.x) > abs(vWNorm.z) ? vWPos.z : vWPos.x) / 3.0) * 78.233) * 43758.5453);
+          vec3 tint = cellId > 0.8 ? vec3(0.35, 0.9, 1.0) : uGlowColor;
+          totalEmissiveRadiance += tint * uGlow * winMask * step(0.45, cellId) * (0.55 + 0.45 * cellId);
+        }`)
       .replace('#include <color_fragment>', `#include <color_fragment>
         float winMask = 0.0;
         float wall = step(abs(vWNorm.y), 0.5) * step(-0.5, vStyle);
@@ -212,9 +221,11 @@ export function buildWorld(scene, data, Q, renderer) {
   const shadow = Q.shadows;
 
   // ---------- sky, light, fog ----------
+  const env = { sun: null, sky: null, hemi: null, regenEnv: () => {} };
   const sun = new THREE.DirectionalLight('#fff1dc', Q.pbr ? 5.5 : 2.2);
   sun.position.copy(SUN_DIR).multiplyScalar(1000);
   scene.add(sun, sun.target);
+  env.sun = sun;
   if (Q.sky) {
     const sky = new Sky(); sky.scale.setScalar(8000);
     const u = sky.material.uniforms;
@@ -226,11 +237,13 @@ export function buildWorld(scene, data, Q, renderer) {
     scene.environment = pmrem.fromScene(envScene, 0.02).texture;
     scene.environmentIntensity = 0.45;
     scene.fog = new THREE.Fog('#a9c6d6', 1500, 8000);
-    scene.add(new THREE.HemisphereLight('#cfe6f5', '#a8997a', 0.5));
+    env.hemi = new THREE.HemisphereLight('#cfe6f5', '#a8997a', 0.5); scene.add(env.hemi);
+    env.sky = sky;
+    env.regenEnv = () => { const old = scene.environment; scene.environment = pmrem.fromScene(envScene, 0.02).texture; if (old) old.dispose(); };
   } else {
     scene.background = new THREE.Color('#9fd3ea');
     scene.fog = new THREE.Fog('#bfe2ef', 1200, 7000);
-    scene.add(new THREE.HemisphereLight('#e8f6ff', '#c9b991', 1.6));
+    env.hemi = new THREE.HemisphereLight('#e8f6ff', '#c9b991', 1.6); scene.add(env.hemi);
   }
   if (shadow) {
     sun.castShadow = true;
@@ -456,5 +469,5 @@ export function buildWorld(scene, data, Q, renderer) {
       if (far !== c.far) { c.far = far; c.full.visible = !far || !c.lod; if (c.lod) c.lod.visible = far; }
     }
   }
-  return { updateLod, updateShadow, updateWater, labels, stats, chunkList, sun };
+  return { updateLod, updateShadow, updateWater, labels, stats, chunkList, sun, env };
 }
